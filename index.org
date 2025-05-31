@@ -11,6 +11,7 @@ To you, I am a stranger on the internet with an interest in computer science and
 
 This website is now generated using [[https://orgmode.org][Org-Mode]]. For more information on
 how this works, check out [[denote:20250530T220811][my first blog post using the new system]].
+At the time of writing, I am in the process of porting some of the content over from [[https://aidanhall.gitlab.io][my old website]], but there's a lot of stuff there, so I might leave it as-is.
 
 * Here
 :PROPERTIES:

@@ -25,8 +25,8 @@
   "The base export directory for the website.")
 
 (setq org-html-link-home
-      ;; "https://argletrough.neocities.org"
-      "https://aidanhall.gitlab.io"
+      "https://argletrough.neocities.org"
+      ;; "http://localhost:8000"
       )
 
 ;; Dependencies
@@ -38,14 +38,10 @@
   :ensure t)
 (setq denote-directory (file-name-concat website-dir "blog/"))
 
-(use-package htmlize
-  :ensure t)
-
 ;; Content configuration
 
 (setq
- org-list-allow-alphabetical t
- )
+ org-list-allow-alphabetical t)
 
 ;; Babel Configuration
 
@@ -61,12 +57,12 @@
  org-export-default-language "en-gb"
  org-export-global-macros '(("summary" . "#+html: <summary>$1$2$3$4$5$6$7$8$9</summary>"))
  org-export-with-section-numbers nil
- org-export-with-toc nil
- )
+ org-export-with-toc nil)
 
 ;; HTML Configuration
 (setq
  org-html-doctype "html5"
+ org-html-htmlize-output-type 'css
  org-html-html5-fancy t
  org-html-head-include-default-style nil
  org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/files/stylesheet.css\" />"
@@ -91,8 +87,7 @@ Created with %c.
 </div>
 </div>"
  org-html-format-drawer-function
- (apply-partially #'format "<details>\n<summary>%s</summary>\n%s</details>\n")
- )
+ (apply-partially #'format "<details>\n<summary>%s</summary>\n%s</details>\n"))
 
 ;; Publishing Configuration
 

@@ -114,10 +114,39 @@ pre {
     overflow: auto;
 }
 
-.sourceCode .st {
+.org-string {
     color: darkblue;
 }
 
+.org-function-name {
+    color: maroon;
+}
+
+.org-type {
+    color: darkgreen;
+}
+
+.org-builtin {
+    color: purple;
+}
+
+@media(prefers-color-scheme: dark) {
+    .org-string {
+        color: lightblue;
+    }
+
+    .org-function-name {
+        color: tomato;
+    }
+
+    .org-type {
+        color: lightgreen;
+    }
+
+    .org-builtin {
+        color: orchid;
+    }
+}
 /* Keyboard Keys */
 kbd {
     border: var(--bubble-border);
@@ -326,9 +355,6 @@ nav img {
     body {
         background: #151515;
         color: #ccc;
-    }
-    .sourceCode .st {
-        color: steelblue;
     }
     a {
         color: #24bdff;

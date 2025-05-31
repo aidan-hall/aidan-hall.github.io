@@ -1,0 +1,12 @@
+#+title:      Experimenting with Denote Links
+#+date:       [2025-05-31 Sat 08:13]
+#+filetags:   :blog:denote:
+#+identifier: 20250531T081341
+#+description: Teething issues getting internal links to work.
+
+As mentioned in [[denote:20250530T220811][the first post]], I'm using Denote to manage my blog.
+One issue I identified with it was the potential instability of links to specific blog posts, since the file names can change automatically, due to, for instance, changes to the ~filetags~.
+I'm currently attempting to fix this using the ~denote:~ link format, which only uses the (stable) timestamp-based identifier to link to a given note.
+This should work for links between Denote notes (or the whole system won't work), but it broke the first time I tried to link to a Denote file from outside the ~denote-directory~.
+
+It turned out this was just happening because I had set ~denote-directory~ incorrectly in my publishing script. This early problem highlights the potential issues that can arise from having a separate configuration for the blog, isolated from the rest of my Emacs environment, but I'd say it's still a net positive; for one thing, it should make building the site within a CI pipeline easier.

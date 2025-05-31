@@ -1,0 +1,5 @@
+#+title: Notes
+#+description: Some miscellaneous notes.
+#+date: [2025-05-31 Sat 10:23]
+
+This is nothing of significance. Here's a link to [[denote:20250531T081341][Experimenting with Denote Links]], by the way.

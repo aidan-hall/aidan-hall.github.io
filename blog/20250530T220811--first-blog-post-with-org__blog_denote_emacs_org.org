@@ -1,0 +1,16 @@
+#+title:      First Blog Post with Org
+#+date:       [2025-05-30 Fri 22:08]
+#+filetags:   :blog:denote:emacs:org:
+#+identifier: 20250530T220811
+#+description: An introduction to the blog.
+
+This is my first blog post on the new version of my website, written in Org-Mode!
+I've been meaning to do this for a while, but [[https://peregrinator.site/blog/building-a-blogging-flow-using-emacs-and-emacs-only.html][this post]] finally inspired me to take the plunge;
+I've taken a very similar approach to them, so I extend my thanks for the information.
+
+At the time of writing the tech stack is:
+- org-publish :: Manages publishing a collection of org files.
+  I've used a hack of setting ~org-export-async-init-file~ in =.dir-locals.el= to run an ELisp script when publishing.
+- denote :: I have set up this blog directory as a ~denote-directory~, with each note as a post.
+  This has several pros and cons. The biggest drawback I can immediately see is the long, volatile filenames, which could make URLs unstable. In my workflow, Denote files are automatically renamed to match the contents of their headers (~#+title:~ and ~#+filetags:~, specifically). The solution for this is simply to not change the title or tags of a note after creating it, which is fine, since blogs are generally meant to be "append-only".
+- htmlize or engrave-faces :: I haven't set this up yet, but I might try to use one of these packages to get code block syntax highlighting working. The engrave-faces package produces especially pleasing results, since it uses face definitions from your current theme. This might cause issues when switching between the light and dark themes, which my website does automatically based on the user's system-level preferences.

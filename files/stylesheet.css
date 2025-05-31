@@ -182,7 +182,8 @@ div.footdef {
     display: flex;
 
     & > sup {
-        padding-top: 1.0em;
+        padding-top: 1em;
+        padding-left: 1em;
     }
 
     & > div.footpara {

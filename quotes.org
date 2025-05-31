@@ -1,0 +1,81 @@
+#+title: Quotes
+#+description: Miscellaneous interesting CS quotes.
+
+Here is a collection of interesting quotes related to Computer Science that I have found over the years.
+
+#+begin_quote
+I thought of Emacs as a drop-in replacement for Vim, plus a few extras. Big mistake! While it is true that it is a text editor and can be used exclusively in that capacity, Emacs is at the absolute peak of its powers when it is treated as an application platform.
+
+--- Protesilaos Stavrou, [[https://protesilaos.com/codelog/2019-08-11-why-emacs-switch/][Why I switched to Emacs]].
+#+end_quote
+
+#+begin_quote
+Emacs causes you to think about ways to write programs to do editing
+for you rather than ways to write programs to write programs for
+you...
+It treats editing as an end rather than a means.
+Editing itself is not an interesting process;
+it is what we edit that is interesting.
+
+--- Doug Hoyte, [[https://letoverlambda.com/][Let Over Lambda]].
+#+end_quote
+
+#+begin_quote
+Threads are /evil/, because what's the difference between a thread and a process?
+Threads /can/ fuck up each other's internal data structures.
+
+--- Joe Armstrong, [[https://youtu.be/cNICGEwmXLU?t=2920][Systems that run forever self-heal and scale]].
+#+end_quote
+
+
+#+begin_quote
+A user can think they understand what they are doing, but they're
+really just copy-and-pasting code around. Programming thus becomes
+akin to magical rituals: you put certain bits of code before other
+bits, and everything seems to work.
+
+--- Jason L. McKesson, [[https://paroj.github.io/gltut/About%20this%20Book.html#idp148][Learn Modern 3D Graphics Programming]].
+#+end_quote
+
+#+begin_quote
+Modern languages are so poorly designed that they hinder you more than
+they help when you are trying to actually program at a high level if
+you care about what the results are at the low level, which I do.
+
+--- Casey Muratori, [[https://hero.handmade.network/forums/code-discussion/t/51-how_do_you_do_metaprogramming_in_c][Handmade Hero Forums]].
+#+end_quote
+
+#+begin_quote
+The idea that anyone would ever actually do manual memory management
+in C these days was just unthinkable—I mean, after all, it’s /current
+year/, and everyone knows that once it’s /current year/, an arbitrary
+
+--- Ryan Fleury, [[https://www.rfleury.com/p/untangling-lifetimes-the-arena-allocator][Untangling Lifetimes: The Arena Allocator]].
+#+end_quote
+
+#+begin_quote
+What else can the C++ Committee add to the f***ing language to make it
+solve our problems for us?
+
+--- Mike Acton, [[https://www.youtube.com/watch?v=rX0ItVEVjHc&t=1723s][Data-Oriented Design and C++]].
+#+end_quote
+
+#+begin_quote
+Just because a concept is not built into the language does not mean it's not useful. In general, [the C++] STL should be viewed as a set of well-chosen examples, not an exhaustive collection of all useful concepts, data structures and algorithms.
+
+-- Alexander A. Stepanov & Daniel E. Rose, [[https://www.fm2gp.com/][From Mathematics To Generic Programming]].
+#+end_quote
+
+#+begin_quote
+Disclaimer: This guide will appear vague and incomplete if you
+aren't sure what you're doing. This is intentional. This is
+specifically not designed for users new to software compilation
+
+--- Arch Linux ARM, [[https://archlinuxarm.org/wiki/Distcc_Cross-Compiling][Distcc Cross-Compiling]].
+#+end_quote
+
+#+begin_quote
+There is a common myth in software development that parallel programming is hard. This would come as a surprise to Alan Kay, who was able to teach an actor-model language to young children, with which they wrote working programs with more than 200 threads. ... It's more accurate to say that parallel programming in a language with a C-like abstract machine is difficult, and given the prevalence of parallel hardware, from multicore CPUs to many-core GPUs, that's just another way of saying that C doesn't map to modern hardware very well.
+
+--- David Chisnall, [[https://queue.acm.org/detail.cfm?id=3212479][C is Not a Low-Level Language]].
+#+end_quote

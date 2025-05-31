@@ -1,0 +1,7 @@
+#+TITLE: Sitemap
+
+- [[file:quotes.org][Quotes]]
+- [[file:index.org][Aidan Hall]]
+- [[file:ox-test.org][Org Export Test]]
+- [[file:theindex.org][Index]]
+- [[file:README.org][My New Website]]

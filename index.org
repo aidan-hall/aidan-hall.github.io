@@ -1,0 +1,33 @@
+#+title: Aidan Hall
+#+date: [2025-05-29 Thu 15:53]
+#+description: Homepage
+
+#+attr_html: :title Me :class rfloat circle
+[[file:files/pics/moon-silhouette-aidan.webp]]
+
+* Who am I? What is this place?
+
+To you, I am a stranger on the internet with an interest in computer science and programming.
+
+This website is now generated using [[https://orgmode.org][Org-Mode]]. For more information on
+how this works, check out [[denote:20250530T220811][my first blog post using the new system]].
+
+* Here
+:PROPERTIES:
+:HTML_CONTAINER_CLASS: index-spread
+:END:
+** Index
+- [[file:blog/][Blog]]
+- [[file:writings/][Writings]]
+- [[file:quotes.org][Quotes]]
+
+** Programming
+- [[https://github.com/aidan-hall][GitHub]]
+- [[https://gitlab.com/aidanhall][GitLab]]
+- [[https://aidan-hall.itch.io/][Itch.io]] (games)
+
+** My Stuff
+- Software I Use
+- Personal Page
+- SSGSS
+- Site Updates

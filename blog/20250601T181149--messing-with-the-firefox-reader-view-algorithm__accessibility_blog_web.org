@@ -1,0 +1,21 @@
+#+title:      Messing with the Firefox Reader View Algorithm
+#+date:       [2025-06-01 Sun 18:11]
+#+filetags:   :accessibility:blog:web:
+#+identifier: 20250601T181149
+#+description: A lesson in semantic HTML and accessibility.
+
+[[denote:20250601T111403][My previous blog post]] initially broke [[https://support.mozilla.org/en-US/kb/firefox-reader-view-clutter-free-web-pages][Firefox's Reader View]], with the text (not even the heading!) of just one section being recognised as the "main content" of the page.
+I don't know how popular this feature (or the equivalent feature in your browser of choice) is, but I use it all the time[fn:1]. I find it especially helpful for reading long blog posts on sites with abysmal readability, which are unfortunately common.
+
+Based on the discussion in [[https://stackoverflow.com/questions/30661650/how-does-firefox-reader-view-operate#30750306][this Stack Overflow thread]], it seems Firefox uses a complex set of heuristics, based on content structure and use of semantic HTML, to select a DOM element that should be treated as the main content. Every website is going to follow a slightly different style when structuring its content, so I have to give Firefox credit for getting it right in most cases.
+
+This website caused problems because ~ox-html~ generates deeply-nested ~<div>~ elements for the sections and subsections of a document. As far as I can tell, the reader view algorithm doesn't "propagate up" the "content score" of ~<div>~ elements to their parents with much weight, which is why it burrowed down to the largest bottom-level ~<div>~ and chose that as the main content.
+The fix I've put in place for now is to replace these "outlining" ~<div>~ elements with ~<section>~ elements. Since ~<section>~'s expected use within semantic HTML is to sub-divide a document, this was enough to make Firefox pick up the whole article, even when one section was much longer than the other.
+
+Perhaps this intuitive, fuzzy approach to debugging will become more common in the age of LLMs and prompt engineering. I certainly hope not.
+
+I don't think it's worth investing too much energy into making Reader View work, but it /is/ important to conform to accessibility standards. The web as a platform makes this uniquely easy, with accessibility checkers built in to Firefox and Chromium, so there's very little excuse not to, unless you consider the inaccessible aesthetics of your site more important than its content. As a nice bonus, following accessibility and semantic HTML conventions might be enough to make features and plugins like Reader Mode understand the structure of your site!
+
+* Footnotes
+
+[fn:1] In a rare case of Mozilla /improving/ Firefox with an update, they recently added an option to read with (my beloved) [[https://aidanhall.gitlab.io/blog/21-07-06_10.35.html][justified text]].

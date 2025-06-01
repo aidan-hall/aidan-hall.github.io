@@ -1,5 +1,4 @@
 #+title: Aidan Hall
-#+date: [2025-05-29 Thu 15:53]
 #+description: Homepage
 
 #+attr_html: :title Me :class rfloat circle

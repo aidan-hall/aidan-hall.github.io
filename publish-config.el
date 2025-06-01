@@ -41,7 +41,8 @@
 ;; Content configuration
 
 (setq
- org-list-allow-alphabetical t)
+ org-list-allow-alphabetical t
+ user-full-name "Aidan Hall")
 
 ;; Babel Configuration
 
@@ -57,16 +58,42 @@
  org-export-default-language "en-gb"
  org-export-global-macros '(("summary" . "#+html: <summary>$1$2$3$4$5$6$7$8$9</summary>"))
  org-export-with-section-numbers nil
- org-export-with-toc nil)
+ org-export-with-toc nil
+ org-export-with-title nil)
+
+(with-eval-after-load 'ox-html
+  (defun org-html-section (section contents info)
+    "Transcode a SECTION element from Org to HTML.
+CONTENTS holds the contents of the section.  INFO is a plist
+holding contextual information."
+    (let ((parent (org-element-lineage section 'headline)))
+      ;; Before first headline: no container, just return CONTENTS.
+      (if (not parent) contents
+        ;; Get div's class and id references.
+        (let* ((class-num (+ (org-export-get-relative-level parent info)
+			     (1- (plist-get info :html-toplevel-hlevel))))
+	       (section-number
+	        (and (org-export-numbered-headline-p parent info)
+		     (mapconcat
+		      #'number-to-string
+		      (org-export-get-headline-number parent info) "-"))))
+          ;; Build return value.
+	  (format "<section class=\"outline-text-%d\" id=\"text-%s\">\n%s</section>\n"
+		  class-num
+		  (or (org-element-property :CUSTOM_ID parent)
+		      section-number
+		      (org-export-get-reference parent info))
+		  (or contents "")))))))
 
 ;; HTML Configuration
 (setq
  org-html-doctype "html5"
  org-html-htmlize-output-type 'css
  org-html-html5-fancy t
+ org-html-container-element "section"
  org-html-head-include-default-style nil
  org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/files/stylesheet.css\" />"
- org-html-divs '((preamble "div" "preamble")
+ org-html-divs '((preamble "header" "preamble")
                  (content "main" "content")
                  (postamble "footer" "postamble"))
  org-html-link-up "./"
@@ -77,6 +104,10 @@
 <li><a href=\"%2$s/blog\" >&#128212; Blog</a></li>
 <li><a href=\"%1$s\" >&#12106; Subdir Root</a></li>
 </ul></nav>"
+ org-html-preamble "<h1 class=\"title\">%t</h1>
+<p class=\"subtitle\">%s</p>
+<p class=\"blogdate\">%d</p>"
+ ;; TODO: Make this a function so we can include e.g. publishing date conditionally.
  org-html-postamble "Last modified: %C.
 Created with %c.
 <a href=\"#content\">🔝</a>"
@@ -112,7 +143,7 @@ Created with %c.
 
 (defun blog-publish-sitemap (title list)
   "Sitemap for a blog, with given TITLE and LIST of posts."
-  (concat "#+title: " title "\n"
+  (concat "#+title: " title "\n\n"
           "#+date: [" (format-time-string "%F %R" (current-time)) "]\n\n"
           (org-list-to-org list)))
 

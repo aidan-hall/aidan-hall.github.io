@@ -15,17 +15,26 @@ body {
     grid-column-gap: 1em;
     grid-template-areas:
         "navigation"
+        "header"
         "content"
         "footer";
 }
 
+header {
+    grid-area: header;
+}
 main {
     min-width: 0;
+    grid-area: content;
 }
 
 /* Headings */
 h1 {
     border-bottom: var(--bubble-border);
+    /* Suppress the "uniform font size" warning in Firefox: */
+    /* https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements#specifying_a_uniform_font_size_for_h1 */
+    margin-block: 0.67em;
+    font-size: 2em;
 }
 h3 {
     font-style: italic;
@@ -84,16 +93,17 @@ p, dd {
     text-align: justify;
     line-height: 1.5;
     max-width: var(--based-text-width);
+    margin-right: 1em;
 }
 p {
     margin-left: 1em;
-    margin-right: 1em;
 }
 p + p {
     text-indent: 2ch;
 }
 
 dt {
+    margin-left: 1em;
     font-weight: bold;
 }
 
@@ -157,25 +167,12 @@ kbd {
 
 /* § Embedded Content */
 
-/* Articles */
-article,
-section#footnotes {
-    margin: 1em 1px 1em 1px;
-    border: var(--bubble-border);
-    border-radius: var(--bubble-border-radius);
-    max-width: fit-content;
-}
-
-article h1 {
-    top: 0;
-    margin-top: 0;
-    border-radius: inherit;
-    background-color: var(--accent-background);
-}
-
 /* Footnotes */
 section#footnotes {
-    font-size: 80%;
+    margin: 1em;
+    border: var(--bubble-border);
+    border-radius: var(--bubble-border-radius);
+    max-width: var(--based-text-width);
 }
 
 div.footdef {
@@ -256,18 +253,23 @@ div.maths {
     margin: 1em;
     margin-left: 2em;
 }
-/* Date */
-.blogdate {
-    text-align: right;
-    margin: 0.5em;
-    font-style: italic;
-    text-decoration: underline;
+/* Page Header */
+h1.title {
+    margin-bottom: 0;
 }
 
-.subtitle {
+.blogdate {
     text-align: center;
     margin: 0.5em;
     font-style: italic;
+}
+
+.subtitle {
+    font-size: 1.25em;
+    /* text-align: center; */
+    margin: 0 0.25em 0.25em 0.25em;
+    font-style: italic;
+    max-width: calc(var(--based-text-width) / 1.25);
 }
 
 /* Nav Bar */
@@ -326,6 +328,7 @@ nav img {
     @supports (display: grid) {
         body {
             grid-template-areas:
+                "navigation header"
                 "navigation content"
                 "footer  footer";
             grid-template-columns: 1fr 4fr;

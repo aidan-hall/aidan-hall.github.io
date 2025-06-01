@@ -1,0 +1,35 @@
+#+title:      Version-Controlling My GNOME Configuration
+#+date:       [2025-06-01 Sun 11:14]
+#+filetags:   :dotfiles:git:gnome:linux:
+#+identifier: 20250601T111403
+#+description: A simple automation using dconf.
+
+* Motivation
+I have completed the lifecycle of the Linux power user, from GNOME to KDE to 3 or 4 different tiling window managers, back to GNOME. However, though I'm now on the other side, I still want to configure my desktop with version-controlled text files.
+GNOME doesn't make this easy, since its configuration lives in a binary database.
+
+The most basic solution uses the dconf command:
+
+#+begin_src shell
+$ dconf dump / > config.ini
+$ dconf load / < config.ini
+#+end_src
+
+This is excessive, since it grabs /every entry in the database/. I want the behaviour of GNOME to be consistent between all the machines I use it on, but there is some information in this database that should remain local to a given machine.
+After a quick web search, I found that Ansible appeared to be the best recommended approach for creating [[https://linuxconfig.org/how-to-setup-gnome-using-ansible][a granular set of configurations]].
+I, however, wanted to keep things minimal, so I wrote [[https://gitlab.com/aidanhall/dots/-/blob/master/gnome-settings.sh][a small shell script]] that achieves all the automation I need.
+
+* How it works
+#+begin_example
+~/dots/gnome/
+├── org.gnome.desktop.input-sources.
+├── org.gnome.desktop.wm.
+├── org.gnome.mutter.
+├── org.gnome.settings-daemon.plugins.media-keys.
+├── org.gnome.shell.app-switcher.current-workspace-only
+└── org.gnome.shell.extensions.paperwm.winprops
+#+end_example
+
+The configuration database follows a tree-based hierarchy, with most configuration under ~/org/gnome/~. Each file in ~dots/gnome~ corresponds to a "directory" or a "file" in the database, depending on whether the filename ends with a dot; the mapping between database path and filename is achieved with character substitution of ~/~ and ~.~. This mixed approach is useful because sometimes I want to manage a large number of related configuration options (e.g. ~/org/gnome/desktop/wm/~ has all my window management keybindings), while other times I just need to modify one variable (such as ~/org/gnome/shell/app-switcher/current-workspace-only~).
+
+With these files in place, I can execute ~gnome-settings.sh [load|dump]~ to synchronise the contents of the files and the corresponding database entries.

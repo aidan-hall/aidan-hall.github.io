@@ -29,5 +29,4 @@ At the time of writing, I am in the process of porting some of the content over 
 ** My Stuff
 - Software I Use
 - Personal Page
-- SSGSS
 - Site Updates

@@ -1,0 +1,28 @@
+#+title:      I Will Not Be Using dash.el For Aesthetic Reasons
+#+date:       [2025-09-14 Sun 13:20]
+#+filetags:   :emacs:philosophy:
+#+identifier: 20250914T132000
+#+description: Consciously curating my Emacs experience
+
+* Vanilla Emacs
+
+A line that's often used to explain the power of Emacs is that it is a fully programmable Lisp environment, that can be modified to behave in any way the user desires. This explanation is incomplete without the addition that, since this is the case, and since Emacs is so old, the environment has 40 years' worth of utilities and packages, accumulated from generations of programmers imagining what their editor can do for them.
+
+Most Emacs packages are useless to most users, being tied to a particular technology or workflow that is too specialised or antiquated to be relevant. Over time, the Emacs maintainers have curated a set of generally useful packages, that integrate well with one-another, for inclusion in the default Emacs distribution. These range from simple, uncontroversial packages like delsel and tab-bar, to more complex ones like eglot and dired.
+
+These larger built-in packages, that would correspond directly to high-level features or plugins for other editors, tend to follow certain conventions: Their UIs are generally quite minimal, with limited use of icons and colours. They will leverage functionality of other built-in packages where possible. They respect [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Key-Bindings.html][the established conventions]] for what key bindings a package can provide.
+
+Packages that don't follow these conventions can feel strange, as if they are turning Emacs into something else (usually VSCode). I've written about this [[https://aidanhall.gitlab.io/software/emacs.html#vanilla-emacs][before]], so I won't go into too much detail now. I tend to avoid packages that don't follow these conventions, since they are unlikely to fit in with the Emacs experience I'm looking for. I have recently hardened my stance on another policy for choosing packages: Do Not Install [[https://github.com/magnars/dash.el][dash]].
+
+* The Four Horsemen of Bloat
+
+Once again, Emacs is fully programmable, so you can make it do anything, including turn it into something it's not. There are certain packages that aim to build a better and/or more "modern" foundation for writing packages than what Emacs provides by default, or provide some "missing" functionality. If a package depends on these, it can be a sign that the author won't have cared to make it fit in with the vanilla Emacs experience. Much of the functionality (and almost all of the value) they provide can be easily reproduced with built-in packages; a lot of the most commonly used commands in ~dash~ and ~f~ have direct equivalents that are built in. The following is a non-exhaustive list of the usual suspects:
+
+1. dash: "A *modern* list library for Emacs".
+2. s: "The *long lost* Emacs string manipulation library".
+3. f: "*Modern* API for working with files and directories".
+4. ht: "The *missing* hash table library for Emacs".
+
+I won't deny that these packages are probably useful for package authors, but they encourage the kind of cargo cult development practice that leads to basic programs having hundreds of dependencies. We fortunately aren't quite there yet with Emacs, but [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] has 7 non-vanilla dependencies, and [[https://github.com/Alexander-Miller/treemacs][treemacs]] has 10.
+
+In summary: By default, Emacs isn't modern. And I like it that way.

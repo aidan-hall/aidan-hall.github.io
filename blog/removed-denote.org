@@ -1,0 +1,12 @@
+:PROPERTIES:
+:ID:       b22519fe-a26c-4b9c-ba9e-0bff65b36f07
+:END:
+#+title: Removing Denote from the Website
+#+date: [2025-10-19 Sun 17:26]
+#+description: I have changed the build process of the website to not depend on Denote.
+
+I have decided not to use Denote to manage the blog, since I wasn't getting much benefit from it. It feels unwise to depend on anything that isn't built into Emacs, even though Denote is in GNU Elpa, which is the next best thing. The only thing I was really using it for was as a naming scheme for blog post files, which just resulted in unnecessarily ugly URLs.
+
+I haven't written anything here for a long time, but hopefully that will change now.
+
+This was part of the process of adopting [[id:7cdd09d4-7af0-4eeb-b19d-d77001eb864b][A New Philosophy for the Website]].

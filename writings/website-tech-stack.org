@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       413c0dfc-6ca8-4f3d-930d-9f10bfc63729
+:END:
+#+title: Website Tech Stack
+#+date: [2025-10-19 Sun 18:14]
+#+description: The tech stack I use for this website.
+
+* Rationale
+The website's tech stack is informed by [[id:7cdd09d4-7af0-4eeb-b19d-d77001eb864b][my design philosophy]].
+My main aim is to have a stable, yet high-quality environment for writing content that I can share, and will last for decades, online.
+
+* Technology
+There are few technologies more [[https://en.wikipedia.org/wiki/Lindy_effect][Lindy]] than Emacs, so this blog is written and built purely with Emacs Org mode, and a small [[https://gitlab.com/aidanhall/orgsite/-/blob/main/publish-config.el][configuration script]], written in Emacs Lisp.
+Org is a superior markup language, for short and medium-length articles.
+I prefer my long-form writings to be self-contained, and portable, so I would continue to use LaTeX and Typst for anything of the sort.

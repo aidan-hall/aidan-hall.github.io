@@ -1,8 +1,14 @@
+:PROPERTIES:
+:ID:       a1e827cb-5799-49ef-b5bf-1c43f13b64e8
+:END:
 #+title:      I Will Not Be Using dash.el For Aesthetic Reasons
 #+date:       [2025-09-14 Sun 13:20]
 #+filetags:   :emacs:philosophy:
 #+identifier: 20250914T132000
 #+description: Consciously curating my Emacs experience
+
+* Updates
+- [2025-10-19 Sun 18:31]: Superseded by: [[id:82bb9282-8907-482c-ad97-a302f6d0f1ba][Emacs Philosophy]].
 
 * Vanilla Emacs
 

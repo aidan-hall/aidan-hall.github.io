@@ -1,0 +1,42 @@
+:PROPERTIES:
+:ID:       82bb9282-8907-482c-ad97-a302f6d0f1ba
+:END:
+#+title: Vanilla Emacs Philosophy
+#+date: [2025-10-19 Sun 18:27]
+#+description: A Manifesto on the Use and Configuration of Emacs
+
+This is a collection of views and principles I have developed that guide my approach to using and extending Emacs.
+
+* Vanilla Emacs
+
+A line that's often used to explain the power of Emacs is that it is a fully programmable Lisp environment, that can be modified to behave in any way the user desires. This explanation is incomplete without the addition that, since this is the case, and since Emacs is so old, the environment has 40 years' worth of utilities and packages, accumulated from generations of programmers imagining what their editor can do for them. It also fails to acknowledge the vanilla behaviour of the editor (comprising its built-in packages and default key bindings), which establish a set of conventions and interfaces upon which further extensions /should/ be built.
+
+Most Emacs packages are useless to most users, being tied to a particular technology or workflow that is too specialised or antiquated to be relevant. Over time, the Emacs maintainers have curated a set of generally useful packages, that integrate well with one-another, for inclusion in the default Emacs distribution. These range from simple, uncontroversial packages like delsel and tab-bar, to more complex ones like eglot and dired.
+
+These larger built-in packages, that would correspond directly to high-level features or plugins for other editors, tend to follow certain conventions: Their user interfaces are generally minimal, with limited use of icons and colours. They will leverage functionality of other built-in packages where possible. They respect [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Key-Bindings.html][the established conventions]] for what key bindings a package can provide.
+
+Packages that don't follow these conventions can feel strange, as if they are turning Emacs into something else (usually VSCode). I tend to avoid such packages, since they are unlikely to fit in with the Emacs experience I'm looking for.
+
+* Package Archives
+
+In [[https://emacsconf.org/2020/talks/39/][an EmacsConf talk]], Stallman described having packages in GNU [[https://elpa.gnu.org/][ELPA]] as primarily a convenience, and that packages in ELPA are fundamentally "part of Emacs". The primary significance of this is that packages in ELPA (and to a lesser extent NonGNU ELPA) are audited to ensure they will integrate well with the vanilla Emacs experience. As a result, packages from ELPA have some guarantee of behaving more in the way I would like (as opposed to ones from independent archives such as the popular [[https://melpa.org][MELPA]].
+
+* The Four Horsemen of Bloat
+
+Emacs is fully programmable, so you can make it do anything, including turn it into something it's not. There are certain packages that aim to build a better and/or more "modern" foundation for writing packages than what Emacs provides by default, or provide some "missing" functionality. If a package depends on these, it can be a sign that the author won't have cared to make it fit in with the vanilla Emacs experience. Much of the functionality (and almost all of the value) they provide can easily be reproduced with built-in packages; a lot of the most commonly used commands in ~dash~ and ~f~ have direct equivalents that are built in. These packages include:
+
+1. dash: "A *modern* list library for Emacs".
+2. s: "The *long lost* Emacs string manipulation library".
+3. f: "*Modern* API for working with files and directories".
+4. ht: "The *missing* hash table library for Emacs".
+
+I won't deny that these packages are probably useful for package authors, but they encourage the kind of cargo cult development practice that leads to basic programs having hundreds of dependencies. We fortunately aren't quite there yet with Emacs, but [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] has 7 non-vanilla dependencies, and [[https://github.com/Alexander-Miller/treemacs][treemacs]] has 10.
+
+* Monoliths
+
+A great benefit of having access to the entire Lisp environment at all times is that many small packages and features can compose to produce powerful behaviour. Imenu builds on defun navigation, as defined by major modes, providing indexing and basic jump-to-definition functionality. The [[https://elpa.gnu.org/packages/breadcrumb.html][Breadcrumb]] package uses the index built by Imenu to produce an IDE-style breadcrumb trail, providing context for your current position in a large file. Imenu and Xref can receive definition information from language servers via Eglot. Any package that exposes its functionality through key bindings can integrate into ad-hoc automations through macros.
+
+Some packages, however, are mostly self-contained, attempting to provide a monolithic set of functionality that is often conceptually equivalent to, though incompatible with, what is provided by default. In some cases this is out of necessity: evil-mode replicates Vim's key bindings in Emacs, so it has to exist almost entirely independently of the default key-bindings, which are incompatible with Vim's modal editing experience.
+In other cases, such as lsp-mode, it is clearly not; eglot provides a large subset of lsp-mode's functionality, while depending only on built-in packages, which made it easy to add to the core Emacs distribution.
+
+Unless a monolithic package offers some essential functionality that cannot be replicated otherwise (e.g. Magit), I will avoid using it.

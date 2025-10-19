@@ -35,12 +35,6 @@
       ;; "http://localhost:8000"
       )
 
-;; Dependencies
-
-(require 'package)
-(package-initialize)
-(require 'use-package)
-
 (defvar blog-directory (source-dir "blog/"))
 
 ;; Content configuration
@@ -179,6 +173,7 @@ Created with %c.
     :publishing-directory ,(export-dir "writings")
     :recursive t
     :auto-sitemap t
+    :sitemap-format-entry ,#'blog-sitemap-entry
     :sitemap-filename "index.org")
    ("Aidan Hall"
     :components ("files" "toplevel" "blog" "writings"))))

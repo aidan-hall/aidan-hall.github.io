@@ -4,7 +4,7 @@
 #+identifier: 20250601T181149
 #+description: A lesson in semantic HTML and accessibility.
 
-[[denote:20250601T111403][My previous blog post]] initially broke [[https://support.mozilla.org/en-US/kb/firefox-reader-view-clutter-free-web-pages][Firefox's Reader View]], with the text (not even the heading!) of just one section being recognised as the "main content" of the page.
+[[file:first-blog-post-with-org.org][My previous blog post]] initially broke [[https://support.mozilla.org/en-US/kb/firefox-reader-view-clutter-free-web-pages][Firefox's Reader View]], with the text (not even the heading!) of just one section being recognised as the "main content" of the page.
 I don't know how popular this feature (or the equivalent feature in your browser of choice) is, but I use it all the time[fn:1]. I find it especially helpful for reading long blog posts on sites with abysmal readability, which are unfortunately common.
 
 Based on the discussion in [[https://stackoverflow.com/questions/30661650/how-does-firefox-reader-view-operate#30750306][this Stack Overflow thread]], it seems Firefox uses a complex set of heuristics, based on content structure and use of semantic HTML, to select a DOM element that should be treated as the main content. Every website is going to follow a slightly different style when structuring its content, so I have to give Firefox credit for getting it right in most cases.

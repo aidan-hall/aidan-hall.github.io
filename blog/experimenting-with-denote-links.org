@@ -4,7 +4,7 @@
 #+identifier: 20250531T081341
 #+description: Tackling teething issues getting internal links to work.
 
-As mentioned in [[denote:20250530T220811][the first post]], I'm using Denote to manage my blog.
+As mentioned in [[file:first-blog-post-with-org.org][the first post]], I'm using Denote to manage my blog.
 One issue I identified with it was the potential instability of links to specific blog posts, since the file names can change automatically, due to, for instance, changes to the ~filetags~.
 I'm currently attempting to fix this using the ~denote:~ link format, which only uses the (stable) timestamp-based identifier to link to a given note.
 This should work for links between Denote notes (or the whole system won't work), but it broke the first time I tried to link to a Denote file from outside the ~denote-directory~.

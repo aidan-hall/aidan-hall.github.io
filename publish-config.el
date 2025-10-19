@@ -21,8 +21,14 @@
 (defvar website-dir "~/Documents/websites/orgsite/"
   "The base source directory for the website.")
 
+(defun source-dir (&rest subdirs)
+  (apply 'file-name-concat website-dir subdirs))
+
 (defvar website-export-dir "~/Documents/websites/orgsite-html"
   "The base export directory for the website.")
+
+(defun export-dir (&rest subdirs)
+  (apply 'file-name-concat website-export-dir subdirs))
 
 (setq org-html-link-home
       "https://argletrough.neocities.org"
@@ -34,9 +40,8 @@
 (require 'package)
 (package-initialize)
 (require 'use-package)
-(use-package denote
-  :ensure t)
-(setq denote-directory (file-name-concat website-dir "blog/"))
+
+(defvar blog-directory (source-dir "blog/"))
 
 ;; Content configuration
 
@@ -150,17 +155,17 @@ Created with %c.
 (setq
  org-publish-project-alist
  `(("files"
-    :base-directory ,(file-name-concat website-dir "files")
+    :base-directory ,(source-dir "files")
     :base-extension any
-    :publishing-directory ,(file-name-concat website-export-dir "files")
+    :publishing-directory ,(export-dir "files")
     :publishing-function org-publish-attachment
     :recursive t)
    ("toplevel"
     :base-directory ,website-dir
     :publishing-directory ,website-export-dir)
    ("blog"
-    :base-directory ,denote-directory
-    :publishing-directory ,(file-name-concat website-export-dir "blog")
+    :base-directory ,blog-directory
+    :publishing-directory ,(export-dir "blog")
     :auto-sitemap t
     :sitemap-title "Blog"
     :sitemap-sort-files anti-chronologically
@@ -170,8 +175,8 @@ Created with %c.
     :html-postamble ,(concat "Posted: %d. " org-html-postamble)
     :recursive t)
    ("writings"
-    :base-directory ,(file-name-concat website-dir "writings")
-    :publishing-directory ,(file-name-concat website-export-dir "writings")
+    :base-directory ,(source-dir "writings")
+    :publishing-directory ,(export-dir "writings")
     :recursive t
     :auto-sitemap t
     :sitemap-filename "index.org")

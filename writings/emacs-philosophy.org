@@ -19,7 +19,7 @@ Packages that don't follow these conventions can feel strange, as if they are tu
 
 * Package Archives
 
-In [[https://emacsconf.org/2020/talks/39/][an EmacsConf talk]], Stallman described having packages in GNU [[https://elpa.gnu.org/][ELPA]] as primarily a convenience, and that packages in ELPA are fundamentally "part of Emacs". The primary significance of this is that packages in ELPA (and to a lesser extent NonGNU ELPA) are audited to ensure they will integrate well with the vanilla Emacs experience. As a result, packages from ELPA have some guarantee of behaving more in the way I would like (as opposed to ones from independent archives such as the popular [[https://melpa.org][MELPA]].
+In [[https://emacsconf.org/2020/talks/39/][an EmacsConf talk]], Stallman described having packages in GNU [[https://elpa.gnu.org/][ELPA]] as primarily a convenience, and that packages in ELPA are fundamentally "part of Emacs". The primary significance of this is that packages in ELPA (and to a lesser extent NonGNU ELPA) are audited to ensure they will integrate well with the vanilla Emacs experience. As a result, packages from ELPA have some guarantee of behaving more in the way I would like (as opposed to ones from independent archives such as the popular [[https://melpa.org][MELPA]]).
 
 * The Four Horsemen of Bloat
 

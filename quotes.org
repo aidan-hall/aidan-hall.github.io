@@ -49,6 +49,7 @@ you care about what the results are at the low level, which I do.
 The idea that anyone would ever actually do manual memory management
 in C these days was just unthinkable—I mean, after all, it’s /current
 year/, and everyone knows that once it’s /current year/, an arbitrary
+set of ideas that I don’t like become intrinsically false.
 
 --- Ryan Fleury, [[https://www.rfleury.com/p/untangling-lifetimes-the-arena-allocator][Untangling Lifetimes: The Arena Allocator]].
 #+end_quote

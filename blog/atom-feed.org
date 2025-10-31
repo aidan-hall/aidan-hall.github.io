@@ -1,0 +1,5 @@
+#+title: This Website FINALLY has an Atom Feed
+#+date: [2025-10-31 Fri 22:37]
+
+RSS is /so/ 2004, and all readers that matter support both.
+See [[id:9b5c8bad-e7ff-4b6d-87f8-a5d6c7250fd0][this section of my tech stack page]] for more information.

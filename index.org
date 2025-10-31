@@ -12,21 +12,14 @@ This website is now generated using [[https://orgmode.org][Org-Mode]]. For more 
 how this works, check out my [[file:blog/first-blog-post-with-org.org][First Blog Post with Org]].
 At the time of writing, I am in the process of porting some of the content over from [[https://aidanhall.gitlab.io][my old website]], but there's a lot of stuff there, so I might leave it as-is.
 
-* Here
+* Sitemap
 :PROPERTIES:
 :HTML_CONTAINER_CLASS: index-spread
 :END:
-** Index
-- [[file:blog/][Blog]]
-- [[file:writings/][Writings]]
-- [[file:quotes.org][Quotes]]
-
-** Programming
+** Here
+#+include: "sitemap.org" :lines "3-"
+** Elsewhere
 - [[https://github.com/aidan-hall][GitHub]]
 - [[https://gitlab.com/aidanhall][GitLab]]
 - [[https://aidan-hall.itch.io/][Itch.io]] (games)
 
-** My Stuff
-- Software I Use
-- Personal Page
-- Site Updates

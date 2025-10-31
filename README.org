@@ -1,5 +1,3 @@
-#+title: My New Website
-
 This is an attempt to set up a personal website/blog using [[https://orgmode.org/][Org-Mode]], replacing the [[https://gitlab.com/aidanhall/ssgss][old hodge-podge of scripts and Makefiles]] I have been using to run my site until now.
 
 My aim is to be able to write a GitLab CI file for this repository that only installs vanilla Emacs (c. 27+), and can run it in batch mode to generate the HTML files from source:

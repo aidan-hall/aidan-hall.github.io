@@ -1,0 +1,20 @@
+#+title: Website Tech Stack
+#+date: [2025-10-19 Sun 18:14]
+#+description: The tech stack I use for this website.
+
+* Rationale
+The website's tech stack is informed by [[id:7cdd09d4-7af0-4eeb-b19d-d77001eb864b][my design philosophy]].
+My main aim is to have a stable, yet high-quality environment for writing content that I can share, and will last for decades, online.
+
+* Technology
+There are few technologies more [[https://en.wikipedia.org/wiki/Lindy_effect][Lindy]] than Emacs, so this blog is written and built purely with Emacs Org mode, and a small [[https://gitlab.com/aidanhall/orgsite/-/blob/main/publish-config.el][configuration script]], written in Emacs Lisp.
+Org is a superior markup language, for short and medium-length articles.
+I prefer my long-form writings to be self-contained, and portable, so I would continue to use LaTeX and Typst for anything of the sort.
+
+It seems that [[https://peregrinator.site/blog/building-a-blogging-flow-using-emacs-and-emacs-only.html][the popular choice]] for generating a syndication feed for blogs written with Org is to use [[https://github.com/benedicthw/ox-rss][ox-rss]].
+This would add significant complexity to the blog, not to mention a dependency outside of core Emacs.
+To use ox-rss, I would need to massage my list of posts into the particular format it expects, so I have written a custom Atom feed generator myself.
+It is not intended for general use, but you can have a look if you like.
+It generates an Atom feed as a sitemap.
+
+I have chosen to use the RSS logo ([[file:../files/pics/feed-icon.webp]]) to represent my feeds, despite the fact that Atom has its own, [[https://en.wikipedia.org/wiki/Atom_(web_standard)][much cooler]] logo. Unfortunately, the Atom logo is much harder to recognise at the small size I would want to display it, and less well-known overall, compared to the RSS logo.

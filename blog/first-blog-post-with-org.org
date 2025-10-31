@@ -4,7 +4,7 @@
 #+identifier: 20250530T220811
 #+description: An introduction to the blog.
 
-This post describes the initial tech stack of the website. For the current tech stack, refer to the [[id:413c0dfc-6ca8-4f3d-930d-9f10bfc63729][Website Tech Stack]] page.
+This post describes the initial tech stack of the website. For the current tech stack, refer to the [[file:../wiki/website-tech-stack.org][Website Tech Stack]] page.
 
 This is my first blog post on the new version of my website, written in Org-Mode!
 I've been meaning to do this for a while, but [[https://peregrinator.site/blog/building-a-blogging-flow-using-emacs-and-emacs-only.html][this post]] finally inspired me to take the plunge;

@@ -18,13 +18,13 @@
 
 ;; Paths
 
-(defvar website-dir "~/Documents/websites/orgsite/"
+(defvar website-dir (file-truename "~/Documents/websites/orgsite/")
   "The base source directory for the website.")
 
 (defun source-dir (&rest subdirs)
   (apply 'file-name-concat website-dir subdirs))
 
-(defvar website-export-dir "~/Documents/websites/orgsite-html"
+(defvar website-export-dir (file-truename "~/Documents/websites/orgsite-html")
   "The base export directory for the website.")
 
 (defun export-dir (&rest subdirs)
@@ -37,11 +37,23 @@
 
 (defvar blog-directory (source-dir "blog/"))
 
+(defun published-file-url (filename project)
+  "Convert a FILENAME relative to the root of PROJECT to its published URL."
+  (file-name-concat org-html-link-home
+                    (file-relative-name
+                     (file-name-concat
+                      (org-publish-property :base-directory project)
+                      (if (string= "org" (file-name-extension filename))
+                         (file-name-with-extension filename "html")
+                       filename))
+                     website-dir)))
+
 ;; Content configuration
 
 (setq
  org-list-allow-alphabetical t
  user-full-name "Aidan Hall")
+(defconst website-title user-full-name)
 
 ;; Babel Configuration
 
@@ -101,13 +113,15 @@ holding contextual information."
 <ul id=\"navigation\">
 <li><a href=\"%2$s/\" >&#127968; Home</a></li>
 <li><a href=\"%2$s/blog\" >&#128212; Blog</a></li>
+<li><a href=\"%2$s/writings\" >&#128212; Writings</a></li>
 <li><a href=\"%1$s\" >&#12106; Subdir Root</a></li>
 </ul></nav>"
  org-html-preamble "<h1 class=\"title\">%t</h1>
 <p class=\"subtitle\">%s</p>
 <p class=\"blogdate\">%d</p>"
  ;; TODO: Make this a function so we can include e.g. publishing date conditionally.
- org-html-postamble "Last modified: %C.
+ org-html-postamble "Published: %d.
+                     Last modified: %C.
 Created with %c.
 <a href=\"#content\">🔝</a>"
  org-html-footnotes-section "<section id=\"footnotes\">
@@ -142,9 +156,85 @@ Created with %c.
 
 (defun blog-publish-sitemap (title list)
   "Sitemap for a blog, with given TITLE and LIST of posts."
-  (concat "#+title: " title "\n\n"
+  (concat "#+title: " title "\n"
           "#+date: [" (format-time-string "%F %R" (current-time)) "]\n\n"
+          "[[file:atom.xml][@@html:<img src=\"/files/pics/feed-icon.webp\"/>@@ Feed]]\n\n"
           (org-list-to-org list)))
+
+(defconst rfc3339-utc-format "%FT%TZ")
+
+(defun atom-timestamp (&optional time)
+  "Produce a timestamp suitable for Atom from TIME."
+  (format-time-string rfc3339-utc-format time))
+
+(defun blog-feed-title (subdir)
+  "Format a title for a feed at SUBDIR on the website."
+  (concat website-title " - " (capitalize subdir)))
+
+(defun blog-atom-sitemap (title list)
+  "Generate an Atom 1.0 sitemap, with the given TITLE and LIST of posts."
+  (concat "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+          "<feed xmlns=\"http://www.w3.org/2005/Atom\">"
+          ;; "<link href=\"" org-html-link-home "\"/>"
+          "<author><name>" user-full-name "</name></author>"
+          "<id>" org-html-link-home "/" title "</id>"
+          "<title>" (blog-feed-title title) "</title>"
+          "<updated>" (atom-timestamp) "</updated>"
+          ;; TODO: Entry list formatting
+          (org-list-to-generic list
+                               '())
+          "</feed>"))
+
+(defun blog-atom-entry (entry _style project)
+  "Generate an Atom feed item for ENTRY, in PROJECT."
+  (let ((article-url (published-file-url entry project)))
+    (concat
+     "<entry>"
+     "<title>" (org-publish-find-title entry project) "</title>"
+     "<id>" article-url "</id>"
+     "<updated>" (atom-timestamp (org-publish-find-date entry project)) "</updated>"
+     "<link href=\"" article-url "\"/>"
+     (if-let ((description
+               (org-publish-find-property entry :description project 'html)))
+         (concat "<summary>" description "</summary>")
+       (if-let ((subtitle
+                 (org-publish-find-property entry :subtitle project 'html)))
+           (concat "<summary>" (string-join subtitle " ") "</summary")))
+     "</entry>")))
+
+(defun feed-project (subdir &rest properties)
+  "Generate entries for a project at SUBDIR, with the given TITLE and overriding PROPERTIES."
+  (let ((title (capitalize subdir))
+        (common-properties
+         (list :base-directory (source-dir subdir)
+               :publishing-directory (export-dir subdir)
+               :auto-sitemap t
+               :sitemap-sort-files 'anti-chronologically)))
+
+    `((,title
+       ,@properties
+       ,@common-properties
+       :sitemap-function ,#'blog-publish-sitemap
+       :sitemap-format-entry ,#'blog-sitemap-entry
+       :sitemap-title ,title
+       :sitemap-filename "index.org"
+       :html-head ,(concat org-html-head
+                           "<link rel=\"alternate\" type=\"application/atom+xml\" href=\"atom.xml\" title=\""
+                           (blog-feed-title title)
+                           "\">"))
+
+      (,(concat title " Atom Feed")
+       ,@common-properties
+       :sitemap-filename "atom.xml"
+       :sitemap-format-entry blog-atom-entry
+       :sitemap-function blog-atom-sitemap
+       :sitemap-title ,subdir
+       :base-extension "atom\\|org"
+       :exclude "index.org"
+       ;; This project only exists to generate the atom sitemap.
+       ;; I am choosing to consider the fact this also publishes the
+       ;; Org files directly to be a feature.
+       :publishing-function org-publish-attachment))))
 
 (setq
  org-publish-project-alist
@@ -156,26 +246,11 @@ Created with %c.
     :recursive t)
    ("toplevel"
     :base-directory ,website-dir
-    :publishing-directory ,website-export-dir)
-   ("blog"
-    :base-directory ,blog-directory
-    :publishing-directory ,(export-dir "blog")
-    :auto-sitemap t
-    :sitemap-title "Blog"
-    :sitemap-sort-files anti-chronologically
-    :sitemap-filename "index.org"
-    :sitemap-format-entry ,#'blog-sitemap-entry
-    :sitemap-function ,#'blog-publish-sitemap
-    :html-postamble ,(concat "Posted: %d. " org-html-postamble)
-    :recursive t)
-   ("writings"
-    :base-directory ,(source-dir "writings")
-    :publishing-directory ,(export-dir "writings")
-    :recursive t
-    :auto-sitemap t
-    :sitemap-format-entry ,#'blog-sitemap-entry
-    :sitemap-filename "index.org")
-   ("Aidan Hall"
-    :components ("files" "toplevel" "blog" "writings"))))
+    :publishing-directory ,website-export-dir
+    :auto-sitemap t)
+   ,@(feed-project "blog")
+   ,@(feed-project "wiki")))
+
+
 (provide 'publish-config)
 ;;; publish-config.el ends here

@@ -230,7 +230,7 @@ Created with %c.
        :sitemap-function blog-atom-sitemap
        :sitemap-title ,subdir
        :base-extension "atom\\|org"
-       :exclude "index.org"
+       :exclude "index.org\\|.*~$"
        ;; This project only exists to generate the atom sitemap.
        ;; I am choosing to consider the fact this also publishes the
        ;; Org files directly to be a feature.

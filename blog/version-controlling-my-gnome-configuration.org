@@ -10,7 +10,7 @@ GNOME doesn't make this easy, since its configuration lives in a binary database
 
 The most basic solution uses the dconf command:
 
-#+begin_src shell
+#+begin_src
 $ dconf dump / > config.ini
 $ dconf load / < config.ini
 #+end_src

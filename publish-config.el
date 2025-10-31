@@ -111,10 +111,10 @@ holding contextual information."
  org-html-home/up-format "
 <nav>
 <ul id=\"navigation\">
-<li><a href=\"%2$s/\" >&#127968; Home</a></li>
-<li><a href=\"%2$s/blog\" >&#128212; Blog</a></li>
-<li><a href=\"%2$s/writings\" >&#128212; Writings</a></li>
-<li><a href=\"%1$s\" >&#12106; Subdir Root</a></li>
+<li><a href=\"%2$s/\" >🏡 Home</a></li>
+<li><a href=\"%2$s/blog\" >📔 Blog</a></li>
+<li><a href=\"%2$s/wiki\" >🧠 Wiki</a></li>
+<li><a href=\"%1$s\" >⽊ Subdir Root</a></li>
 </ul></nav>"
  org-html-preamble "<h1 class=\"title\">%t</h1>
 <p class=\"subtitle\">%s</p>
@@ -237,6 +237,7 @@ Created with %c.
        :publishing-function org-publish-attachment))))
 
 (setq
+ org-publish-use-timestamps-flag nil
  org-publish-project-alist
  `(("files"
     :base-directory ,(source-dir "files")

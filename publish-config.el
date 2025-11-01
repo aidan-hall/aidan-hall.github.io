@@ -114,7 +114,7 @@ holding contextual information."
 <li><a href=\"%2$s/\" >🏡 Home</a></li>
 <li><a href=\"%2$s/blog\" >📔 Blog</a></li>
 <li><a href=\"%2$s/wiki\" >🧠 Wiki</a></li>
-<li><a href=\"%1$s\" >⽊ Subdir Root</a></li>
+<li><a href=\"%1$s\" >📇 Index</a></li>
 </ul></nav>"
  org-html-preamble "<h1 class=\"title\">%t</h1>
 <p class=\"subtitle\">%s</p>
@@ -237,7 +237,6 @@ Created with %c.
        :publishing-function org-publish-attachment))))
 
 (setq
- org-publish-use-timestamps-flag nil
  org-publish-project-alist
  `(("files"
     :base-directory ,(source-dir "files")

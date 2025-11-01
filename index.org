@@ -16,7 +16,8 @@ how this works, check out my [[file:blog/first-blog-post-with-org.org][First Blo
 :HTML_CONTAINER_CLASS: index-spread
 :END:
 ** Here
-#+include: "sitemap.org" :lines "3-"
+- [[file:blog][Blog]]
+- [[file:wiki][Wiki]]
 ** Elsewhere
 - [[https://github.com/aidan-hall][GitHub]]
 - [[https://gitlab.com/aidanhall][GitLab]]

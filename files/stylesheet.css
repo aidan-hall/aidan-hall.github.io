@@ -8,7 +8,8 @@
 /* § Universal */
 
 body {
-    font-family: Verdana, Helvetica, sans-serif;
+    /* I really mean it. */
+    font-family: Times;
     max-width: 90em;
     margin: auto;
     display: grid;
@@ -140,6 +141,14 @@ pre {
     color: purple;
 }
 
+.org-variable-name {
+    color: steelblue;
+}
+
+.org-keyword {
+    color: darkslateblue;
+}
+
 @media(prefers-color-scheme: dark) {
     .org-string {
         color: lightblue;
@@ -156,6 +165,14 @@ pre {
     .org-builtin {
         color: orchid;
     }
+
+    .org-variable-name {
+        color: lightsteelblue;
+    }
+
+    .org-keyword {
+        color: plum;
+    }
 }
 /* Keyboard Keys */
 kbd {
@@ -169,10 +186,10 @@ kbd {
 
 /* Footnotes */
 section#footnotes {
+    max-width: var(--based-text-width);
     margin: 1em;
     border: var(--bubble-border);
     border-radius: var(--bubble-border-radius);
-    max-width: var(--based-text-width);
 }
 
 div.footdef {
@@ -194,7 +211,7 @@ cite {
 }
 
 blockquote {
-    max-width: var(--based-text-width);
+    max-width: calc(var(--based-text-width) / 1.25);
 }
 
 /* Figures */
@@ -232,6 +249,10 @@ ol {
     margin-right: 2em;
 }
 
+li {
+    max-width: var(--based-text-width)
+}
+
 /* Footer */
 footer {
     border-top: 2px groove;
@@ -245,7 +266,7 @@ footer p {
 
 /* Maths */
 .maths {
-    font-family: Latin Modern, Computer Modern, Times New Roman, serif;
+    font-family: Latin Modern, Computer Modern, Times New Roman, math, serif;
     font-size: 110%;
     font-style: italic;
 }
@@ -277,7 +298,8 @@ nav {
     grid-area: navigation;
 }
 #navigation {
-    border: var(--bubble-border);
+    border: 1px solid grey;
+    box-shadow: 2px 2px 2px grey;
     border-radius: var(--bubble-border-radius);
     width: fit-content;
     float: right;

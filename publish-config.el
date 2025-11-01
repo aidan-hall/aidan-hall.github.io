@@ -104,7 +104,7 @@ holding contextual information."
  org-html-html5-fancy t
  org-html-container-element "section"
  org-html-head-include-default-style nil
- org-html-metadata-timestamp-format "%d %b %Y, %R"
+ org-html-metadata-timestamp-format "%-d %b %Y, %R"
  org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/stylesheet.css\" />"
  org-html-divs '((preamble "header" "preamble")
                  (content "main" "content")

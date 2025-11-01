@@ -16,8 +16,8 @@ how this works, check out my [[file:blog/first-blog-post-with-org.org][First Blo
 :HTML_CONTAINER_CLASS: index-spread
 :END:
 ** Here
-- [[file:blog][Blog]] (ephemeral notes)
-- [[file:wiki][Wiki]] (longer articles)
+- [[file:blog][Blog]]
+- [[file:wiki][Wiki]]
 - [[file:talks.org][Talks]]
 
 ** Elsewhere

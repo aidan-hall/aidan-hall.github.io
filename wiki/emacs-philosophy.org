@@ -1,6 +1,3 @@
-:PROPERTIES:
-:ID:       82bb9282-8907-482c-ad97-a302f6d0f1ba
-:END:
 #+title: Vanilla Emacs Philosophy
 #+date: [2025-10-19 Sun 18:27]
 #+description: A Manifesto on the Use and Configuration of Emacs

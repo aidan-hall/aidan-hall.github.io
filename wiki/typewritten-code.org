@@ -6,6 +6,8 @@
 #+bibliography: bibliography.bib
 #+description: An essay written for a coursework in my 1st year of university.
 
+[[file:../files/docs/typewritten-code.pdf][PDF]]
+
 #+begin_abstract
 All popular, modern programming languages are based on plain, ASCII
 text with English identifiers.  The style is archaic, making code

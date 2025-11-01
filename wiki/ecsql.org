@@ -1,0 +1,25 @@
+#+title: ECSQL
+#+date: [2024-04-29]
+#+description: My dissertation project.
+
+[[file:../files/docs/ecsql.pdf][PDF]]
+
+#+begin_abstract
+In this project, we produced a framework for building video games that
+allows the developer to interactively manipulate the state of a game,
+like a database. We achieved this by creating a simple scripting
+language, with a query language embedded within it, called ECSQL. We
+used the Entity Component System design pattern to represent the state
+of games in a standardised, database-like way. This makes it possible
+for ECSQL code to apply arbitrary, programmatic transformations to all
+aspects of any game built using our framework, at run-time.
+  
+We created a small game using the framework, which allowed us to
+demonstrate the capabilities of ECSQL. These included the potential to
+implement interactive game development tools in just a few lines of
+code.
+
+The end product is a sufficient proof-of-concept, and could be the
+basis for be a compelling alternative to game engines like Unity,
+although little effort was made to optimise its performance.
+#+end_abstract

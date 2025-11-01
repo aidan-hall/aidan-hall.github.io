@@ -1,0 +1,8 @@
+#+title: Talks
+#+date: [2025-11-01 Sat 01:12]
+Some talks I have given over the years.
+
+- Talking about Emacs for Only 15 Minutes (18/10/2023): [[file:files/docs/uwcs-emacs-talk.pdf][Slides]], [[https://youtu.be/n02zSVxQ8Vc][Video]].
+- Lisp Macros (23/11/2023): [[file:files/docs/lisp-macros-presentation.pdf][Slides]].
+- Making Games without an Engine (21/03/2024): [[file:files/docs/2024-03-06-no-engine-gamedev.pdf][Slides]].
+- Reproducible System Configuration with Nix and Guix (27/08/2024): [[file:files/docs/nix-and-guix.pdf][Slides]].

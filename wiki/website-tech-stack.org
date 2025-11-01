@@ -6,7 +6,7 @@
 #+description: The tech stack I use for this website.
 
 * Rationale
-The website's tech stack is informed by [[id:7cdd09d4-7af0-4eeb-b19d-d77001eb864b][my design philosophy]].
+The website's tech stack is informed by [[file:new-philosophy.org][my design philosophy]].
 My main aim is to have a stable, yet high-quality environment for writing content that I can share, and will last for decades, online.
 
 * Technology
@@ -16,7 +16,7 @@ I prefer my long-form writings to be self-contained, and portable, so I would co
 
 ** Atom Feed
 :PROPERTIES:
-:ID:       9b5c8bad-e7ff-4b6d-87f8-a5d6c7250fd0
+:CUSTOM_ID: atom-feed
 :END:
 It seems that [[https://peregrinator.site/blog/building-a-blogging-flow-using-emacs-and-emacs-only.html][the popular choice]] for generating a syndication feed for blogs written with Org is to use [[https://github.com/benedicthw/ox-rss][ox-rss]].
 This would add significant complexity to the blog, not to mention a dependency outside of core Emacs.

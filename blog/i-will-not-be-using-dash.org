@@ -8,7 +8,7 @@
 #+description: Consciously curating my Emacs experience
 
 * Updates
-- [2025-10-19 Sun 18:31]: Superseded by: [[id:82bb9282-8907-482c-ad97-a302f6d0f1ba][Emacs Philosophy]].
+- [2025-10-19 Sun 18:31]: Superseded by: [[file:../wiki/emacs-philosophy.org][Emacs Philosophy]].
 
 * Vanilla Emacs
 

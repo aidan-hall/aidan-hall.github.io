@@ -9,4 +9,4 @@ I have decided not to use Denote to manage the blog, since I wasn't getting much
 
 I haven't written anything here for a long time, but hopefully that will change now.
 
-This was part of the process of adopting [[id:7cdd09d4-7af0-4eeb-b19d-d77001eb864b][A New Philosophy for the Website]].
+This was part of the process of adopting [[file:../wiki/new-philosophy.org][a new philosophy for the website]].

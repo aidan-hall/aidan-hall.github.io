@@ -9,7 +9,7 @@
 
 body {
     /* I really mean it. */
-    font-family: Times;
+    font-family: sans;
     max-width: 90em;
     margin: auto;
     display: grid;
@@ -93,11 +93,11 @@ hr:after {
 p, dd {
     text-align: justify;
     line-height: 1.5;
-    max-width: var(--based-text-width);
     margin-right: 1em;
 }
 p {
     margin-left: 1em;
+    max-width: var(--based-text-width);
 }
 p + p {
     text-indent: 2ch;
@@ -185,8 +185,11 @@ kbd {
 /* § Embedded Content */
 
 /* Footnotes */
+main {
+    max-width: fit-content;
+    position: relative;
+}
 section#footnotes {
-    max-width: var(--based-text-width);
     margin: 1em;
     border: var(--bubble-border);
     border-radius: var(--bubble-border-radius);
@@ -203,6 +206,15 @@ div.footdef {
     & > div.footpara {
         display: block;
     }
+}
+
+/* Abstract */
+div.abstract > p:first-child::before {
+    content: "Abstract";
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
 }
 
 /* Citations and Quotations */
@@ -296,13 +308,14 @@ h1.title {
 /* Nav Bar */
 nav {
     grid-area: navigation;
+    display: grid;
+    justify-items: center;
 }
 #navigation {
     border: 1px solid grey;
     box-shadow: 2px 2px 2px grey;
     border-radius: var(--bubble-border-radius);
     width: fit-content;
-    float: right;
     margin: 0;
     padding: 0.5em;
 }
@@ -323,11 +336,16 @@ nav img {
 
 /* § Responsiveness */
 
-@media (max-width: 40em) {
-    img.rfloat {
-        max-height: 256px;
+img.rfloat {
+    max-height: 256px;
+}
+
+@media (max-width: 50em) {
+    span.feeddate {
+        display: none;
     }
 }
+
 /* 'Wide' Screen Mode */
 @media (min-width: 40em) {
     pre {
@@ -335,18 +353,11 @@ nav img {
         margin-right: 1em;
         width: min-content;
     }
-    figure:has(> .rfloat) {
-        float: right;
-        width: 20em;
-    }
-    img.rfloat {
-        width: 100%;
-        height: auto;
-    }
+
 }
 
 /* 'Super Wide' Screen Mode */
-@media (min-width: 55em) {
+@media (min-width: 40em) {
     @supports (display: grid) {
         body {
             grid-template-areas:
@@ -356,7 +367,7 @@ nav img {
             grid-template-columns: 1fr 4fr;
         }
         nav {
-            align-content: right;
+            display: block;
         }
         nav li {
             display: block;
@@ -365,11 +376,22 @@ nav img {
             position: sticky;
             position: -webkit-sticky;
             top: 1em;
+            left: 100%;
         }
 
         #top-link {
             visibility: visible;
         }
+
+    }
+}
+
+@media (min-width: 80em) {
+
+    figure:has(> .rfloat) {
+        position: absolute;
+        left: 100%;
+        width: 20em;
     }
 }
 

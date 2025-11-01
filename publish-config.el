@@ -103,7 +103,7 @@ holding contextual information."
  org-html-html5-fancy t
  org-html-container-element "section"
  org-html-head-include-default-style nil
- org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/files/stylesheet.css\" />"
+ org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/stylesheet.css\" />"
  org-html-divs '((preamble "header" "preamble")
                  (content "main" "content")
                  (postamble "footer" "postamble"))
@@ -120,8 +120,7 @@ holding contextual information."
 <p class=\"subtitle\">%s</p>
 <p class=\"blogdate\">%d</p>"
  ;; TODO: Make this a function so we can include e.g. publishing date conditionally.
- org-html-postamble "Published: %d.
-                     Last modified: %C.
+ org-html-postamble "Last modified: %C.
 Created with %c.
 <a href=\"#content\">🔝</a>"
  org-html-footnotes-section "<section id=\"footnotes\">
@@ -138,17 +137,10 @@ Created with %c.
 (defun blog-sitemap-entry (entry _style project)
   "Generate a sitemap entry for ENTRY, in PROJECT."
   (cond ((not (directory-name-p entry))
-	 (format "%s [[file:%s][%s]] %s"
+	 (format "%s :: [[file:%s][%s]]"
                  (format-time-string "%F %R" (org-publish-find-date entry project))
 		 entry
-		 (org-publish-find-title entry project)
-                 (if-let ((description
-                           (org-publish-find-property entry :description project 'html)))
-                     (format " - /%s/" description)
-                   (if-let ((subtitle
-                             (org-publish-find-property entry :subtitle project 'html)))
-                       (format " - /%s/" (string-join subtitle " "))
-                     ""))))
+		 (org-publish-find-title entry project)))
 	((eq style 'tree)
 	 ;; Return only last subdir.
 	 (file-name-nondirectory (directory-file-name entry)))
@@ -156,10 +148,13 @@ Created with %c.
 
 (defun blog-publish-sitemap (title list)
   "Sitemap for a blog, with given TITLE and LIST of posts."
+  (print list)
   (concat "#+title: " title "\n"
           "#+date: [" (format-time-string "%F %R" (current-time)) "]\n\n"
           "[[file:atom.xml][@@html:<img src=\"/files/pics/feed-icon.webp\"/>@@ Feed]]\n\n"
-          (org-list-to-org list)))
+          (org-list-to-org list
+                           '(:dtstart "@@html:<span class=\"feeddate\">"
+                                      :dtend " </span>@@ "))))
 
 (defconst rfc3339-utc-format "%FT%TZ")
 
@@ -221,7 +216,8 @@ Created with %c.
        :html-head ,(concat org-html-head
                            "<link rel=\"alternate\" type=\"application/atom+xml\" href=\"atom.xml\" title=\""
                            (blog-feed-title title)
-                           "\">"))
+                           "\">")
+       :html-postamble ,(concat "Published: %d.\n" org-html-postamble))
 
       (,(concat title " Atom Feed")
        ,@common-properties
@@ -237,11 +233,18 @@ Created with %c.
        :publishing-function org-publish-attachment))))
 
 (setq
+ org-publish-use-timestamps-flag nil
  org-publish-project-alist
  `(("files"
     :base-directory ,(source-dir "files")
     :base-extension any
     :publishing-directory ,(export-dir "files")
+    :publishing-function org-publish-attachment
+    :recursive t)
+   ("root-files"
+    :base-directory ,(source-dir "root-files")
+    :base-extension any
+    :publishing-directory ,website-export-dir
     :publishing-function org-publish-attachment
     :recursive t)
    ("toplevel"

@@ -15,9 +15,10 @@
 ;; of my main Emacs environment, which is nice.
 
 ;;; Code:
+(require 'org)
+(require 'ox-html)
 
 ;; Paths
-
 (defvar website-dir (file-truename "~/Documents/websites/orgsite/")
   "The base source directory for the website.")
 
@@ -103,6 +104,7 @@ holding contextual information."
  org-html-html5-fancy t
  org-html-container-element "section"
  org-html-head-include-default-style nil
+ org-html-metadata-timestamp-format "%d %b %Y, %R"
  org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/stylesheet.css\" />"
  org-html-divs '((preamble "header" "preamble")
                  (content "main" "content")
@@ -216,8 +218,7 @@ Created with %c.
        :html-head ,(concat org-html-head
                            "<link rel=\"alternate\" type=\"application/atom+xml\" href=\"atom.xml\" title=\""
                            (blog-feed-title title)
-                           "\">")
-       :html-postamble ,(concat "Published: %d.\n" org-html-postamble))
+                           "\">"))
 
       (,(concat title " Atom Feed")
        ,@common-properties

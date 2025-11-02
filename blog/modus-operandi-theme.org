@@ -1,0 +1,25 @@
+#+title: I love Modus Operandi so much it's unreal
+#+date: [2025-11-02 Sun 10:57]
+#+caption: My current Emacs configuration, using Modus Operandi.
+#+attr_html: :class rfloat
+[[file:../files/pics/modus-theme-emacs.png]]
+
+
+In 2021, I went through a phase of trying a variety of themes in Vim and Emacs:
+manual tweaks to the default themes, popular themes like Solarized and Gruvbox, even [[https://github.com/pbrisbin/vim-colors-off][a theme with almost no colours at all]].
+Gradually, my preferences shifted towards high-contrast light themes, such as [[https://github.com/NLKNguyen/papercolor-theme][PaperColor]], due to their high legibility, even on dim screens.
+Then, on the 6th of August 2021 (or at least some time between then and the previous commit in my dotfiles repo), I tried Protesilaos Stavrou's [[https://protesilaos.com/emacs/modus-themes][Modus Operandi]], and was hooked.
+
+Unlike most high-contrast themes I've used, Modus Operandi's colours are well-balanced, avoiding things like the bright, harsh highlights of Emacs' default theme, which put so many people off light themes in the first place. I am not aware of any theme for any other editor that pulls off the maximum-contrast of ~#000000~ black on ~#ffffff~ white without becoming searingly unpleasant to look at.
+
+#+caption: A screenshot from when I started using Emacs, with a Gruvbox theme.
+#+attr_html: :class rfloat
+[[file:../files/pics/emacs-at-work.png]]
+
+It also strikes a nice balance between having its own identity and following modern conventions.
+Comments are grey, with errors and warnings highlighted in the typical red and yellow, while keywords use a shade of purple that I consider the most iconic feature of the theme.
+
+On a more technical note, considering the Modus Themes project itself: when I first used them in 2021, they were some of the few themes that supported Neovim's tree-sitter syntax highlighting capabilities. The Emacs versions of the themes specifically also offer improvements that should be available as a baseline, such as ~modus-themes-mixed-fonts~, which allows certain elements like Org-mode tables to always render in a monospaced font, even if the main text of the buffer is variable-width.
+
+The funny thing is, despite fact that that were originally Emacs themes, I was using Modus in Vim for about half a year before I discovered the original Emacs package.
+From then on, Modus Operandi has been the only theme I use in Emacs, except for the occasional switch to Modus Vivendi (its dark counterpart) if my eyes get especially tired.  In short, these themes are amazing; thanks Prot! I recommend any Emacs user to try them out. If pure black/white seems too extreme, you could try modus-vivendi-tinted, which is a more typical dark theme.

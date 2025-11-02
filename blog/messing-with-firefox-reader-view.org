@@ -12,7 +12,9 @@ Based on the discussion in [[https://stackoverflow.com/questions/30661650/how-do
 This website caused problems because ~ox-html~ generates deeply-nested ~<div>~ elements for the sections and subsections of a document. As far as I can tell, the reader view algorithm doesn't "propagate up" the "content score" of ~<div>~ elements to their parents with much weight, which is why it burrowed down to the largest bottom-level ~<div>~ and chose that as the main content.
 The fix I've put in place for now is to replace these "outlining" ~<div>~ elements with ~<section>~ elements. Since ~<section>~'s expected use within semantic HTML is to sub-divide a document, this was enough to make Firefox pick up the whole article, even when one section was much longer than the other.
 
+#+begin_aside
 Perhaps this intuitive, fuzzy approach to debugging will become more common in the age of LLMs and prompt engineering. I certainly hope not.
+#+end_aside
 
 I don't think it's worth investing too much energy into making Reader View work, but it /is/ important to conform to accessibility standards. The web as a platform makes this uniquely easy, with accessibility checkers built in to Firefox and Chromium, so there's very little excuse not to, unless you consider the inaccessible aesthetics of your site more important than its content. As a nice bonus, following accessibility and semantic HTML conventions might be enough to make features and plugins like Reader Mode understand the structure of your site!
 

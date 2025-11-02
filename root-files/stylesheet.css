@@ -3,14 +3,14 @@
     --bubble-border: 1px solid;
     --accent-background: #efefef;
     --based-text-width: 40em;
+    --float-shadow: 0.075rem 0.075rem 0.25rem darkgrey;
 }
 
 /* § Universal */
 
 body {
-    /* I really mean it. */
-    font-family: sans;
-    max-width: 90em;
+    font-family: serif;
+    max-width: 60em;
     margin: auto;
     display: grid;
     grid-column-gap: 1em;
@@ -19,10 +19,14 @@ body {
         "content"
         "navigation"
         "footer";
+    justify-items: center;
 }
 
 header {
     grid-area: header;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 main {
     min-width: 0;
@@ -36,6 +40,8 @@ h1 {
     /* https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/Heading_Elements#specifying_a_uniform_font_size_for_h1 */
     margin-block: 0.67em;
     font-size: 2em;
+    text-wrap: balance;
+    text-align: center;
 }
 h3 {
     font-style: italic;
@@ -189,11 +195,6 @@ main {
     max-width: fit-content;
     position: relative;
 }
-section#footnotes {
-    margin: 1em;
-    border: var(--bubble-border);
-    border-radius: var(--bubble-border-radius);
-}
 
 div.footdef {
     display: flex;
@@ -207,6 +208,22 @@ div.footdef {
         display: block;
     }
 }
+
+#footnotes, aside {
+    width: fit-content;
+    font-size: 80%;
+    margin: 1em;
+    * {
+        text-align: left;
+    }
+}
+
+/* Floating bubbles/notes */
+#navigation, #footnotes, aside {
+    box-shadow: var(--float-shadow);
+    border-radius: var(--bubble-border-radius);
+}
+
 
 /* Abstract */
 div.abstract > p:first-child::before {
@@ -239,6 +256,10 @@ figcaption {
 figure:has(> .rfloat) :nth-child(n) {
     width: fit-content(100%);
     margin: auto;
+}
+
+figure img {
+    filter: drop-shadow(var(--float-shadow));
 }
 
 img {
@@ -299,33 +320,30 @@ h1.title {
 
 .subtitle {
     font-size: 1.25em;
-    /* text-align: center; */
+    text-align: center;
     margin: 0 0.25em 0.25em 0.25em;
     font-style: italic;
     max-width: calc(var(--based-text-width) / 1.25);
 }
 
 /* Nav Bar */
-nav {
+nav:has(> #navigation) {
     grid-area: navigation;
     display: grid;
     justify-items: center;
 }
 #navigation {
-    border: 1px solid grey;
-    box-shadow: 2px 2px 2px grey;
-    border-radius: var(--bubble-border-radius);
     width: fit-content;
     margin: 0;
     padding: 0.5em;
 }
-nav li {
+#navigation li {
     display: inline-block;
 }
-nav a {
+#navigation a {
     display: block;
 }
-nav img {
+#navigation img {
     max-height: 14px;
     max-width: 14px;
 }
@@ -353,23 +371,23 @@ img.rfloat {
         margin-right: 1em;
         width: min-content;
     }
-
 }
 
 /* 'Super Wide' Screen Mode */
-@media (min-width: 40em) {
+@media (min-width: 50em) {
     @supports (display: grid) {
         body {
             grid-template-areas:
                 "navigation header"
                 "navigation content"
-                "footer  footer";
-            grid-template-columns: 1fr 4fr;
+                "navigation footer";
+            grid-template-columns: auto 1fr;
         }
-        nav {
+        nav:has(> #navigation) {
             display: block;
+            justify-self: end;
         }
-        nav li {
+        #navigation li {
             display: block;
         }
         #navigation {
@@ -382,13 +400,15 @@ img.rfloat {
         #top-link {
             visibility: visible;
         }
-
+        #footnotes, aside {
+            margin-left: auto;
+            margin-right: auto;
+        }
     }
 }
 
-@media (min-width: 80em) {
-
-    figure:has(> .rfloat) {
+@media (min-width: 90em) {
+    aside, figure:has(> .rfloat) {
         position: absolute;
         left: 100%;
         width: 20em;

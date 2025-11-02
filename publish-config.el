@@ -67,11 +67,11 @@
 ;; Export configuration
 (setq
  org-export-backends '(html)
- org-export-default-language "en-gb"
  org-export-global-macros '(("summary" . "#+html: <summary>$1$2$3$4$5$6$7$8$9</summary>"))
  org-export-with-section-numbers nil
  org-export-with-toc nil
- org-export-with-title nil)
+ org-export-with-title nil
+ org-export-with-smart-quotes t)
 
 (with-eval-after-load 'ox-html
   (defun org-html-section (section contents info)

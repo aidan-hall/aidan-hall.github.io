@@ -5,7 +5,7 @@
 * Vanilla Org
 In keeping with [[file:emacs-philosophy.org][my Emacs philosophy]], I try to avoid using packages
 like [[https://github.com/org-roam/org-roam][org-roam]] that significantly extend the capabilities of Org, or
-even ones like [[https://github.com/protesilaos/denote][Denote]][fn:1] that primarily serve to complement it.
+even ones like [[file:../blog/removed-denote.org][Denote]] that primarily serve to complement it.
 This is especially important for the long-term stability of this
 website: I still want to be able to build the site from source 10
 years from now.
@@ -79,6 +79,3 @@ the file they are in.
 While ~org-capture~ defines the schema of the database, [[info:org#Agenda Views][~org-agenda~]] provides the views to manipulate it at a high level. From prior experience using Agenda, I knew that the global TODO entries view was useless, since it immediately becomes unmanageable once you have more than about 20 incomplete tasks. Instead, I predominantly use the [[info:org#Weekly/daily agenda]["Daily agenda" view]]. This it much easier to manage large numbers of tasks, since I can re-schedule any tasks I can't or don't want to deal with to a later date, and they disappear from the view. Only headlines with active timestamps are included in the Daily agenda, so I have configured all the relevant capture templates to automatically timestamp new entries, marked as a deadline or scheduled start time for tasks.
 
 # TODO: Discuss Wiki. The concept is not yet fully-formed yet, so I might drop it.
-
-* Footnotes
-[fn:1] See my blog post on [[file:../blog/removed-denote.org][removing Denote from the website]]. 

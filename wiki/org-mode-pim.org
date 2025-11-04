@@ -1,0 +1,84 @@
+#+title: Personal Information Management with Org Mode
+#+date: [2025-11-04 Tue 20:28]
+#+filetags: :org:pim:
+
+* Vanilla Org
+In keeping with [[file:emacs-philosophy.org][my Emacs philosophy]], I try to avoid using packages
+like [[https://github.com/org-roam/org-roam][org-roam]] that significantly extend the capabilities of Org, or
+even ones like [[https://github.com/protesilaos/denote][Denote]][fn:1] that primarily serve to complement it.
+This is especially important for the long-term stability of this
+website: I still want to be able to build the site from source 10
+years from now.
+
+* Journal
+From 2023 to 2025, I used a [[https://bulletjournal.com][Bullet Journal]] (BuJo) for tracking my
+time-sensitive tasks and plans. This worked better than the more
+structured planner previously, and is the only paper-based
+productivity system I could recommend, since you can adopt it with [[https://www.amazon.co.uk/s?k=bullet+journal][a
+cheap notebook (that you might already have)]] and [[https://www.youtube.com/watch?v=fm15cmYU0IM][a 4 minute Youtube
+video]].
+
+After starting a new job, I started using Org in place of the BuJo.
+The primary components of the BuJo are lists of tasks, notes and
+events, for each month and day. Initially, I tried to manually
+maintain a headline structure with one headline for each day or month,
+and the relevant tasks, notes and events as headlines underneath.
+This quickly became unmanageable, since I spent a long time managing
+the structure, and flipping between the headlines for the current day
+and month.
+
+I have now developed a better workflow, that leverages Org's
+capabilities, and the strengths of the digital medium. The (highly
+unoriginal) key tenet of my new approach is to treat a collection of
+Org files as a plain-text database, prioritising search, and
+minimising the effort required to add and update its contents.
+
+** Capture
+
+I use [[info:org#Capture][~org-capture~]], with [[https://gitlab.com/aidanhall/zen-emacs/-/blob/48414f43adc455caff2ce8d5eb72136d4a0b995f/init.el#L328][a set of capture templates]] that all have the
+~file+olp+datetree~ target type. Any entry created with these
+templates is automatically inserted under the relevant day, in a year
+> month > day headline hierarchy in a single journal.org file. This
+automatic outlining reduces the friction involved with creating a new
+note: I can hit ~C-c c t~ and immediate create a headline for a new
+TODO item (task) at the right place in the hierarchy.
+
+#+begin_aside
+A common talking point in favour of physical note-taking is that the
+laborious act of writing and copying tasks by hand forces the brain
+into a more deliberate, contemplative state, that allows you to focus
+more effectively. From experience, this is probably true, but I'm not
+sure it helped me focus on the task as much as the act of note-taking,
+which isn't inherently productive.
+#+end_aside
+
+One potential issue I encountered with this system is that I may
+sometimes create entries that refer to events or tasks in the future
+under the headline for the current day. Fortunately, the
+~org-datetree-cleanup~ command can automatically refile any headlines
+with timestamps appropriately.
+
+Note that unlike in a BuJo, there is no separation between small tasks
+for the current day, long-term planning, and events I need to remember
+in the far future. It is unnecessary.
+
+# TODO: Expand on archiving.
+
+** Project Notes and Refiling
+
+While I keep most of my notes in the journal.org file, I also
+maintain separate Org files for large, ongoing projects. Each file has
+a top-level "Tasks" heading, which I can refile tasks under from the
+journal.org file. This makes it easier to refer back to tasks that may
+take months to complete, and makes them easier to distinguish in the
+Agenda view, since entries are automatically tagged with the name of
+the file they are in.
+
+** Agenda
+
+While ~org-capture~ defines the schema of the database, [[info:org#Agenda Views][~org-agenda~]] provides the views to manipulate it at a high level. From prior experience using Agenda, I knew that the global TODO entries view was useless, since it immediately becomes unmanageable once you have more than about 20 incomplete tasks. Instead, I predominantly use the [[info:org#Weekly/daily agenda]["Daily agenda" view]]. This it much easier to manage large numbers of tasks, since I can re-schedule any tasks I can't or don't want to deal with to a later date, and they disappear from the view. Only headlines with active timestamps are included in the Daily agenda, so I have configured all the relevant capture templates to automatically timestamp new entries, marked as a deadline or scheduled start time for tasks.
+
+# TODO: Discuss Wiki. The concept is not yet fully-formed yet, so I might drop it.
+
+* Footnotes
+[fn:1] See my blog post on [[file:../blog/removed-denote.org][removing Denote from the website]]. 

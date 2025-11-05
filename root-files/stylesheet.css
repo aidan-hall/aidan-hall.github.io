@@ -1,3 +1,6 @@
+@import url("/fonts/computer-modern/serif.css");
+@import url("/fonts/computer-modern/typewriter.css");
+
 :root {
     --bubble-border-radius: 5px;
     --bubble-border: 1px solid;
@@ -9,7 +12,7 @@
 /* § Universal */
 
 body {
-    font-family: FreeSerif, Times, "Times New Roman", serif;
+    font-family: "Computer Modern Serif";
     line-height: 1.2;
     max-width: 60em;
     margin: auto;
@@ -116,6 +119,7 @@ dt {
 /* Code */
 pre,
 code {
+    font-family: "Computer Modern Typewriter";
     background-color: var(--accent-background);
     border-radius: 4px;
 }

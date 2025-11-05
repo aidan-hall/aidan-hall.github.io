@@ -16,12 +16,22 @@ how this works, check out my [[file:blog/first-blog-post-with-org.org][First Blo
 :HTML_CONTAINER_CLASS: index-spread
 :END:
 ** Here
+Pages on this site.
 - [[file:blog][Blog]]
 - [[file:wiki][Wiki]]
 - [[file:talks.org][Talks]]
 
 ** Elsewhere
+My extended web presence.
 - [[https://github.com/aidan-hall][GitHub]]
-- [[https://gitlab.com/aidanhall][GitLab]]
+- [[https://rateyourmusic.com/~Argletrough][RYM]]
 - [[https://aidan-hall.itch.io/][Itch.io]]
-- [[https://aidanhall.gitlab.io][My old website]]
+- [[https://aidanhall.gitlab.io][Old Website]]
+
+** Others
+People I find interesting.
+- [[https://nullprogram.com][null program]]
+- [[https://protesilaos.com][Prot]]
+- [[https://thephd.dev][ThePhD.dev]]
+- [[https://ploum.net][Ploum]]
+

@@ -12,7 +12,7 @@
 /* § Universal */
 
 body {
-    font-family: "Computer Modern Serif";
+    font-family: "Computer Modern Serif", FreeSerif, Times, "Times New Roman", serif;
     line-height: 1.2;
     max-width: 60em;
     margin: auto;
@@ -45,6 +45,7 @@ h1 {
     font-size: 2em;
     text-wrap: balance;
     text-align: center;
+    padding-right: 0.2em;
 }
 h3 {
     font-style: italic;

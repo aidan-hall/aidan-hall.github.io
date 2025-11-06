@@ -300,7 +300,6 @@ footer p {
 
 /* Maths */
 .maths {
-    font-family: Latin Modern, Computer Modern, Times New Roman, math, serif;
     font-size: 110%;
     font-style: italic;
 }

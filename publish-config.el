@@ -111,8 +111,9 @@ holding contextual information."
                  (postamble "footer" "postamble"))
  org-html-link-up "./"
  org-html-home/up-format "
+<a href=\"#content\" class=\"skip-to-content float-bubble\">Skip to content</a>
 <nav>
-<ul id=\"navigation\">
+<ul id=\"navigation\" class=\"float-bubble\">
 <li><a href=\"%2$s/\" >🏡 Home</a></li>
 <li><a href=\"%2$s/blog\" >📔 Blog</a></li>
 <li><a href=\"%2$s/wiki\" >🧠 Wiki</a></li>
@@ -125,7 +126,7 @@ holding contextual information."
  org-html-postamble "Last modified: %C.
 Created with %c.
 <a href=\"#content\">🔝</a>"
- org-html-footnotes-section "<section id=\"footnotes\">
+ org-html-footnotes-section "<section id=\"footnotes\" class=\"float-bubble\">
 <h2 class=\"footnotes\">%s: </h2>
 <div id=\"text-footnotes\">
 %s

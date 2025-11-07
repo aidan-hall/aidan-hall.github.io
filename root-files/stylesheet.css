@@ -60,7 +60,7 @@ h6 {
 }
 
 .skip-to-content {
-    left: -999px;
+    left: -100%;
     position: absolute;
     top: auto;
     overflow: hidden;
@@ -68,11 +68,9 @@ h6 {
 
 .skip-to-content:focus,
 .skip-to-content:active {
-    left: auto;
+    left: 0;
     overflow: auto;
     z-index: 999;
-    border-radius: var(--bubble-border-radius);
-    background-color: var(--accent-background);
 }
 
 hr {
@@ -223,7 +221,7 @@ div.footdef {
 }
 
 /* Floating bubbles/notes */
-#navigation, #footnotes, aside {
+aside, .float-bubble {
     box-shadow: var(--float-shadow);
     border-radius: var(--bubble-border-radius);
 }

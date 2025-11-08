@@ -26,8 +26,8 @@
 (defun source-dir (&rest subdirs)
   (apply 'file-name-concat website-dir subdirs))
 
-(defvar website-export-dir (file-name-concat (file-name-parent-directory website-dir)
-                                             "orgsite-html")
+(defvar website-export-dir (file-name-concat website-dir
+                                             "public")
   "The base export directory for the website.")
 
 (defun export-dir (&rest subdirs)
@@ -154,7 +154,6 @@ Created with %c.
 
 (defun blog-publish-sitemap (title list)
   "Sitemap for a blog, with given TITLE and LIST of posts."
-  (print list)
   (concat "#+title: " title "\n"
           "#+date: [" (format-time-string "%F %R" (current-time)) "]\n\n"
           "[[file:atom.xml][@@html:<img src=\"/files/pics/feed-icon.webp\"/>@@ Feed]]\n\n"

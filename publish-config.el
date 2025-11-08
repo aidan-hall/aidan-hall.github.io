@@ -34,7 +34,7 @@
   (apply 'file-name-concat website-export-dir subdirs))
 
 (setq org-html-link-home
-      "/"
+      "https://aidanhall.xyz"
       ;; "http://localhost:8000"
       )
 
@@ -83,8 +83,7 @@
  org-html-container-element "section"
  org-html-head-include-default-style nil
  org-html-metadata-timestamp-format "%-d %b %Y, %R"
- org-html-head "<base href=\"aidanhall.xyz/orgsite\" />
-<link rel=\"stylesheet\" type=\"text/css\" href=\"/stylesheet.css\" />"
+ org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/stylesheet.css\" />"
  org-html-divs '((preamble "header" "preamble")
                  (content "main" "content")
                  (postamble "footer" "postamble"))

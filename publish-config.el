@@ -75,30 +75,6 @@
  org-export-with-title nil
  org-export-with-smart-quotes t)
 
-(with-eval-after-load 'ox-html
-  (defun org-html-section (section contents info)
-    "Transcode a SECTION element from Org to HTML.
-CONTENTS holds the contents of the section.  INFO is a plist
-holding contextual information."
-    (let ((parent (org-element-lineage section 'headline)))
-      ;; Before first headline: no container, just return CONTENTS.
-      (if (not parent) contents
-        ;; Get div's class and id references.
-        (let* ((class-num (+ (org-export-get-relative-level parent info)
-			     (1- (plist-get info :html-toplevel-hlevel))))
-	       (section-number
-	        (and (org-export-numbered-headline-p parent info)
-		     (mapconcat
-		      #'number-to-string
-		      (org-export-get-headline-number parent info) "-"))))
-          ;; Build return value.
-	  (format "<section class=\"outline-text-%d\" id=\"text-%s\">\n%s</section>\n"
-		  class-num
-		  (or (org-element-property :CUSTOM_ID parent)
-		      section-number
-		      (org-export-get-reference parent info))
-		  (or contents "")))))))
-
 ;; HTML Configuration
 (setq
  org-html-doctype "html5"

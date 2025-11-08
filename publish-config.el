@@ -17,22 +17,24 @@
 ;;; Code:
 (require 'org)
 (require 'ox-html)
+(require 'ox-publish)
 
 ;; Paths
-(defvar website-dir (file-truename "~/Documents/websites/orgsite/")
+(defvar website-dir default-directory
   "The base source directory for the website.")
 
 (defun source-dir (&rest subdirs)
   (apply 'file-name-concat website-dir subdirs))
 
-(defvar website-export-dir (file-truename "~/Documents/websites/orgsite-html")
+(defvar website-export-dir (file-name-concat (file-name-parent-directory website-dir)
+                                             "orgsite-html")
   "The base export directory for the website.")
 
 (defun export-dir (&rest subdirs)
   (apply 'file-name-concat website-export-dir subdirs))
 
 (setq org-html-link-home
-      "https://argletrough.neocities.org"
+      "/"
       ;; "http://localhost:8000"
       )
 
@@ -105,7 +107,8 @@ holding contextual information."
  org-html-container-element "section"
  org-html-head-include-default-style nil
  org-html-metadata-timestamp-format "%-d %b %Y, %R"
- org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/stylesheet.css\" />"
+ org-html-head "<base href=\"aidanhall.xyz/orgsite\" />
+<link rel=\"stylesheet\" type=\"text/css\" href=\"/stylesheet.css\" />"
  org-html-divs '((preamble "header" "preamble")
                  (content "main" "content")
                  (postamble "footer" "postamble"))
@@ -114,9 +117,9 @@ holding contextual information."
 <a href=\"#content\" class=\"skip-to-content float-bubble\">Skip to content</a>
 <nav>
 <ul id=\"navigation\" class=\"float-bubble\">
-<li><a href=\"%2$s/\" >🏡 Home</a></li>
-<li><a href=\"%2$s/blog\" >📔 Blog</a></li>
-<li><a href=\"%2$s/wiki\" >🧠 Wiki</a></li>
+<li><a href=\"/\" >🏡 Home</a></li>
+<li><a href=\"/blog\" >📔 Blog</a></li>
+<li><a href=\"/wiki\" >🧠 Wiki</a></li>
 <li><a href=\"%1$s\" >📇 Index</a></li>
 </ul></nav>"
  org-html-preamble "<h1 class=\"title\">%t</h1>

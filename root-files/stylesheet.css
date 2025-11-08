@@ -1,6 +1,3 @@
-@import url("/fonts/computer-modern/serif.css");
-@import url("/fonts/computer-modern/typewriter.css");
-
 :root {
     --bubble-border-radius: 5px;
     --bubble-border: 1px solid;

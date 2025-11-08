@@ -86,12 +86,12 @@
  org-html-head "
 <link href=\"/stylesheet.css\" rel=\"stylesheet\" />
 <link href=\"/fonts/computer-modern/serif.css\" rel=\"stylesheet\" />
-<link href=\"/fonts/computer-modern/CMUSerif-Roman.woff2\" rel=\"preload\" as=\"font\" type=\"font/woff2\" />
-<link href=\"/fonts/computer-modern/CMUSerif-Bold.woff2\" rel=\"preload\" as=\"font\" type=\"font/woff2\" />
-<link href=\"/fonts/computer-modern/CMUSerif-Italic.woff2\" rel=\"preload\" as=\"font\" type=\"font/woff2\" />
-<link href=\"/fonts/computer-modern/CMUSerif-BoldItalic.woff2\" rel=\"preload\" as=\"font\" type=\"font/woff2\" />
+<link href=\"/fonts/computer-modern/CMUSerif-Roman.woff2\" rel=\"preload\" as=\"font\" type=\"font/woff2\" crossorigin />
+<link href=\"/fonts/computer-modern/CMUSerif-Bold.woff2\" rel=\"preload\" as=\"font\" type=\"font/woff2\" crossorigin />
+<link href=\"/fonts/computer-modern/CMUSerif-Italic.woff2\" rel=\"preload\" as=\"font\" type=\"font/woff2\" crossorigin />
+<link href=\"/fonts/computer-modern/CMUSerif-BoldItalic.woff2\" rel=\"preload\" as=\"font\" type=\"font/woff2\" crossorigin />
 <link href=\"/fonts/computer-modern/typewriter.css\" rel=\"stylesheet\" />
-<link href=\"/fonts/computer-modern/CMUTypewriter-Regular.woff2\" rel=\"preload\" as=\"font\" type=\"font/woff2\" />"
+<link href=\"/fonts/computer-modern/CMUTypewriter-Regular.woff2\" rel=\"preload\" as=\"font\" type=\"font/woff2\" crossorigin />"
  org-html-divs '((preamble "header" "preamble")
                  (content "main" "content")
                  (postamble "footer" "postamble"))

@@ -120,7 +120,7 @@ dt {
 /* Code */
 pre,
 code {
-    font-family: "Computer Modern Typewriter";
+    font-family: "Computer Modern Typewriter", Courier, monospace;
     background-color: var(--accent-background);
     border-radius: 4px;
 }

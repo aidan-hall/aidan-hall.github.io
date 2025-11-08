@@ -25,3 +25,10 @@ It is not intended for general use, but you can have a look if you like.
 It generates an Atom feed as a sitemap.
 
 I have chosen to use the RSS logo ([[file:../files/pics/feed-icon.webp]]) to represent my feeds, despite the fact that Atom has its own, [[https://en.wikipedia.org/wiki/Atom_(web_standard)][much cooler]] logo. Unfortunately, the Atom logo is much harder to recognise at the small size I would want to display it, and less well-known overall, compared to the RSS logo.
+
+** Hosting
+The sources for this website are in [[https://gitlab.com/aidanhall/orgsite][a public GitLab repository]], and the site itself is currently hosted using [[https://docs.gitlab.com/user/project/pages/][GitLab pages]]. Past forms of this site have been hosted on:
+- GitHub pages,
+- Neocities,
+- a Raspberry Pi,
+- my university CS department's Linux server.

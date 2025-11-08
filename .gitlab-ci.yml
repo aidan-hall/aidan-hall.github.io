@@ -6,8 +6,8 @@
 
 # Full project: https://gitlab.com/pages/plain-html
 before_script:
-  - apk update
-  - apk add emacs
+  - apt update -y
+  - apt install -y emacs
 
 pages:
   stage: deploy

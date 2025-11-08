@@ -5,4 +5,4 @@ While Emacs and Org-Mode are certainly a less stable basis than Make and Markdow
 
 I will also attempt to use just the built-in project mechanism to whatever extent is possible.
 
-I could attempt to move over the content of my old blog (which is the product of countless hours of work), but the exact formatting of those files is heavily dependent on the bespoke build system I created for it, so I will probably just keep an archived version of the old website available at a subdomain (assuming this one replaces it at https://aidanhall.gitlab.io).
+I could attempt to move over the content of my old blog (which is the product of countless hours of work), but the exact formatting of those files is heavily dependent on the bespoke build system I created for it, so I will probably just keep an archived version of the old website available at a subdomain (assuming this one replaces it at [[https://aidanhall.gitlab.io]]).

@@ -1,7 +1,0 @@
-#+title: This Website FINALLY has an Atom Feed
-#+date: [2025-10-31 Fri 22:37]
-#+description: Pointless noise that generates a feed entry.
-
-RSS is /so/ 2004, and all readers that matter support both.
-See [[file:../wiki/website-tech-stack.org::#atom-feed][this section of my tech stack page]] for more information.
-

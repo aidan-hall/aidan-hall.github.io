@@ -1,2 +1,6 @@
+(package-initialize)
+(package-refresh-contents)
+(package-install 'htmlize)
+(require 'htmlize)
 (load (file-name-concat default-directory "publish-config.el"))
 (org-publish-all t)

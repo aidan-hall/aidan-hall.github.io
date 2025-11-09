@@ -1,4 +1,5 @@
 #+title: Quotes
+#+date: [2025-05-31 Sat 11:22]
 #+description: Miscellaneous interesting CS quotes.
 
 Here is a collection of interesting quotes related to Computer Science that I have found over the years.

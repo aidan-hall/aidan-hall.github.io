@@ -97,14 +97,14 @@
                  (postamble "footer" "postamble"))
  org-html-link-up "./"
  org-html-home/up-format "
-<a href=\"#content\" class=\"skip-to-content float-bubble\">Skip to content</a>
 <nav>
-<ul id=\"navigation\" class=\"float-bubble\">
-<li><a href=\"/\" >🏡 Home</a></li>
-<li><a href=\"/blog\" >📔 Blog</a></li>
-<li><a href=\"/wiki\" >🧠 Wiki</a></li>
-<li><a href=\"%1$s\" >📇 Index</a></li>
-</ul></nav>"
+<div id=\"navigation\" class=\"float-bubble\">
+<a href=\"/\" >🏡 Home</a>
+<a href=\"/blog\" >📔 Blog</a>
+<a href=\"/wiki\" >🧠 Wiki</a>
+<a href=\"%1$s\" >📇 Index</a>
+</div>
+</nav>"
  org-html-preamble "<h1 class=\"title\">%t</h1>
 <p class=\"subtitle\">%s</p>
 <p class=\"blogdate\">%d</p>"

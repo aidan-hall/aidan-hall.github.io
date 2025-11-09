@@ -1,0 +1,67 @@
+#+title: Justified Text: All the Cool Kids should use it!
+#+date: [2021-07-06 10:35]
+This post is best viewed on a wide screen.
+
+* Introduction
+Something I've come to like from a decent amount of time spent using
+LATEX and Groff is that text is justified by default. This means that
+spaces are widened so the lines of text are all the same width, creating
+a uniform right margin. This is the standard in books, and I think it
+looks rather nice. It certainly doesn't seem to hurt readability,
+although I can't say that it improves readability either. Overall, I
+think it gives the writing a look of professionalism, regardless of
+whether it deserves it.
+
+Of course, justified text only really matters for larger paragraphs,
+which are decidedly less common on social media sites where short
+messages of at most a few sentences, with little or no formatting, are
+favoured. The next paragraph is left-aligned (the HTML default) to
+demonstrate how much less aesthetically pleasing it is.
+
+#+attr_html: :style text-align: left
+Amet harum natus quo numquam explicabo? Maiores perferendis aut
+necessitatibus suscipit sint Accusantium totam ipsa commodi eveniet
+ullam ipsa Est obcaecati eos tenetur modi libero. Laborum obcaecati
+porro esse tenetur magni Vero nihil similique cum dignissimos autem
+minima Neque incidunt dignissimos rerum voluptas sed ab. Eligendi minima
+placeat ut assumenda!
+
+* Using It
+Fortunately, justified text is easy to enable in a variety of text
+formatting applications.
+
+** LATEX and Groff
+Justified text is the default. That's for a reason.
+
+** HTML + CSS
+Apply the =text-align: justify= style to any tag which will contain
+paragraphs of text (so probably =<p>=).
+
+** Word Processors
+The menu option is usually simple enough to locate, and the key binding
+in Libre Office and Microsoft Office is Ctrl + J.
+
+** Emacs
+While some aggressive auto-justification mode probably exists, the
+current paragraph may be justified by running =fill-paragraph= with a
+prefix argument: C-1 M-q. This can be nice for slightly longer
+paragraphs in Org documents.
+
+* Downsides
+
+#+attr_html: :style max-width: 11em; text-align: justify
+Text justification algorithms break down when lines are very narrow.
+
+This matters most for web content, which may have to be displayed in a
+narrow format, for example, on a phone screen. On this site, I keep the
+formatting simple, so a paragraph will usually be the only thing in its
+horizontal space. I also disable exceptions to this (notably
+=float:right= content) for narrower screens, using an =@media= query in
+[[../stylesheet.css][my style sheet]].
+
+Text will also fill the space available, which may make the content feel
+cramped in some cases, since there will be less space between the
+paragraph and anything to its right.
+
+* Conclusion
+I just think it's neat!

@@ -1,0 +1,55 @@
+#+title: An Emacs script to define repeat maps.
+#+date: [2022-05-17 21:46]
+
+Update [2025-11-09 Sun 14:26]: This script is obsolete since the introduction of =defvar-keymap= in Emacs 29.
+
+With lengthy key-chords and prefixes, a common desire among Emacs users
+is being able to access a set of related keybindings in quick
+succession, or just the same one repeatedly.
+
+A long-standing solution for repeating has been the =repeat= function,
+accessible via C-x z. However, more robust solutions for accessing
+collections of related bindings exist, including
+[[https://github.com/abo-abo/hydra][Hydra]]. The built-in =transient=
+package can also be used for repeated/grouped key-bindings, according to
+[[https://www.reddit.com/r/emacs/comments/mx6xs2/transient_vs_hydra/][this Reddit thread]].
+
+However, in Emacs 28, we got access to =repeat-mode=, which provides
+built-in standardised support for repeating a lot of common
+key-bindings, including window resizing and error list navigation.
+
+I investigated this and came up with a tiny ELisp script to add
+repeating keys based on =repeat-mode=:
+[[https://gitlab.com/aidanhall/repeat-map-define][repeat-map-define.el]].
+
+This was also, excitingly my first ‘proper' stand-alone ELisp script.
+Once you've loaded it, you can add keybindings like this:
+
+#+begin_src lisp
+(repeat-map-define
+ defun-repeat-map
+ '(
+   ("a" beginning-of-defun)
+   ("e" end-of-defun)
+   ))
+#+end_src
+
+Corresponding to the =global-map= feature of Hydra, we can bind a key to
+the map itself to get access to the bindings with a prefix:
+
+#+begin_src lisp
+(global-set-key (kbd "C-x c") defun-repeat-map)
+#+end_src
+
+Note the lack of a quote before the reference to =defun-repeat-map=,
+since the map only exists as a variable and not a function. If a
+function is desired, the following somewhat ugly workaround can be used.
+I got this from the definition of =vc-prefix-map=.
+
+#+begin_src lisp
+(fset 'defun-repeat-map defun-repeat-map)
+#+end_src
+
+I'm pleased with the results of this, and feel like it aligns well with
+my notion of ‘vanilla Emacs', which I discuss in
+[[file:../wiki/emacs-philosophy.org][my page about Emacs]].

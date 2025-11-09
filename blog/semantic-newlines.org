@@ -1,0 +1,111 @@
+#+title: Semantic Newlines in Plain Text Typesetting
+#+date: [2023-06-11 12:35]
+
+With computer typesetting systems like HTML and LATEX that take plain
+text input, paragraphs are separated by specific structures (e.g. =<p>=
+in HTML) and line filling is handled automatically, so the author is
+free to insert newlines within paragraphs and sentences as they please.
+The question that arises here is where to use newlines.
+
+* Never/Only After Paragraphs
+
+:Example:
+#+begin_example
+  With computer typesetting systems like HTML and LATEX that take plain text input, paragraphs are separated by specific structures and line filling is handled automatically, so the author is free to insert newlines within paragraphs and sentences as they please. The question that arises here is where to use newlines.
+#+end_example
+:END:
+
+This is the style in What You See Is What You Get (WYSIWYG) typesetting
+systems like Word, where a new line in the input is represented as a new
+line in the output. The primary issue with using this style for plain
+text typesetting is that you're most likely to be using an editor that
+has been optimised for code, which generally has lines no longer than
+100 characters. The level of support for very long lines varies between
+editors, although many can at least visually wrap long lines so all the
+text is visible, and a few actually provide WYSIWYG-style navigation for
+wrapped lines (e.g. Emacs' =visual-line-mode=).
+
+* Hard Filling
+
+:Example:
+#+begin_example
+  With computer typesetting systems like HTML and LATEX that
+  take plain text input, paragraphs are separated by specific structures
+  and line filling is handled automatically, so the author is free to
+  insert newlines within paragraphs and sentences as they please. The
+  question that arises here is where to use newlines.
+#+end_example
+:END:
+
+This is similar to the first strategy, but involves inserting new lines
+to keep lines below a certain length. Editors can do this automatically,
+both while typing (=auto-fill-mode=) and on a whole paragraph at once
+(=fill-paragraph=). The primary issue with this approach is that as you
+edit the text, the filling is damaged, requiring manual re-filling every
+so often. On the other hand, it's probably the most readable form for
+the plain-text source, since it flows naturally, and short lines are
+easier to read. It might make sense to convert the source text to this
+format once editing is mostly finished.
+
+The motivation for the following strategies is to use new lines to
+represent the semantic structure of the text, in a similar way to how
+they are used in programming languages like C: to convey meaning, and
+make editing easier through the use of line-wise editing commands.
+
+* After Sentences
+
+:Example:
+#+begin_example
+  With computer typesetting systems like HTML and LATEX that take plain text input, paragraphs are separated by specific structures and line filling is handled automatically, so the author is free to insert newlines within paragraphs and sentences as they please.
+  The question that arises here is where to use newlines.
+#+end_example
+:END:
+
+With this strategy, every sentence is on its own line. When working with
+inferior editors that don't have sentence-wise text motion support, this
+strategy has the advantage of allowing ad-hoc sentence editing.
+
+As an alternative, you can also use hard filling within sentences with
+this strategy, which removes the "sentence per line" structure, but is
+more readable. Each sentence is at least on its own set of lines, which
+is easier to work with than hard-filled text.
+
+* Semantic Newlines
+
+:Example:
+#+begin_example
+  With computer typesetting systems like HTML and LATEX,
+  that take plain text input,
+  paragraphs are separated by specific structures
+  and line filling is handled automatically,
+  so the author is free to insert newlines
+  within paragraphs and sentences
+  as they please.
+  The question that arises here is where to use newlines.
+#+end_example
+:END:
+
+By the name I'm giving this strategy, you may be able to tell that it's
+the one I'm shilling. In addition to putting newlines after the end of
+each sentence, use them to separate clauses/sub-structures within a
+sentence, and hard-fill long clauses. For example, put a newline after a
+comma terminating a long clause. The motivation for this method is that
+even sophisticated editors like Emacs don't have support for navigating
+/non-regular/ structures like clauses, so this extra structure makes it
+possible to arrange them for navigation as the author sees fit. The text
+almost ends up with a bullet-point list-like structure, with each line
+being a mostly self-contained unit of meaning. You're also likely to end
+up with some extra space after each line before the filling limit
+(80-100 characters), so you can extend a line a bit without needing to
+make a new one.
+
+The big downsides are that this has to be done manually, since the
+entire point is that sentence sub-structure is non regular, and text can
+get pretty hard to read if line lengths are inconsistent. There's also
+the "induced demand" problem caused by the increased ease of structuring
+sentences, that sentences can end up getting quite long, with many
+clauses, which can result in them being harder to read. I'm honestly not
+sure if this is really a good idea, especially since it's likely to
+distract from the task of writing; I'll find myself writing the first
+half of a second clause, then stopping to go back and put it on a new
+line since it's not going to fit.

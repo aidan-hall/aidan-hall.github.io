@@ -1,0 +1,156 @@
+#+title: Guaranteeing Invariants on Classes with Private Constructors and =friend=
+#+date: [2022-09-22 17:46]
+
+Thu 22 Sep 17:46:03 BST 2022
+
+I was going through some exercises in Operating System Concepts,
+(Silberschatz et al, 2014), and got to problem 3.13. The reader is asked
+to create a (process) ID manager, which tracks and allocates unique IDs,
+and can then have them returned for reuse.
+
+The author specifies the following API:
+
+#+begin_src C
+#define MIN_PID (300)
+#define MAX_PID (5000)
+
+// Returns "1 if unsuccessful, 1 if successful". [sic]
+int allocate_map(void);
+// Returns "1 if unable to allocate a pid".
+int allocate_pid(void);
+void release_pid(int pid);
+#+end_src
+
+I decided to instead write a C++ class with a similar API[fn:1]:
+
+#+begin_src cpp
+using Pid = int;
+
+class PidManager {
+  public:
+  PidManager(); // Equivalent of allocate_map()
+  std::optional<Pid> allocate();
+  void release(Pid);
+
+  private:
+  /* Implementation */
+};
+#+end_src
+
+Included in the problem are the requirements that the PIDs are in the
+range [300-5000]. Having implemented this, I realised it would be a good
+opportunity to explore approaches to implementing invariants in C++ (or,
+to be the reason a lot of people hate OO).
+
+* Invariants?
+Invariants are conditions on, or attributes of, an object that must hold
+true for its lifetime. In the case of a PID, we obviously have the
+following invariant:
+
+\(300 ≤ PID ≤ 5000\)
+
+* Assertions
+Where possible, it's a good idea to specify invariants etc. in code,
+since unlike comments, it will prevent the program from working if
+something didn't go as expected. The first, most obvious solution is to
+slap an assertion in any function that uses a =Pid=:
+
+#+begin_src cpp
+void PidManager::release(Pid pid) {
+  assert(MIN_PID <= pid && pid <= MAX_PID);
+  // (Release pid.)
+}
+std::optional<Pid> PidManager::allocate() {
+  Pid pid;
+  // (Obtain a value for pid.)
+  assert(MIN_PID <= pid && pid <= MAX_PID);
+  return pid;
+}
+#+end_src
+
+This can be cleaned up by making a =Pid= class, and putting this
+assertion in its constructor. If the internal representation is then
+protected from users by making it private or (my preference)
+constant[fn:2], we have the guarantee of the assertion anywhere a =Pid=
+is used.
+
+#+begin_src cpp
+struct Pid {
+  using Rep = int;
+
+  static constexpr Rep MIN = 300;
+  static constexpr Rep MAX = 5000;
+
+  const Rep rep;
+
+  explicit Pid(Rep representation) : rep{representation} {
+    assert(MIN <= rep && rep <= MAX);
+  }
+};
+#+end_src
+
+* Private Constructor
+A big problem with using assertions is that they are removed from
+release builds, so it's possible an invalid PID value could still slip
+through, if a situation that produces them isn't caught during testing.
+(I don't want to use exceptions because they are "mega cringe".)
+
+The source of our problems is that a =Pid= can be constructed anywhere,
+so it's impossible to completely ensure that an invalid one never is. A
+solution, as you may have guessed, is to make (all) the constructor(s)
+private. Now nobody can construct a =Pid=, so nobody can construct an
+invalid one!
+
+While this may seem satisfactory to functional programmers (/s), I'd
+like to actually be able to do something with my =Pid=. The compromise
+is to make =PidManager= a =friend=, so (only) it can access the private
+constructor. Then, all =Pid=s must be constructed within =PidManager=,
+so we just have to make sure it is done correctly there.
+
+#+begin_src cpp
+class PidManager;
+
+struct Pid {
+  // ...
+private:
+  explicit Pid(Rep representation) : rep{representation} {
+    assert(MIN <= rep && rep <= MAX);
+  }
+
+  friend class PidManager;
+};
+
+// ...
+std::optional<Pid> PidManager::allocate() {
+  // ...
+  Pid::Rep offset = /* sufficiently small to avoid overflow */;
+  Pid::Rep value = Pid::MIN + offset;
+  if (value > Pid::MAX) { // Don't need to test lower bound.
+    return std::nullopt;
+  } else {
+    // (Encode the fact that the PID is assigned.)
+    return Pid(value);
+  }
+}
+#+end_src
+
+As this example demonstrates, we end up back with a test for part of the
+invariant in the =allocate()= method (as opposed to =Pid=). This is
+fine, since thanks to the private constructor, this is the only place a
+=Pid= will be created, and so the only place the invariant needs to be
+guaranteed. The code that generates =offset= (which I have omitted for
+brevity) ensures that it will not be large enough to cause integer
+overflow when added to =Pid::MIN=. As a result, we only need to test
+that =Pid::MAX= is not exceeded.
+
+[fn:1]  Hot tip: if your API isn't sufficiently obvious just based on
+       the types of the parameters and procedure names, it's /not good/.
+       Even if you just make a =using=/=typedef= alias for =int= or
+       something, using that definition means it would be easy to change
+       the underlying type later. This also provides semantic meaning
+       through the type system.
+
+[fn:2]  Having a public, constant member variable removes the need for
+       getters (just read the value) and setters (can't assign to
+       const), which I find horrendously ugly as a programming
+       construct.

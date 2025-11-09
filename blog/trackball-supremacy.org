@@ -1,0 +1,89 @@
+#+title: I Believe in Trackball Supremacy
+#+date: [2021-08-10 11:32]
+
+I recently purchased a trackball, specifically the /Kensington Orbit
+with Scroll Ring/. It is the closest to entry-level that finger-operated
+trackballs get, at least while maintaining quality.
+
+After tweaking its sensitivity and acceleration, I was able to use it
+with a decent level of precision and speed. They are undeniably a little
+trickier to use than mice, and definitely have a learning curve, but the
+upsides of using a trackball are pretty much everything except moving
+the cursor.
+
+* Desk Space and Conditions
+Although trackballs (especially finger-operated ones) are larger than
+mice, the actual space they need to be used will often be less than that
+of a mouse, since the mouse must also have space to move around.
+Furthermore, the solution to increase accuracy with a mouse is often to
+increase this operating space even further. By contrast, the space
+needed to operate the trackball will never exceed its footprint, plus a
+bit of space around it for the hand.
+
+This allows a trackball to be used on a small desk without sacrificing
+performance, although I'd prefer the stability and compactness of a
+pointing stick, or even a trackpad, when working in a moving vehicle or
+with no flat surface whatsoever.
+
+In addition, a trackball will work the same regardless of the condition
+of the surface it is on, outside of how level and hard it is. By
+contrast, many mice struggle on plain or light surfaces, although newer
+sensor technology does apparently allow some to even work on glass,
+nearly approaching the flexibility of a trackball.
+
+However, the real convenience of not needing to move the trackball comes
+from being able to have things on the right side of my desk without them
+getting in the way. These could include notebooks, parts for a hardware
+project, or even a cup of tea!
+
+* Gaming and Pointer Settings
+I don't think it would even be worth trying to game with a trackball,
+especially in a first-person shooter where rapid flicking and precise
+tracking can be essential for doing well. This is one respect where mice
+are superior, so I keep my mouse plugged in for when I do want to play
+something.
+
+The thing is, I have lowered my mouse's sensitivity to the point where
+it has to move a third of the way across my /entire desk/ for the
+pointer to traverse the screen. I have also disabled pointer
+acceleration for it, since this makes aiming more precise. These mean
+that moving the cursor with the mouse is an act of physical exertion
+that can be hard to sustain for more than a few hours, which is,
+fortunately, about as long as I would want to play a game for.
+
+For most other tasks, instant precision is not as important as
+minimising strain, so it would be preferable to not have the mouse
+configured in this way most of the time. However, this could confuse my
+muscle-memory for gaming, which would not be ideal. Instead, I can use
+the trackball for most everyday pointing tasks, consisting of clicking a
+few large buttons or at worst selecting text, with a more comfortable
+sensitivity and pointer acceleration enabled. Acceleration is actually
+preferable for a trackball, since it allows you to quickly move the
+cursor large distances by spinning the ball hard, and to slow down to
+individual pixels when necessary, without changing the base speed.
+
+* A Keyboard-Centric Workflow
+For many years, I have developed a keyboard-centric workflow, allowing
+me to perform most basic tasks without my hands leaving the keyboard.
+The trackball fits quite nicely into this, since it is serviceable for
+the few buttons I will still occasionally need to click, and can always
+stay close to the keyboard because I don't need to move it. The only
+pointing device that does this better is a TrackPoint, which is embedded
+into the keyboard itself.
+
+The cursor is also less likely to be moved randomly if the trackball is
+accidentally bumped, which makes its positioning feel more stable.
+
+* Comfort and Muscle Memory
+I don't have to tense all the muscles in my arm to use a trackball, I
+can simply rest my hand on the shell and idly flick the ball a few times
+to get the cursor to where it needs to be. While I could improve the
+ergonomics of my mouse configuration, keeping it in the mode most suited
+to gaming (and only using it for that) helps to separate the muscle
+memory for how I move the 'cursor' in a game as opposed to when I am
+doing normal work.
+
+* Final Note
+Yes, I did just copy a lot of
+[[http://xahlee.info/kbd/trackball_vs_mouse.html][Xah Lee]]'s opinions;
+it's what I do!

@@ -1,0 +1,44 @@
+#+title: Emacs GUI Decorations
+#+date: [2022-05-16 14:13]
+
+Emacs comes with a few nice, almost friendly GUI features.
+
+* =menu-bar-mode=
+The typical ‘File, Edit, Options...' menu at the top. Very useful for
+discovering functions in new modes, or for accessing unusual stuff you
+don't have a key-binding for.
+
+* =tool-bar-mode=
+Buttons for very common tasks. The standard tool-bar has buttons for the
+most basic editing tasks, which can almost always be more easily
+accessed with the associated keybindings. If you have =tooltip-mode= on,
+hovering over the buttons displays these keybindings (if available), so
+it is common practice to turn the tool bar off once you are fairly
+comfortable in Emacs.
+
+However, there are a few context-sensitive tool bars, including for
+=*Help*= and =*info*= buffers, which can make navigating much easier.
+
+There is also the debugger tool-bar for =gud=, which I consider
+absolutely essential if you ever use a =gud=-based debugger (notably the
+=gdb= interface).
+
+* =scroll-bar-mode=
+Scroll bars. This one seems to be popular to disable alongside the
+previous two, but I don't see why. You lose maybe two columns of
+characters at the right side of the screen, which your code should be
+staying away from anyway, and gain a useful visualisation of where you
+are in the document, as well as a way to quickly navigate in a way most
+computer users will understand.
+
+* =context-menu-mode=
+A newer one, which adds a right-click menu that includes just about what
+you'd expect, including contextual actions for certain modes. I have
+this enabled, but removed its binding of the =<menu>= key, since its
+default binding of =execute-extended-command= (same as M-x) is much more
+useful in my opinion:
+
+#+begin_src lisp
+(assoc-delete-all 'menu context-menu-mode-map)
+(context-menu-mode 1)
+#+end_src

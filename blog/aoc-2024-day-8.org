@@ -1,0 +1,35 @@
+#+title: AoC in C++ Data Structures and Algorithms: Day 8 (=multimap=)
+#+date: [2024-12-08 10:27]
+
+At this point I should probably accept that standard algorithms were
+only ever going to carry me through the first few days. However, bearing
+in mind that
+[[https://en.wikipedia.org/wiki/Algorithms_%2B_Data_Structures_%3D_Programs][Algorithms + Data Structures = Programs]],
+I thought I'd focus on the real star of the show today:
+[[https://en.cppreference.com/w/cpp/container/multimap][=std::multimap=]].
+
+I don't see the multimap/multiset/bag containers get discussed a lot,
+probably because they're pretty niche. They can contain multiple of the
+same element (or key in the case of maps), which is often what we are
+trying to avoid when we reach for a map or set (as I did later in this
+problem). The use-cases of, for example, =multimap<key, value>= also
+overlap a lot with structures like =map<key, set<value>>=.
+
+In today's solution, I used a =multimap<char, pair<int, int>>= to store
+the locations of all the towers, with frequency as the key. Once we have
+this, we can iterate forwards over the multimap and compare all pairs of
+towers that have the same frequency. Since =std::multimap= is
+sorted/grouped by key, we usually avoid the \(O(n^2)\) worst-case time
+complexity this algorithm would produce with most other data structures.
+
+Note that the "non-unordered" map and set data structures use trees, not
+hash-maps, so the unordered variants are preferable where possible. I
+used a =set= instead of an =unordered_set= to store the antinode
+positions because C++ does not provide hashing functions for composite
+data structures like pairs.
+
+My solutions for parts 1 & 2 are mostly the same; once we're iterating
+over pairs of towers, it's easy to just loop over all the positions
+where a given pair could create an antinode. I haven't remembered to
+mention this in every post, but all my solutions are
+[[https://gitlab.com/aidanhall/aoc-2024][here]].

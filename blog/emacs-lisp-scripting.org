@@ -1,0 +1,40 @@
+#+title: Emacs Lisp Scripting
+#+date: [2023-04-21 12:35]
+
+I saw a YouTube video a while ago about using Emacs Lisp for scripting,
+as opposed to using something normal like Bash. I wanted to count the
+number of times the strings "Text1" and "Text2" appeared in the output
+of a program, which would've been a little awkward to do with just
+=grep | wc=, so I wrote an awk script for it:
+
+#+begin_src sh
+./prog | awk '/Text1/{a=a+1;} /Text2/{b=b+1} END{print a, b}'
+#+end_src
+
+The original version was a little more verbose than this, including
+explicit declarations of =a= and =b=, but in the interest of fairness,
+I've trimmed it down to a fairly reasonable length.
+
+I then tried to come up with an Emacs Lisp implementation. With
+considerably more effort put in, I obtained the following solution. The
+general principle with Emacs Lisp text manipulation is to read the text
+into a buffer, then manipulate that.
+
+The least obvious part of this is that =shell-command= uses the current
+buffer when its second argument is non-=nil= and not a buffer, while
+=count-matches= uses the current buffer by default. Even with the trick
+of mapping =count-matches= over the strings to search for, it's
+considerably longer than the Awk implementation. Of course, this version
+is not without merit, since a string need only be added to the list to
+search for it too, whereas the awk version would need the pattern match,
+variable name to increment, and manual print.
+
+#+begin_src emacs-lisp
+(with-temp-buffer
+    (shell-command "./prog" t)
+    (map 'list 'how-many '("Text1" "Text2")))
+#+end_src
+
+I got obsessed with this for at least an hour, fully derailing the task
+for which I created the awk program, thus defeating the entire point of
+it being an ad hoc script.

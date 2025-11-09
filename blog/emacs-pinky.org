@@ -1,0 +1,14 @@
+#+title: I Got Emacs Pinky
+#+date: [2022-08-16 Tue 01:11]
+
+Yes, in just over a year. Laugh it up. Frankly I don't see quite why I
+persisted, even as the symptoms kept getting worse. My hot fix is 'just
+use Vim', and... yeah that's probably going to work isn't it?
+
+Something I'd slightly forgotten is the /immediacy/ with which Vim
+responds to input. This includes the NeoVim LSP client, which can do
+go-to-definition and finding references with no perceptible delay
+whatsoever.
+
+I can also safely shield myself from the sunk cost fallacy by
+remembering that my sunk cost for Vim is even greater!

@@ -1,0 +1,78 @@
+#+title: AoC in C++ Algorithms: Day 2 (=all_of= and =adjacent_find=)
+#+date: [2024-12-05 19:55]
+
+I'm writing this on day 5, and so far day 2 part 2 has been by far the
+hardest problem in AoC 2024 for me.
+
+Part 1 was reasonably straightforward: I could just compute the
+differences between all the levels and use =all_of= to test whether /all
+of them/ were safe. In retrospect, it might have been marginally more
+elegant to use =adjacent_find= (see my solution for part 2).
+
+Since the levels can either be increasing or decreasing, I used a
+ternary expression to select the predicate for testing safety, which
+made the solution very concise. Since every anonymous lambda has a
+different type (at least on my compiler) I first had to assign them to
+=std::function= variables to "normalise" the types. Very silly.
+
+#+begin_src cpp
+bool report_safe(const std::span<int> &levels) {
+  const auto diffs = std::views::zip_transform(
+      std::minus{}, levels | std::views::drop(1), levels);
+
+  std::function<bool(int)> inc = [](const auto diff) { return +1 <= diff && diff <= +3; };
+  std::function<bool(int)> dec = [](const auto diff) { return -1 >= diff && diff >= -3; };
+  return levels[0] != levels[1] &&
+         std::ranges::all_of(diffs, (levels[0] < levels[1]) ? inc : dec);
+}
+#+end_src
+
+The general algorithm for part 2 is similar, and conceptually simple:
+
+1. Iterate forwards until an unsafe interval, using =adjacent_find=.
+2. Verify that the rest of the report is safe, again with
+   =adjacent_find=.
+3. Determine whether removing either of the levels involved in the
+   unsafe interval will allow us to bridge the gap between them.o
+4. If that doesn't work, do the same but backwards, to handle reports
+   that are decreasing rather than increasing.
+
+What made this so hard was all the edge cases involved in step 3:
+
+#+begin_src cpp
+bool safe_inc(int a, int b) { return 1 <= (b - a) and (b - a) <= 3; }
+auto unsafe_inc = std::not_fn(safe_inc);
+
+bool damped_safe_inc(const std::ranges::random_access_range auto &levels) {
+  const auto pos = std::ranges::adjacent_find(levels, unsafe_inc);
+  if (pos == levels.end())
+    return true;
+  if (std::adjacent_find(pos + 2, levels.end(), unsafe_inc) == levels.end()) {
+    return (pos + 2 == levels.end() or safe_inc(pos[0], pos[2]) or
+            (safe_inc(pos[1], pos[2]) and
+             (pos == levels.begin() or safe_inc(pos[-1], pos[1]))));
+  }
+  return false;
+}
+
+bool damped_safe(const std::ranges::random_access_range auto &levels) {
+  if (std::size(levels) <= 2) {
+    return true;
+  } else if (damped_safe_inc(levels)) {
+    return true;
+  } else if (damped_safe_inc(levels | std::views::reverse)) {
+    return true;
+  }
+  return false;
+}
+#+end_src
+
+This was the first time I realised that you can use subscripts with
+random-access iterators, since they have the same syntax as pointers
+(and, of course, probably get converted to pointers by the compiler).
+
+One thing that made this solution especially nice was the realisation
+that a safe report where the levels are decreasing is the same as a safe
+report where the levels are increasing, but reversed. After realising
+this, I was able to use the same generic algorithm to handle both cases,
+using =std::views::reverse= to make it go backwards through the levels.

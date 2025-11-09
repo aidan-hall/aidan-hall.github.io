@@ -1,0 +1,22 @@
+#+title: AoC in C++ Algorithms: Day 5 (=is_sorted= and =nth_element=)
+#+date: [2024-12-05 20:40]
+
+I originally thought today's problem was a lot harder than it actually
+was, since I assumed the input only specified a partial ordering of the
+pages. An efficient solution in these conditions would require some
+clever breadth-first search graph traversal, or something similar. In
+fact, the input is a total ordering, since there is a precedence rule
+for every pair of pages. As such, I was able to create a strict ordering
+predicate for the pages, making
+[[https://gitlab.com/aidanhall/aoc-2024/-/blob/main/05-1.cpp][both]]
+[[https://gitlab.com/aidanhall/aoc-2024/-/blob/main/05-2.cpp][solutions]]
+trivial.
+
+The only element of these solutions that isn't obvious is the use of
+=nth_element=. For part 2, we want to know the middle page number for
+each unsorted report, after it has been sorted. We could fully sort the
+array, but it is more efficient to use the C++ =nth_element= algorithm.
+It is only required to rearrange the input so the element at a specified
+position is the one that would occur at that position if the input was
+sorted. It can do this in O(n) time! We only need to know the middle
+element of the sorted pages here, so it fits perfectly.

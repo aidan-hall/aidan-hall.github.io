@@ -1,0 +1,59 @@
+#+title: AoC in C++ Algorithms: Day 7 (=find_if=)
+#+date: [2024-12-07 21:57]
+
+Although I couldn't apply STL algorithms to the main logic of today's
+solution, since it was backtracking, I learned a lot about streams,
+iterators and ranges in the process of yak-shaving my input parsing
+code.
+
+I was able to apply =find_if= for trying different operators at each
+level of the backtracking search, at least!
+
+#+begin_src cpp
+// Concatenates the base-10 digits of a and b: a || b
+long concatenate(long a, long b) {
+  int n = 10;
+  while (n <= b) {
+    n *= 10;
+  }
+
+  return (a * n) + b;
+}
+
+const vector<function<long(long, long)>> ops1{multiplies{}, plus{}};
+const vector<function<long(long, long)>> ops2{multiplies{}, plus{},
+                                              concatenate};
+
+auto can_solve(long target, long accumulated, span<long> rest,
+               const vector<function<long(long, long)>> &ops) -> bool {
+
+  return accumulated <= target &&
+         (rest.empty() ? target == accumulated
+                       : (ops.end() != ranges::find_if(ops, [&](const auto op) {
+                            return can_solve(target, op(accumulated, rest[0]),
+                                             rest.subspan(1), ops);
+                          })));
+}
+#+end_src
+
+I also discovered this funny program that sends GCC into an infinite
+loop of template expansion until it hits the template size limit:
+
+#+begin_src cpp
+#include <ranges>
+#include <vector>
+#include <iostream>
+
+auto bogus_sum(const auto& nums) {
+  if (nums.begin() == nums.end()) {
+    return 0;
+  } else {
+    return nums[0] + bogus_sum(nums | std::views::drop(1));
+  }
+}
+
+int main() {
+  std::vector<int> x = {1, 2, 3};
+  std::cout << bogus_sum(x) << std::endl;
+}
+#+end_src

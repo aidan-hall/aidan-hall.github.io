@@ -1,0 +1,93 @@
+#+title: C++ Lambdas Saving My Eyes
+#+date: [2022-09-11 17:59]
+
+I've been working on a little game, specifically a clone of Space
+Invaders using SDL:
+https://github.com/aidan-hall/space-invaders-sdl/
+
+Though I did mock the "modern" C++ style in
+[[file:verbose-functional-cpp17.org][my previous post]],
+the main issue is how awkward the functional style is to use, relying on
+iterators and =std::accumulate=, which is much more of a mouthful than
+=foldr=!
+
+One thing that I do really like in C++ is lambdas. I finally got round
+to refactoring a stupid bit of code with lots of repetition that I wrote
+at the end of a 4-hour slog (a lot for me) in an effort to get the job
+done. You don't need to understand exactly what the classes are or what
+the code's meant to do, and I would appreciate withheld judgement on its
+quality.
+
+I'm creating a set of text entries, which have to be rendered on the
+screen. First they must be created:
+
+#+begin_src cpp
+SDL::TextTexture titleText = sdl.loadFromRenderedText("Space Invaders", {255, 255, 255, 0}, 0);
+const SDL_Rect titleRect = {(sdl.windowDimensions.w - titleText.w) / 2, 200, titleText.w, titleText.h};
+SDL::TextTexture controlsText = sdl.loadFromRenderedText("Press Space to begin", {255, 255, 255, 0}, 0);
+const SDL_Rect controlsRect = {(sdl.windowDimensions.w - controlsText.w) / 2, 250, controlsText.w, controlsText.h};
+SDL::TextTexture subTitleText = sdl.loadFromRenderedText("Arrows to move, space to shoot", {255, 255, 255, 0}, 0);
+const SDL_Rect subTitleRect = {(sdl.windowDimensions.w - subTitleText.w) / 2, 300, subTitleText.w, subTitleText.h};
+#+end_src
+
+Then they have to be rendered:
+
+#+begin_src cpp
+SDL_RenderCopy(sdl.renderer, titleText.texture, nullptr, &titleRect);
+SDL_RenderCopy(sdl.renderer, subTitleText.texture, nullptr, &subTitleRect);
+SDL_RenderCopy(sdl.renderer, controlsText.texture, nullptr, &controlsRect);
+SDL_RenderCopy(sdl.renderer, highScoreText.texture, nullptr,
+#+end_src
+
+As you can see, this is fairly rubbish. The obvious answer is to create
+a function, and since I'm using C++ I thought I might as well try
+lambdas:
+
+#+begin_src cpp
+auto makeTextBox = [&sdl](const std::string &text, int x) -> std::pair<SDL_Texture *, SDL_Rect> {
+  SDL::TextTexture textTexture =
+   sdl.loadFromRenderedText(text, {255, 255, 255, 0}, 0);
+  const SDL_Rect rect = {(sdl.windowDimensions.w - textTexture.w) / 2, x,
+                      textTexture.w, textTexture.h};
+
+  return {textTexture.texture, rect};
+};
+
+auto drawTextBox = [&sdl](const std::pair<SDL_Texture *, SDL_Rect> &textBox) {
+  auto &[texture, box] = textBox;
+  SDL_RenderCopy(sdl.renderer, texture, nullptr, &box);
+};
+
+// ...
+// Create text boxes
+auto title = makeTextBox("Space Invaders", 200);
+auto controls = makeTextBox("Press Space to begin", 250);
+auto subtitle_box = makeTextBox("Arrows to move, space to shoot", 300);
+
+// ...
+while (true) {
+  // ...
+  // Render text boxes
+  drawTextBox(title);
+  drawTextBox(subtitle_box);
+  drawTextBox(controls);
+}
+#+end_src
+
+These are really tiny, specialised functions that solve exactly one
+problem; as such, re-using them outside this scope isn't likely to
+happen. In this case, having them as lambdas means they don't pollute
+the namespace outside the function they're in! As another benefit, then
+can also *capture* the SDL context by reference (=[&sdl]=), so it
+doesn't need to be passed as a parameter to each call, which might have
+been necessary depending on the implementation.
+
+As well as lambdas, I used a =std::pair= for the data returned by and
+passed into them. This saves the need to define a =struct= or class for
+it. The only downside is that the members of the pair don't have very
+descriptive names (=first= and =second=), but this is easily remedied by
+the structured binding in =drawTextBox=.
+
+Using lambdas, especially with things like capturing by reference, has a
+bit of the free-form feel of using pre-processor macros, but with the
+benefits of type-safety etc. of C++.

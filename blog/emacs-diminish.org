@@ -1,0 +1,33 @@
+#+title: Diminish Emacs Minor Modes
+#+date: [2021-10-31 18:09]
+
+For no particular reason, I felt like discussing how I use the diminish
+package to hide or compress Emacs minor modes on the mode line.
+
+* Global Minor Modes
+Many global minor modes may not display on the mode line. If they don't,
+and I'm going to have them on all the time, I fully diminish them as
+well. Examples are =org-edna-mode= and =undo-tree-mode=.
+
+* Modes with Information in the Mode Line
+A few minor modes, such as =flycheck-mode= and =lsp-mode= will sometimes
+display information in the mode line. While I'm sure there's a way to
+reduce their sizes, this seemed a little too complex for me so I leave
+them untouched.
+
+* Companion Minor Modes
+There are minor modes that act as 'companions' to major modes. For
+example, =org-num-mode= and =org-indent-mode= for =org-mode=. These
+greatly alter the behaviour and appearance of an Org buffer, so I like
+it to be clear if they are on, but I diminish them to single characters
+next to the major mode string, with =#= for =org-num-mode= and =>= for
+=org-indent-mode=, producing =Org#>= with both enabled. I believe this
+should only be done with non-alphabetical characters, or the result will
+look ugly.
+
+* Highly Disruptive or Momentary Modes
+I want it to be as clear as possible if something like =abbrev-mode= is
+enabled, since it can greatly alter the behaviour of the editor when
+it's on, and I am quite likely to toggle it throughout the lifespan of a
+buffer. As such, I do not diminish this sort of mode. Another example is
+=magit-blame-mode=.

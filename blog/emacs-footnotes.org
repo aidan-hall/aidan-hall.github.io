@@ -1,0 +1,35 @@
+#+title: Footnotes in markup and Emacs
+#+date: [2022-06-01 19:02]
+
+In classic Emacs fashion, there are three incompatible implementations
+of footnotes:
+
+- Org Mode,
+- footnote.el,
+- and [[https://jblevins.org/projects/markdown-mode/][Markdown Mode]].
+
+The implementation in footnote.el is primitive, and seems regrettably
+limited in its scope for customisation.
+
+Org Mode is a full-fat idiosyncratic markup language so it's fine for
+that to have its own footnote syntax.
+
+The Markdown Mode I linked is actually not even in the GNU ELPA, so it
+would be unreasonable to complain about its creator not making use of
+footnote.el, especially since that doesn't seem to have the capability
+to easily adapt to Markdown's footnote syntax.
+
+That was my main revelation that prompted this post: Markdown has a
+standard footnote syntax![fn:1] It seems to be supported by pandoc, at
+the very least.
+
+Perhaps unsurprisingly, it doesn't work very well with my blog post
+system, as you can see, so I doubt I'll be using these very much.
+
+Pandoc also supports declaring footnotes inline, like in LATEX, which I
+think will be easier to manage[fn:2], since it doesn't rely on special
+Emacs key-bindings to use.
+
+[fn:1] At least, it is as standard as it can be for Markdown.
+
+[fn:2] Albeit at the cost of readability.

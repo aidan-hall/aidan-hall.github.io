@@ -1,0 +1,23 @@
+#+title: Adding What I Want (Arch Linux cleanup)
+#+date: [2023-05-03 11:47]
+
+I've got Arch Linux on my laptop, and for a while now I've been feeling
+the burn from following Luke Smith's tutorial for it, since he
+recommended creating a separate root partition, which in my case is
+30GB. This is probably fine for someone like Luke who takes great pains
+to avoid using GUIs, but quickly filled up on my system. Every so often
+I've removed some large program I haven't needed in a few months, saving
+1-2GB, but the space was quickly filled by something else. I then had
+the idea of using =pacman -Rsc= to destructively pull out a lot of
+unnecessary packages, *along with a few necessary ones*, and then repair
+the damage. After re-installing X, Firefox, Emacs and my status bar
+icons, my system seems to be functioning as well as it did before, but
+with an additional *9GB* of free space in the root partition.
+
+This ties into one of the reasons people use minimal Linux distributions
+like Arch in the first place, which is to deliberately install the
+packages they do want, rather than removing the ones they don't.
+Removing the requirement that the system remains functional throughout
+the cleaning process removes the stress of wondering if I need
+=libvoikko= or whatever it is: If I need it, something will break, or
+it'll be reinstalled as a dependency for something else I do need.

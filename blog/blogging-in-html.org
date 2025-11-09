@@ -1,0 +1,75 @@
+#+title: All I'd Want to Blog in HTML
+#+date: [2023-08-05 19:17]
+
+Recently I've been contemplating replacing my blog system with something
+that's less of [[https://aidanhall.gitlab.io/ssgss.html][a fragile hack]]. I've even
+considered implementing something myself, but among the various
+complications involved is
+[[https://spec.commonmark.org/current/][how surprisingly complex Markdown is]]
+(not to mention all the Pandoc extensions I've been blissfully relying
+on). I then considered the prospect of using HTML to write my blog,
+gently inspired by my friend's blog, which is unprocessed, hand-written
+HTML.
+
+I find it notable that one of the specific advantages of Markdown
+mentioned in the CommonMark documentation is supposed to be that the
+document is decently readable without being processed; I quite
+frequently use HTML tags in the pages on this site, negating this upside
+to some extent. I think I'd manage fairly well writing HTML, with a few
+very simple bits of pre-processing to make the writing process more
+ergonomic.
+
+* Automatic Paragraph Breaks
+The Markdown feature I'd probably immediately feel the loss of is blank
+lines acting as paragraph breaks, like in LaTeX. This is indeed one of
+those things that sounds simple but probably has a lot of awkward edge
+cases (like needing a blank line between the end of a paragraph and an
+HTML tag). It's possible I could get much of the convenience of this
+feature by putting paragraph tags around a block of consecutive tags and
+then doing something brainless like =s/\n\n/<\/p><p>/= between these
+pairs, but would probably have surprising behaviour in certain
+circumstances.
+
+* Self-Titling URLs
+Markdown can automatically turn a URL into an =<a>= with the =href= and
+contents being that URL. I think I'd /probably/ be fine without this,
+since except in cases where you expect the document to be printed, it's
+probably a better idea to use the link text to describe the destination.
+Users can still hover over the link to see the URL!
+
+An interesting alternative option could be to download the linked page
+and use the contents of its =<title>= as the link text. This could work
+well for citation-style links. This approach would be problematic
+because page titles are not standardised, and often include extra
+information like the title of the whole website or a subtitle. This
+would also greatly increase how long pre-processing would take, and
+require an internet connection.
+
+* Tables
+[[https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0115069][Studies have shown]]
+that manually formatting complex tables in a markup language is a recipe
+for disaster, scarcely improved by something like a Markdown editor
+plugin. Fortunately, 90% of the time I don't use tables, and a
+substantial proportion of the ones I do create are simple enough that I
+could just use tab- or comma-separated value lists for the rows. If I
+needed to make a more complex table, I could just use
+[[https://www.tablesgenerator.com/][an interactive table editor]] that
+can export (and import!) HTML.
+
+* Conclusion
+I'd certainly change my writing style to accommodate HTML, but that
+might not be a bad thing: I don't think it's necessarily the best form
+to fill your document with inline text styling, which Markdown
+encourages by making it easier. One feature of Markdown I think I could
+probably do without is footnotes: they're a hold-over from printed
+documents, and HTML5 has the semantic =<aside>= tag, which can be styled
+with something like =float: right= to get the contents out of the main
+body of text without putting it all the way down at the bottom of the
+page (of course it's not suitable for writing many small footnotes, but
+again this would just incentivize using them more sparingly).
+
+Writing HTML directly, even with the intention of pre-processing it,
+would have the small advantage of allowing the unprocessed document to
+be directly rendered in a browser (albeit in a mangled state). This sort
+of mirrors Markdown's advantage of being human-readable in its
+unprocessed state.

@@ -1,0 +1,194 @@
+#+title: Using Template and Macro Dark Arts to Make a Smart C++ OpenGL Uniform Setter
+#+date: [2023-02-19 13:37]
+
+I'm on my third attempt at going through the
+[[https://learnopengl.com][LearnOpenGL]] tutorial. On my previous
+attempts, I used C and Zig. I got to the section
+[[https://learnopengl.com/Getting-started/Shaders][about writing shaders]],
+which introduced a basic shader program class, including some setters
+for OpenGL uniforms. Uniforms are variables in GLSL (OpenGL Shading
+Language) programs that can be accessed from C, and are generally used
+to send data like the current time to the shaders, which run on the GPU.
+
+The tutorial introduced the following setters:
+
+#+begin_src cpp
+void setBool(const std::string &name, bool value) const
+{
+    glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
+}
+void setInt(const std::string &name, int value) const
+{
+    glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+}
+void setFloat(const std::string &name, float value) const
+{
+    glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+}
+#+end_src
+
+While these are kept simple for the sake of brevity, I took it upon
+myself to create a single =set= method which would, at compile time,
+deduce which of the =glUniform*= functions to call.
+
+* Set Method
+First, I wanted to handle the case where =glGetUniformLocation= fails in
+a modern, idio(ma)tic way:
+
+#+begin_src cpp
+inline std::optional<int> uniform_location(const std::string &name) const {
+    const int location = glGetUniformLocation(id, name.c_str());
+    if (location == -1)
+      return std::nullopt;
+    else
+      return location;
+  }
+#+end_src
+
+This converts the C-style "-1 if it didn't work" result into a
+=std::optional=, which provides a similar API to nullable pointers for
+normal data. I could then handle this as follows in the =set= method:
+
+#+begin_src cpp
+template <class... Ts> void set(const std::string &name, Ts... values) const {
+  const auto location = uniform_location(name);
+  if (location) {
+    glUseProgram(ID);
+    uniform(*location, values...);
+  }
+}
+#+end_src
+
+Here we see the first bit of slightly dark magic: /Template Parameter
+Packs/. The parameter =Ts... values= is the set of all parameters passed
+to =set= after the =name=. There can be any number of these, of any
+type, although critically these must be known at compile time (since
+it's a template). This allows us to include our error-handling for
+=uniform_location= and call =glUseProgram= (necessary to set uniform
+values for the right shader program), then pass all the =values= to
+=uniform=, which is where the /real/ dark magic happens.
+
+* Uniform Method
+At the first level, we can simply define multiple implementations of
+=uniform= that take different parameters:
+
+#+begin_src cpp
+static inline void uniform(int location, int v) {
+  glUniform1i(location, v);
+}
+
+static inline void uniform(int location, float v) {
+  glUniform1f(location, v);
+}
+
+static inline void uniform(int location, float x, float y) {
+  glUniform2f(location, x, y);
+}
+
+static inline void uniform(int location, glm::vec2 v) {
+  uniform(location, v.x, v.y);
+}
+
+// ...
+#+end_src
+
+Having to specify =glUniform[1-4]= for integer, unsigned integer and
+floating point numbers would involve a lot of redundancy, so I mildly
+improved things with a *macro*:
+
+#+begin_src cpp
+#define UNIFORM_TYPE(T, P)                               \
+  static inline void uniform(int location, T v0) {       \
+    glUniform##1##P(location, v0);                       \
+  }                                                      \
+                                                         \
+  static inline void uniform(int location, T v0, T v1) { \
+    glUniform##2##P(location, v0, v1);                   \
+  }                                                      \
+  // ...
+#+end_src
+
+With my current knowledge of C++, using macro string concatenation to
+produce the function name was the best solution I could come up with.
+This macro could then be used to generate all of
+=glUniform[1-4](f|i|ui)=, as well as ones for the corresponding GLM
+vectors:
+
+#+begin_src cpp
+  UNIFORM_TYPE(float, f);
+  UNIFORM_TYPE(int32_t, i);
+  UNIFORM_TYPE(uint32_t, ui);
+#+end_src
+
+The set method can now be used like so:
+
+#+begin_src cpp
+ShaderProgram shader_program(...);
+//...
+const auto colours = glm::vec4{0.0f, 0.0f, 0.0f, 1.0f};
+shader_program.set("time", glfwGetTime()); // glUniform1f
+shader_program.set("colour", colours); // glUniform4f
+#+end_src
+
+This was more than enough for what I'd done so far, but for
+completeness, I decided to add support for the matrix and array versions
+of =glUniform=.
+
+* Matrix and Array
+Since OpenGL is a C library, arrays must be passed as a pointer-size
+pair in two parameters. This is C++ so, I used =std::span= (which simply
+stores the pointer and length together):
+
+#+begin_src cpp
+#define UNIFORM_V(T, P, N)                                                     \
+  static inline void uniform(int location, std::span<glm::vec<N, T>> values) { \
+    glUniform##N##P##v(location, values.size(),                                \
+                       std::bit_cast<T *>(values.data()));                     \
+  }
+
+#define UNIFORM_TYPE(T, P)                                        \
+  //...
+  static inline void uniform(int location, std::span<T> values) { \
+    glUniform##1##P##v(location, values.size(), values.data());   \
+  }                                                               \
+  UNIFORM_V(T, P, 1);                                             \
+  UNIFORM_V(T, P, 2);                                             \
+  UNIFORM_V(T, P, 3);                                             \
+  UNIFORM_V(T, P, 4);
+
+const auto values = std::array{0.3f, 0.25f, 0.1f, 0.7f};
+
+// glUniform1fv(location, 4, [0.3f, ...]) 
+shader_program->set("values", values);
+
+const auto points = std::array{
+    glm::vec2{3,3}, glm::vec2{25,25}, glm::vec2{1,1},
+    glm::vec2{6,6}, glm::vec2{7, 7}
+};
+// glUniform2fv(location, 5, [3.0f, 3.0f, 25.0f, ...])
+shader_program->set("points", values);
+#+end_src
+
+The solution for matrices felt relatively tame by the end of all that,
+relying on GLM having matrix types corresponding to the ones in GLSL:
+
+#+begin_src cpp
+#define UNIFORM_MATRIX(D)                                         \
+  static inline void uniform(int location, bool transpose,        \
+                             std::span<glm::mat##D> values) {     \
+    glUniformMatrix##D##fv(location, values.size(), transpose,    \
+                           std::bit_cast<float *>(values.data()));\
+  }
+
+  UNIFORM_MATRIX(2); // mat2 is a 2x2 matrix
+  UNIFORM_MATRIX(2x3);
+  //...
+  UNIFORM_MATRIX(4x3);
+  UNIFORM_MATRIX(4);
+#+end_src
+
+I haven't tested this but it looks alright.
+
+I'll briefly note that the preprocessor macro calls don't /need/ to have
+semicolons after them, but formatters can get very confused if you don't
+put them in.

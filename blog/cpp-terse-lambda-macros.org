@@ -1,0 +1,190 @@
+#+title: C++ Macros for Terse Lambda Expressions
+#+date: [2024-11-14 20:43]
+
+I read a blog post recently that was complaining about the verbosity of
+C++ lambdas. I can't remember where it was, but we can compare them to a
+language like Rust to see the problem clearly:
+
+#+begin_src cpp
+[](auto&& a, auto&& b) { return a + b; }
+#+end_src
+
+#+begin_src rust
+|a, b| a + b
+#+end_src
+
+It's so bad that C++ has
+[[https://en.cppreference.com/w/cpp/utility/functional/plus][pre-defined function objects]]
+for common operations like + and -, since that's way too much to type
+out by hand for something so basic and common. This got me thinking
+about how close we could get C++ to the Rust syntax.
+
+* Basic Approach
+The obvious approach to implement something like this is a text macro
+that expands to a lambda expression. The issue is, macros have very
+limited capabilities and a number of gotchas to watch out for. For
+example: - There is no equivalent of =sizeof...()= to get the length of
+a variadic macro argument list, nor is there a
+[[https://dev.to/sgf4/foreach-macro-in-c-48ic][convenient]] way to apply
+an operation to each argument separately. - Macro arguments are (mostly)
+treated as plain text, so the only way to have commas within a single
+macro argument is to surround the text with parentheses (that is, only
+=()=, not ={}= or =[]=). - There can be at most one variable-length
+argument list for a macro, at the end of the argument list (this is also
+true of templates).
+
+Given these constraints, I first came up with this solution, named =FEX=
+for Function EXpression:
+
+#+begin_src cpp
+#define FEX(EXPR, ...) \
+  [&](auto &&...args) { \
+    auto &&[__VA_ARGS__] = std::make_tuple(args...); \
+    return EXPR; \
+  }
+
+FEX((a++, a + b), a, b)
+#+end_src
+
+This works as a starting point. We exploit structured binding to let us
+specify multiple named parameters for the macro without having to write
+a type declaration for each. The function body has to be one expression,
+although it's also possible to use the
+[[https://en.cppreference.com/w/cpp/language/operator_other][comma operator]]
+to sequence multiple expressions that would normally be placed in
+separate statements. On the other hand, declaring arguments after the
+expression feels unnatural, and so do the parentheses around the
+function body. How can we do better?
+
+* Argument List Unwrapping
+My first thought about how to have the arguments first was to put them
+in a parenthesised expression:
+
+#+begin_src cpp
+#define FEX(ARGS, ...) \
+  [&](auto &&...args) { \
+    auto &&[ARGS] = std::make_tuple(args...); \
+    return __VA_ARGS__; \
+  }
+
+FEX((a, b), a++, a + b)
+#+end_src
+
+This doesn't work with our structured binding trick, since we would end
+up with this invalid syntax after expansion:
+
+#+begin_src cpp
+auto &&[(a, b)] = std::make_tuple(args...);
+#+end_src
+
+Fortunately, we can exploit the fact that macro expansion repeats as
+long as possible to unwrap the argument list:
+
+#+begin_src cpp
+#define FEX_UNWRAP(...) __VA_ARGS__
+#define FEX(ARGS, ...) \
+  [&](auto &&...args) { \
+    auto &&[FEX_UNWRAP ARGS] = std::make_tuple(args...); \
+    return __VA_ARGS__; \
+  }
+#+end_src
+
+The structured binding form expands to =[FEX_UNWRAP (a, b)]=, which then
+expands to =[a, b]=.
+
+* Returning =void=
+One limitation of =FEX= is that it requires the expression body to
+evaluate to a value that can be returned. There will be situations where
+we want to just evaluate an expression (e.g. a print function call) for
+its side effect and not return anything. For this, we can define a very
+similar macro, which I have called =FOP= (Function OPeration; not a
+great name, but at least it's distinctive):
+
+#+begin_src cpp
+#define FOP(ARGS, ...) \
+  [&](auto &&...args) { \
+    auto &&[FEX_UNWRAP ARGS] = std::make_tuple(args...); \
+    __VA_ARGS__; \
+  }
+#+end_src
+
+The only difference is that we omit the =return= keyword. We could
+easily define =FEX= in terms of =FOP=:
+
+#+begin_src cpp
+#define FEX(ARGS, ...) FOP(ARGS, return __VA_ARGS__)
+#+end_src
+
+* Destructuring the Argument
+The =FEX= macro above is a working solution, with predictable behaviour,
+but we can make a small change to get a bonus feature for free:
+
+#+begin_src cpp
+auto &&[FEX_UNWRAP ARGS] = std::tuple{args...};
+#+end_src
+
+By using the tuple constructor instead of =make_tuple=, we will get the
+original argument, unmodified, if it is a single tuple. Since we are
+using structured binding, the parameter names will be bound to the
+members of the tuple:
+
+#+begin_src cpp
+auto x = tuple<int, float, bool>{1, 2.2, false};
+FEX((a, b, _), a + b)(x) // -> 3.2
+#+end_src
+
+We could use a requires clause or something to automatically destructure
+an argument that supports it, but this includes normal structs, which
+would have surprising results, so we are better off defining a separate
+macro to get this behaviour:
+
+#+begin_src cpp
+#define FDEST(ARGS, ...) \
+  [&](auto &&arg) { \
+    auto &&[FEX_UNWRAP ARGS] = arg; \
+    return __VA_ARGS__; \
+  }
+struct Vec2 {
+  float x;
+  float y;
+} pos{12.3, 44.78};
+FDEST((x, y), std::hypot(x, y))(pos) // -> 46.4385
+#+end_src
+
+Remember, the real strength of these macros is that they produce lambda
+expressions, so they are great for writing inline arguments for
+higher-order functions:
+
+#+begin_src cpp
+Vec2 pos[] = {{12.3, 44.78}, {69.0, 42.3}, {10, 0}};
+std::ranges::for_each(pos | std::views::transform(FDEST((x, y), std::hypot(x, y))),
+                      FOP((hypot), std::cout << hypot << ", "));
+// -> 46.4385, 80.9339, 10,
+#+end_src
+
+* Conclusion
+These macros certainly won't endear you to your colleagues if you put
+them in a PR; the names especially are somewhat cryptic, and cannot be
+namespaced since they are macros. They also couldn't be made much longer
+without compromising their concision. Regardless, if you enjoy doing
+functional programming in C++, they might be worth putting in a header
+in a personal project.
+
+Complete code listing:
+
+#+begin_src cpp
+#include <tuple>
+
+#define FEX_UNWRAP(...) __VA_ARGS__
+#define FOP(ARGS, ...)                              \
+  [&](auto &&...args) {                             \
+    auto &&[FEX_UNWRAP ARGS] = std::tuple{args...}; \
+    __VA_ARGS__;                                    \
+  }
+#define FEX(ARGS, ...) FOP(ARGS, return __VA_ARGS__)
+#define FDEST(ARGS, ...)                            \
+  [&](auto &&arg) {                                 \
+    auto &&[FEX_UNWRAP ARGS] = arg;                 \
+    return __VA_ARGS__;                             \
+  }
+#+end_src

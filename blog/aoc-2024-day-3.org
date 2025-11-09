@@ -1,0 +1,17 @@
+#+title: AoC in C++ Algorithms: Day 3 (=regex= and =search=)
+#+date: [2024-12-05 20:20]
+
+For part 1, I just did the obvious regex-based solution. There's not
+much to say about day 3 except how ludicrously slow regex code is to
+compile in C++. I've heard other complaints about =std::regex=,
+including claims of poor performance and issues with ABI stability, so I
+would probably investigate alternative regex libraries if I ever wanted
+to use regular expressions in a larger application.
+
+My solution for part 2 was similarly straightforward. The one notable
+difference from my strategy for part 1 was to do a plain-text search
+(with =std::ranges::search=) for the next =do()= after encountering a
+=don't()=. This optimisation took an unreasonable amount of effort
+relative to the performance improvement it provided, so I wouldn't have
+bothered if I hadn't seen someone else do a ridiculously fast solution
+with a hard-coded finite state machine.

@@ -1,0 +1,69 @@
+#+title: PlantUML: The LaTeX of UML
+#+date: [2023-01-27 17:03]
+
+For one of my university modules this term, we have been tasked to
+design and develop a substantial piece of software in groups. One part
+of the system I have been assigned is the database.
+[[https://en.wikipedia.org/wiki/Unified_Modeling_Language][UML]] is
+taught as part of the module content, and we are encouraged to include
+diagrams in the design document, so I decided to make an
+[[https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model][Entity-relationship model]]
+of the database I made.
+
+I briefly considered using a GUI UML editor to produce this diagram, but
+quickly decided this would be a painfully slow and laborious task.
+Instead, I searched for a tool that could generate UML diagrams from
+plain text.
+
+* Why Text?
+I am a programmer, so I'm highly experienced working in plain text,
+having spent countless hours in Emacs and Vim manipulating code in
+various ways. As such, I find it more comfortable to work with a
+(well-designed) textual "language" than with a GUI. Here are a few
+concrete advantages:
+
+- Copy and Paste: If I want to create multiple similar parts of the
+  diagram, I can simply copy-paste the relevant code.
+- Find and Replace: Easy renaming etc.
+- Version Control (with Git): While some GUI apps probably save in a
+  "plain text" format like XML, the fact that I wrote the text would
+  mean a clear correspondence between the changes made in a commit and
+  the diffs on the file.
+- Separation of Content and Form: This is the big one that the LATEX
+  buffs like to wheel out. Since the main text is an abstract
+  description of what the +document+ diagram content should be, the
+  layout and appearance are determined at compile-time. This means I can
+  change the colour or font of all objects of the same type, completely
+  reorient the diagram and change the shape of lines connecting entities
+  all with just a few lines of code.
+
+* [[https://plantuml.com][PlantUML]] vs Similar Tools
+Many more general graphics description languages exist; here are just a
+few:
+
+- Pic: a general diagram drawing tool that integrates with (g|t)roff;
+- Tikz: A LATEX package;
+- Graphviz: Specialised for (vertex and edge) graphs. Used by PlantUML
+  as a backend;
+- METAPOST, and the relevant MetaUML package for it, which primarily
+  targets PostScript.
+
+The problem with these tools is that they inherently /aren't/
+specialised. For my A-Level programming project write-up, I used
+METAPOST with MetaUML to draw a class hierarchy with a piddly 9 classes,
+which despite seemingly being specialised to UML required manual
+positioning of the class boxes (At least it supported relative
+positions!) and as such was a massive pain to use. I used Tikz for
+drawing flow charts in the same document, and despite effectively
+building a specialised flow chart drawing library on top of it, had to
+manually override the spacing of objects in many instances.
+
+On the other hand, within about 40 minutes, I went from installing
+PlantUML to creating the diagram for all 13 tables in the database,
+spread out beautifully and automatically, and with not so much as a
+relation arrow overlapping.
+
+I'm not going to put the image here for plagiarism concerns; contact me
+in a year's time if you want to see it, since the coursework changes
+every year. You can search online for examples of the results you can
+get with PlantUML. It gets my highest recommendation!

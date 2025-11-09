@@ -1,0 +1,112 @@
+#+title: CV Writing in LaTeX
+#+date: [2022-10-23 18:32]
+
+Against my prior better judgement, I've re-written my CV in LATEX. I
+thought I'd share some tips relating to how I made mine.
+
+* Use of Space
+Time and space are at a premium in a CV, so it all needs to fit on one
+page. LATEX is (in)famous for its large, pretty headings and margins. To
+solve these, I have a few suggestions:
+
+** Use a bullet-separated list instead of a title:
+
+#+begin_example
+              Aidan Hall • My Address • Phone Number
+              Website • user.name@email.com • GitHub
+#+end_example
+
+** Formatting Packages
+Use =geometry=, =enumitem= and =titlesec= to make your margins, lists
+and headings (respectively) more compact:
+
+#+begin_src tex
+\usepackage[top=2cm, margin=2cm, bottom=0.5cm]{geometry}
+\usepackage{enumitem}
+\setlist{itemsep=2pt}
+\usepackage[explicit]{titlesec}
+% (merely) large, outdented, unnumbered section titles
+\titleformat{\section}{\large\bf}{}{0.0em}{#1}
+\titlespacing{\section}{-2em}{*1}{*1}
+#+end_src
+
+* Sans-Serif Font
+Great if you want to avoid scaring people.
+
+#+begin_src tex
+\renewcommand{\familydefault}{\sfdefault}
+#+end_src
+
+* Use Description Lists
+By default, these lists will format a label for each list entry in bold,
+while keeping it on the same line. This is easier to use than something
+like a table, and keeps the content on the same line as the label,
+making it more compact than sub(sub(sub))sections.
+
+* Hyperlinks
+Instead of this:
+
+#+begin_quote
+I did a thing ([[https://www.youtube.com/watch?v=dQw4w9WgXcQ][link]]).
+#+end_quote
+
+Write this:
+
+#+begin_quote
+I did a [[https://www.youtube.com/watch?v=dQw4w9WgXcQ][thing]].
+#+end_quote
+
+The latter retains the link, without wasting the time of an employer who
+may not read it.
+
+To get embedded PDF links in LATEX, use =hyperref=:
+
+#+begin_src tex
+\usepackage[colorlinks]{hyperref}
+#+end_src
+
+* Commands and Conditionals
+These are what make LATEX (debatably) worth using for a 1-page document.
+These let you cut down on repetitive typing (if you remember to make
+them pre-emptively, anyway), and separate content from form, ensuring
+that said form is standardised, and easily modifiable.
+
+I have two that I am using in my current CV:
+
+** Occupations
+For work experiences, time in education and other such things (in
+description lists), I wanted a way to show what I had done, where, and
+when:
+
+#+begin_src tex
+\newcommand{\occupation}[3]{\item[{#1}] at \emph{#2} (#3)}
+% ...
+\occupation{English Literature}{University of Who Cares}{2077--2077}
+#+end_src
+
+#+begin_quote
+*English Literature* at /University of Who Cares/ (2077-2077).
+#+end_quote
+
+** Private and Public Versions
+I want to publish my CV on my website, but am nervous about it
+containing quite personal information like where I went to school, and
+my home address, so I wanted to produce two versions: one with said
+information, and one without.
+
+LATEX supports counters, so I can define one called =public=, which is 1
+if the document should be fit for public display. I can then use a
+conditional statement to determine which content to show.
+
+#+begin_src tex
+\newcommand{\privpub}[2]{\ifnum\value{public}=0{#1}\else{#2}\fi}
+% ...
+\newcounter{public}
+\setcounter{public}{1}
+% ...
+\privpub{69696 969696}{Phone Number}
+#+end_src
+
+Now, simply by changing the value of =public=, I can generate two
+different versions of the document, rather than needing to manually
+maintain two copies.

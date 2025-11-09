@@ -1,0 +1,12 @@
+#+title: ælpa: Aidan's Emacs Lisp Package Archive
+#+date: [2022-06-14 11:36]
+
+I created
+[[https://aidanhall.gitlab.io/aelpa][an Emacs Lisp package archive]],
+just like Elpa or Melpa, because I felt like it! At the moment, it only
+has two files I considered worth uploading, but it's there!
+
+I put way too much effort into getting the logo to look just right, but
+it uses Noto Sans, so it might not even look right on some browsers or
+operating systems. A screenshot of what is supposed to look like is
+shown below:

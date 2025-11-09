@@ -1,0 +1,74 @@
+#+title: AoC in C++ Algorithms: Day 4 (=count_if= and =cartesian_product=)
+#+date: [2024-12-05 20:26]
+
+My solution for part 1 was stupid (but fast), so I won't talk about it
+here.
+
+My solution for part 2 was similar in terms of the general algorithm,
+although I was able to fold the main loop down to a call to =count_if=.
+I was able to use =views::cartesian_product= and =views::iota= to
+traverse the dimension of the word-search:
+
+#+begin_src cpp
+
+using namespace std;
+
+inline bool xmas_at_pos(const std::vector<std::string> &w, int y, int x) {
+  if (w[y][x] != 'A')
+    return false;
+
+  if (w[y - 1][x - 1] == 'M') {
+    return w[y + 1][x + 1] == 'S' and
+           ((w[y - 1][x + 1] == 'M' and w[y + 1][x - 1] == 'S') or
+            (w[y - 1][x + 1] == 'S' and w[y + 1][x - 1] == 'M'));
+  }
+
+  if (w[y - 1][x - 1] == 'S') {
+    return w[y + 1][x + 1] == 'M' and
+           ((w[y - 1][x + 1] == 'S' and w[y + 1][x - 1] == 'M') or
+            (w[y - 1][x + 1] == 'M' and w[y + 1][x - 1] == 'S'));
+  }
+
+  return false;
+}
+
+// Name inspired by https://github.com/magnars/dash.el/blob/master/README.md#-applify-fn
+constexpr inline auto applify(const auto fn) {
+  return [fn](const auto &args) { return std::apply(fn, args); };
+}
+
+int main() {
+  vector<string> word_search;
+  for (string line; getline(cin, line);) {
+    word_search.push_back(move(line));
+  }
+  int width = word_search[0].size();
+  int height = word_search.size();
+  int occurrences = ranges::count_if(
+      views::cartesian_product(ranges::single_view(word_search),
+                               views::iota(1, height - 1),
+                               views::iota(1, width - 1)),
+                     applify(xmas_at_pos));
+  std::cout << occurrences << std::endl;
+}
+#+end_src
+
+I was also pleased to find I had re-discovered a functional programming
+pattern called
+[[https://github.com/magnars/dash.el/blob/master/README.md#-applify-fn][=applify=]].
+I originally had this lambda expression in my solution:
+
+#+begin_src cpp
+[](const auto &args) { return std::apply(xmas_at_pos, args); }
+#+end_src
+
+The purpose of this lambda is to expand the tuple of
+=(word_search, y, x)= into separate arguments that get passed to
+=xmas_at_pos=. There is
+[[https://open-std.org/JTC1/SC22/WG21/docs/papers/2018/p0931r0.pdf][a proposal]]
+to add structured binding for polymorphic lambda arguments, which would
+render it somewhat unnecessary, but the pattern is still useful when you
+have a function defined elsewhere that you want to =std::apply= to the
+elements of a tuple. As such, I extracted the form of the lambda into a
+helper function, which I will probably put in a header in my next
+personal project, and promptly forget about.

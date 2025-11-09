@@ -1,0 +1,30 @@
+#+title: New Wi-Fi Chip for my ThinkPad
+#+date: [2023-06-04 10:08]
+
+Recently, the Wi-Fi in my ThinkPad x220 became highly unreliable. It
+almost never worked, especially when out of the house. I actually
+managed with it like this for a few weeks, since I make a habit of
+keeping most of the files and programs I need to do work on my computer
+locally. However, today I decided enough was enough.
+
+The original Wi-Fi chip that came with the laptop was a RealTek product;
+these generally do not have open-source drivers, which proved
+problematic when I wanted to try running FreeBSD on it, since that
+operating system only has open-source drivers by default. I did a little
+research, and found the /Intel Centrino Ultimate-N 6300/, which has
+open-source drivers (very cool Intel), as well as 5GHz Wi-Fi; I expect
+that to be especially useful since a new building on my university
+campus (which has many rooms that students can book for meetings) only
+seems to have 5GHz wireless access points. I found the chip unreliable
+at the time, and didn't stick with FreeBSD, so I ended up going back to
+the RealTek chip.
+
+However, now that that one is almost completely broken, the Intel one
+would be a better option even if it was as unreliable as I remembered
+it, and I've not encountered any issues after a few hours of using it.
+The replacement was very simple, taking only about 15 minutes at a
+casual pace (although I have taken the laptop apart many times before).
+
+For many weeks I'd been consoling myself with the prospect of receiving
+a company laptop at my internship this summer, but once again the
+ThinkPad has proven the value of easy repairability.

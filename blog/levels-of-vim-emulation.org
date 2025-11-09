@@ -1,0 +1,205 @@
+#+title: Levels of Vim Emulation
+#+date: [2021-10-29 23:48]
+
+Anyone who has used Vim long enough to finish =vimtutor= will probably
+have wanted to bring the power of its keyboard bindings to other
+programs. There are multiple approaches which may be taken when
+implementing Vim emulation into a program, which I will discuss examples
+of here.
+
+* Categories
+** Soft Emulation
+A soft emulation approach will typically implement a tiny subset of
+Vim's behaviour, or be only loosely inspired by it. Almost universally,
+H, J, K, and L will be used for scrolling or some sort of navigation.
+There will also often be additional key bindings specific to the domain
+of the program being used. Overall, this is probably the more common
+approach, since it can be applied to a wider range of contexts.
+
+** Hard Emulation
+A hard emulation approach will implement an extensive feature set that
+will mimic Vim's behaviour much more closely. This may include modal
+behaviour similar to Vim's editing modes, and using the : key to open a
+command prompt.
+
+I doubt that many "Vim-keys" implementations could be cleanly
+categorised as one or the other, but I think it will be interesting to
+analyse some examples and see where they fall on the scale.
+
+** Real Vim
+The third approach is to interface in some way with a real Vim instance.
+Since this involves /actually using Vim,/ it's pretty much only
+applicable in text-editing contexts.
+
+Depending on the approach, this could be a little hard to set up and may
+not integrate so well with the features of the program in question.
+
+Now we can discuss some examples.
+
+* Document Viewers
+Vim's key bindings are great for editing text, and an important part of
+editing is motion, so they work pretty well for simply viewing
+documents. These will usually use a fairly soft approach, although there
+are notable exceptions. Vim's scrolling key bindings and HJKL are used
+nearly universally.
+
+A common feature of keyboard bindings for document viewers is *link
+hints*, where a number or sequence of characters is displayed next to
+every visible link, so the user can type the corresponding code to open
+a link instead of clicking on it. This will be much easier and more
+efficient to use than caret browsing or tab selection for non-trivial
+documents. It doesn't correspond to a feature of Vim, but is very useful
+in this context.
+
+** Vimium and Co.
+First we have the broad category of light-weight web browser plugins.
+These will add keyboard bindings for day-to-day actions like scrolling,
+tab and history management, and link selection, while leaving most of
+the browser's behaviour unchanged. They can be installed in less than a
+minute, and will permanently improve any browser without need for
+further tweaking.
+
+** The Vimperator Family
+[[http://vimperator.org/vimperator][Vimperator]], its forks and its
+derivatives, perform the closest equivalent to hard emulation possible
+within the confines of a browser plugin. They provide the features you'd
+expect from a Vim browser plugin, but also have much more extensive
+Vim-like behaviour, including a : command prompt, and a *plain-text
+configuration file*. There's even the capability for basic Vim-like
+editing in text input buffers, although I think you should write
+anything of notable length and importance locally before uploading it,
+so you could actually use Vim there anyway.
+
+Unfortunately, newer versions of Firefox do not support the plugin
+system Vimperator is based on, with only Tridactyl on the horizon as an
+attempt to re-create it. I use Pentadactyl (a Vimperator fork) with Pale
+Moon, a fork of an older version of Firefox. This could be perceived as
+'jank', and Pale Moon is not exactly pretty; however, the functionality
+is my primary concern and Pale Moon+Pentadactyl delivers admirably in
+that department.
+
+** Programmable Web Browsers
+:PROPERTIES:
+:CUSTOM_ID: programmable-web-browsers
+:END:
+This is a category of specialised web-browsers built from the ground up
+with extensibility and keyboard operation in mind. Notable examples
+include [[https://qutebrowser.org/][Qutebrowser]],
+[[https://surf.suckless.org][surf]] and
+[[https://nyxt.atlas.engineer/][Nyxt]]; these are written in Python, C
+and Common Lisp respectively.
+
+These are the tinkerer's dream, making it trivial to program your web
+browser. The power they offer does naturally present a higher barrier to
+entry than using plugins for normal browsers, but the same applies to
+Vim.
+
+They sit at the far 'hard' end of Vim emulation, not only in terms of
+keybindings, but in that they operate under the same principles of
+near-limitless customisation and tweaking as Vim itself.
+
+However, they face the inevitable problem of *not being based on
+Chromium or Firefox*, meaning they are likely to struggle with "modern"
+web pages, and may lack features such as Ad-Block, or be generally
+unstable. The time investment required to use them is also considerable.
+
+** Firenvim
+This somehow starts a Neovim instance in a text input box on a web page
+once you've gotten it set up, but this seems silly when you could just
+use *Vim if you're writing something complex enough to warrant it's
+capabilities. This will probably be uncommon in the realm of web forms.
+
+** Other File Types
+There is also the broad category of minimalist graphical file viewers,
+which offer limited customisation as far as it is useful, and will have
+at most a small status bar, with the content filling the rest of the
+window. These will have keyboard bindings which may not necessarily be
+that similar to Vim's, but will allow the user to mostly avoid touching
+the mouse. As such, they generally exhibit quite soft Vim emulation.
+Examples of ones I use include Zathura, sxiv and mpv.
+
+At the softest end, J and K are sometimes used for vertical scrolling in
+fairly normal document viewers, including Mozilla's PDF.js.
+
+* Text Editors
+It would stand to reason that other text editors, which ultimately have
+the same task as Vim, would benefit from emulating it, often in a fairly
+hard way.
+
+** Visual Studio VsVim
+This hard emulation plugin implements a substantial portion of Vim's
+key-bindings, to the point that /I/ slipped into 'Vim mode' while using
+it, and started trying to use features of Vim it /didn't/ replicate,
+like :g and :s commands.
+
+This should be quite portable and 'just work', so one might envy someone
+who found it sufficient for their use case. Similar plugins should exist
+for all major IDEs, and are likely to all provide a similar level of Vim
+emulation that is /definitely incomplete,/ but certainly better than
+nothing. These will be great for those who never got much further than
+=vimtutor=.
+
+** Emacs Evil Mode
+[[https://github.com/emacs-evil/evil][Evil Mode]] is Emacs' equivalent
+to VsVim. While it is mere emulation, it is far and away the most
+extensive reproduction of Vim's behaviour. This is to the extent that it
+can almost allow a Vim user to just open vanilla Emacs with no
+experience, =M-x package-install evil-mode= (after adding the Melpa
+package archive), and start working as if they are in Vim.
+
+Emacs does have other similar packages, =vip= and =viper=, which are
+part of the base Emacs distribution, but these effectively only
+implement Vi emulation, and have been completely superseded by Evil,
+with =viper= having last been updated in 2013.
+
+A great advantage for Evil Mode is that Emacs has many features that
+equate almost directly to those of Vim. As a result, in many cases,
+Evil's key-bindings can simply map to functions that already existed.
+This is probably part of what allows Evil Mode to be virtually feature
+complete compared to other editor extensions of its type. Since
+everything in Emacs is a text buffer, the Vim bindings can also be much
+more pervasive than with plugins for GUI-heavy IDEs.
+
+Additionally, there are supplementary packages that replicate the
+behaviour of some near-essential Vim plugins (e.g. commentary, surround)
+with Evil Mode.
+
+** VSCode NeoVim
+This wonderfully literally-named VSCode plugin interfaces VSCode with a
+NeoVim server, allowing you to get near-perfect Vim editing inside the
+more feature-rich Visual Studio environment. It even supports Vim
+plugins! The downside of it is that it involves getting the two programs
+to talk to each-other, which can be a bit finicky, since you have to
+specify the path of your NeoVim executable in the configuration;
+regardless, it is still going to be much better than VsVim once you've
+gotten it working.
+
+** NeoVim
+NeoVim is a fork of Vim that makes a small number of improvements and
+additions that can make it a lot nicer to use for some people (including
+myself). Since it is 90% Vim, this is the closest you can get to using
+Vim without it technically being the same thing.
+
+** Oni Vim 2
+[[https://www.onivim.io/][Oni Vim]] is a text editor with Vim at its
+core that aims to provide a VSCode-like experience in an editor with
+fundamentally /is/ Vim. It also (at least in theory) supports VSCode
+extensions.
+
+* Tiling Window Managers
+There's definitely a large overlap between Vim users and tiling window
+manager users, which comes as little surprise considering one could
+argue that tilers are to desktop environments what Vim is to IDEs.
+
+Since the tasks of a window manager and a text editor differ so greatly,
+the only key bindings that are likely to be the same are HJKL for
+navigation. However, these, like
+[[#programmable-web-browsers][programmable web browsers]], emulate the
+philosophy of Vim more than the literal behaviour. They have plain-text
+configuration files, allow the user to massively customise their
+behaviour and appearance, and are generally a lot more minimal than the
+alternatives.
+
+Examples include [[file:dwm.suckless.org][dwm]],
+[[file:awesomewm.org][awesome]], [[file:i3wm.org][i3wm]] and
+[[https://github.com/baskerville/bspwm][bspwm]].

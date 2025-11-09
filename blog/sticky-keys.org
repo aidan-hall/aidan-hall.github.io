@@ -1,0 +1,60 @@
+#+title: Sticky Keys!!!
+#+date: [2021-12-23 15:50]
+
+Anyone who's played a game on Windows which uses Shift for an action is
+likely to have seen the infamous “Sticky Keys” pop-up, which appears
+when that key is pressed 5 times in succession. I'm sure most simply
+ignore it, likely checking the box to disable the pop-up in future.
+However, with my recent interest in ergonomics (as a result of prolonged
+use of tiling window managers and /Emacs/), I've investigated this
+obscure accessibility feature.
+
+With sticky keys enabled, pressing and releasing a modifier key (such as
+Shift or Ctrl) keeps it enabled, turning the next normal key pressed
+into the ‘modified' form. This means the user doesn't have to hold
+modifiers down, which is significantly better for ergonomics. It notably
+turns Emacs' infamous key chords into sequences that can be pressed key
+one at a time, like Vim keybindings.
+
+* Enabling it on Linux (X11)
+To enable the feature without any additional software, the following can
+be put in the =~/.xserverrc= file. Consult the man page
+([[https://man.archlinux.org/man/Xserver.][Xserver(1)]]) and
+[[https://wiki.archlinux.org/title/Xinit][the Arch wiki page on xinit]]
+for more information. With this, pressing shift 5 times (sound
+familiar?) will enable sticky keys until two keys are pressed at the
+same time.
+
+#+begin_src shell
+#!/bin/sh
+exec /usr/bin/X -nolisten tcp "$@" +accessx
+#+end_src
+
+If it's possible to install the =xkbset= program (available in the
+Debian repositories and on the AUR), then a more effective configuration
+can be produced, as seen on
+[[https://superuser.com/questions/410657/enabling-sticky-keys-under-xorg-awesome-desktop-manager][this StackExchange post about sticky keys]].
+With =xkbset=, it is possible to keep sticky keys enabled even if two
+keys are pressed together, allowing a mix of sticky and normal-style
+typing to be used. This is helpful since most touch-typists will have
+strong muscle-memory for holding shift for capitalisation.
+
+* Latch Lock and Tiling Window Managers
+With latch lock, pressing a modifier twice keeps it enabled until the
+next time it is pressed. This is very helpful with tiling window
+managers, as the Super key can be locked, allowing window management
+operations to be performed with at most one or two keys pressed at once.
+
+The problem with this is the lack of feedback, since if a modifier is
+accidentally locked, it can be ambiguous and confusing as to what has
+happened.
+
+* dwm
+Sticky keys in general are /particularly/ helpful for dwm's default
+key-bindings, with its awkward combinations of Super, Ctrl and Shift
+used for tag manipulation.
+
+* Gaming
+Sticky keys naturally break the control schemes for many video games, so
+they must be turned off for gaming. Given I spend more time typing than
+gaming, I'm happy to have sticky keys be opt-out.

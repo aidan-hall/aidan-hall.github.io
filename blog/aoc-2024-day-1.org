@@ -1,0 +1,83 @@
+#+title: AoC in C++ Algorithms: Day 1 (=fold_left= & =zip_transform=)
+#+date: [2024-12-05 19:41]
+
+In an effort to stimulate activity on this blog, I'm going to write a
+post for every day of [[https://adventofcode.com/2024][Advent of Code]]
+I get through this year. In previous years I've never gotten further
+than about day 10, but this year I'm using C++, by far my strongest
+language, so I should be able to get a bit further.
+
+Specifically I'll be using C++23 (or at least the subset of it my
+compiler supports), making heavy use of ranges and algorithms, hence the
+title of the post. I'll put the featured algorithms in the title of each
+post, but not on the blog post list page, to avoid spoiling anyone. All
+the code is on [[https://gitlab.com/aidanhall/aoc-2024][my GitLab]].
+Let's get started!
+
+The problem itself on day 1 was very easy, serving as more of a warm-up.
+I actually found the task of parsing the input more interesting, since
+we had to divide it into columns. To achieve this, I wrote a massively
+over-engineered template function, making heavy use of pack folding
+expressions:
+
+#+begin_src cpp
+auto read_one(auto &&arg) {
+  arg.resize(arg.size() + 1);
+  std::cin >> arg.back();
+}
+
+template <typename... Ts> std::tuple<std::vector<Ts>...> parse_columns() {
+  std::tuple<std::vector<Ts>...> columns;
+  while (!std::cin.eof()) {
+    std::apply(
+        [](auto &&...args) {
+          (read_one(args), ...);
+          std::cin >> std::ws;
+        },
+        columns);
+  }
+  return columns;
+}
+#+end_src
+
+The main trick here is that =std::apply= will separate out elements of a
+tuple into separate function arguments, allowing us to use pack folding
+with the seldom-used comma operator to apply a function to each column.
+In comparison, the solution for part 1 was extremely simple:
+
+#+begin_src cpp
+int main() {
+  auto [l, r] = parse_columns<int, int>();
+  ranges::sort(l);
+  ranges::sort(r);
+  cout << ranges::fold_left(views::zip_transform(std::minus{}, l, r) |
+                                views::transform(std::labs),
+                            0, std::plus{})
+       << endl;
+}
+#+end_src
+
+I couldn't quickly find an STL algorithms-based solution for part 2, but
+this gets the job done:
+
+#+begin_src cpp
+int main() {
+  auto [l, r] = parse_columns<int, int>();
+  std::unordered_map<int, int> counts;
+  for (const auto n: r) {
+    counts[n]++;
+  }
+  int similarity = 0;
+  for (const auto n: l) {
+    if (auto pos = counts.find(n); pos != counts.end()) {
+      similarity += n * pos->second;
+    }
+  }
+  std::cout << similarity << std::endl;
+}
+#+end_src
+
+One mildly interesting thing in this solution is the declaration of
+=pos= within the =if= statement. This type of control flow is a common
+pattern, and being able to declare a variable there can make some code a
+lot neater.

@@ -1,0 +1,86 @@
+#+title: Thunderbird Supremacy
+#+date: [2022-10-30 10:34]
+
+I somehow haven't gone into detail on Thunderbird before, so here we
+are. If you aren't aware, Thunderbird is a FOSS mail client and calendar
+(with support for messaging via IRC & co., but who would use it for
+that?).
+
+* Perks
+** Native Application
+Since this is a program that is stored and runs directly on your
+computer, you don't need to download the whole thing every time. This
+allows it to be much more feature-rich than your typical web mail
+client, as I shall discuss. It even allows you to read (and write) mail
+without a persistent internet connection, since it can download your
+inbox (even with IMAP, with no configuration) and queue up messages to
+be sent once you do get a connection.
+
+** Multiple Addresses
+The single biggest advantage of Thunderbird (or any semi-competent mail
+client) is that it can keep you logged into multiple e-mail addresses,
+at once. Firstly, this ensures you have a uniform interface for
+everything, rather than being at the mercy of whatever Google or
+Microsoft decides they want things to look like.
+
+This has one particularly useful benefit for people with multiple
+accounts under the same provider. I, for example, have a personal
+address and a university one which are both served by Microsoft. To
+switch between them when using web mail, I have to *log out* and then
+*log back in with the other one*. In Thunderbird, they're just both
+there, and I can switch between them instantly.
+
+** Keyboard Bindings
+Thunderbird lets you do most daily tasks with the keyboard. I normally
+associate keyboard bindings with terminal-based programs which require
+the user to re-implement most of the functionality for
+[[https://www.merriam-webster.com/words-at-play/Themself][themself]], so
+this was a nice surprise. A lot of this is done using menu accelerators.
+To access the "eBay" folder in my "GMail" inbox, I can press the
+following: Alt-G o g i e
+
+** Flexible UI
+I use a tiling window manager, so the size I allocate to a given window
+can change frequently. While a web mail client like Microsoft's will
+struggle with less than the whole screen, Thunderbird handles it fine.
+
+If it has the whole screen, display the message pane side-by-side with
+the mail list (View → Layout → Vertical). If it has ½ the screen,
+display it below the messages (View → Layout → Wide or Classic). Even
+when it only has ¼ of the screen, it can manage by simply hiding the
+message pane (F8).
+
+Panes can also be resized by dragging the border, updating in real time
+(unlike Outlook webmail), and with the option to drag all the way across
+to hide an element completely.
+
+** Mail and Folder Manipulation
+Thunderbird provides some fairly powerful mail filtering and search
+tools (which work quickly since the messages are downloaded) which make
+it easy to find a message among hundreds. I especially like the quick
+filter (Ctrl-Shift-k) because it keeps you in the same folder and
+provides incremental results (provided you stop typing for a moment).
+
+* Challenges
+Sometimes it won't automatically get the settings right for certain mail
+providers, notably Microsoft Exchange. In the cases of my school and
+university addresses, the issue was multi-factor authentication not
+being enabled.
+
+There are also some services, such as Proton Mail and Tutanota, which
+deliberately make it hard to use a client other than their official
+ones, usually in the name of security. If there isn't a solution, that's
+the fault of the provider, not Thunderbird.
+
+Lastly, Microsoft Exchange specifically pre-filters mail into a
+"special" junk folder that can only be seen through their web mail
+client. Once again, Thunderbird is not at fault here.
+
+* Mobile
+There are apparently plans in motion to
+[[https://blog.thunderbird.net/2022/06/revealed-thunderbird-on-android-plans-k9/][turn K-9 Mail into Thunderbird on Android]].
+I'm currently using the GMail app on my phone, so this is something I'll
+want to try out. However, I don't think a mobile phone is good for
+anything more than /reading/ e-mails and displaying push notifications
+(which it's often more convenient to not have when concentrating on your
+work).

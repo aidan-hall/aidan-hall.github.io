@@ -1,0 +1,5 @@
+#+title: AoC in C++ Algorithms: Day 6
+#+date: [2024-12-06 11:10]
+
+I didn't manage to use any clever algorithms today, and only came up
+with a slow, brute-force solution for part 2.

@@ -1,0 +1,115 @@
+#+title: The Music Player Dæmon and its Clients
+#+date: [2022-06-05 08:21]
+
+Like many who use it, I was originally made aware of
+[[https://www.musicpd.org/clients/][MPD]] by
+[[https://videos.lukesmith.xyz/w/oraoQbwbyzQxun7QVk37cm][Luke Smith's video about it]].
+I then went on to learn a bit more about some more cool stuff you can do
+with MPD, as well as finding legitimate use-cases for at least 4
+different clients for it in my everyday music listening experience.
+
+* What is MPD?
+MPD is a server program that can be used for listening to music on
+UNIX-like operating systems. What makes it distinct from most other
+music players and streaming services is that the back-end is entirely
+separate from the front-end, so many different programs can act as
+‘music player clients', which can control MPD via a socket.
+
+This control mechanism even allows (some) clients to connect to an MPD
+instance running on a different, networked machine. The music is still
+played on that remote machine, so unless HTTP audio streaming is set up,
+this is not hugely beneficial, except for using your phone as a remote
+control for the system.
+
+MPD primarily plays music stored locally, but since music streaming
+services are so locked-down, you don't have many alternatives for
+getting this level of control over your listening experience.
+
+* Clients
+The website for the MPD project has a
+[[https://www.musicpd.org/clients/][comprehensive list of many clients]]
+
+** mpc (CLI)
+This is the basic command-line interface to MPD. It is useful for basic
+scripting, such as using media keys to control the player, but I have a
+more advanced setup which I will explain later.
+
+It does support one nice feature that none of the other clients I have
+looked at seem to be capable of: =mpc single once=. This enables single
+mode, which pauses the player after a track ends, but then disables it
+once the current track has stopped. I think I remember seeing this ‘stop
+at end of current song' feature in another music player and loved it, so
+I still use mpc just for it.
+
+** ncmpcpp (TUI)
+Luke features this one heavily in his video, so I get the impression
+that it is probably the most popular. It has a visualiser, a tag editor
+(which I've found unreliable for some reason) and numerous other
+features. The feature of it that stands out most for me is the media
+library sorted by albums. My music folder is organised in the form
+‘artist/album/track', so when multiple tracks from the same album have
+different artists, they can end up in totally separate places. The album
+view in ncmpcpp (accessed with the default keybindings by pressing 4 a
+few times) mitigates this by putting everything back together.
+
+It does have a few tiny issues, some of which will be explained below,
+including the fact that it just crashes if the window gets too small. I
+use a tiling window manager, so I have inadvertently done this a few
+times, especially on my smaller laptop screen.
+
+** ncmpc (TUI)
+The curses client created by the developers of MPD. For most people,
+this has been largely superseded by ncmpcpp, but I do find it has a few
+nice features in comparison.
+
+While it doesn't have [[file:levels-of-vim-emulation.org][Vi keys]] by
+default, it does have an interactive keybinding editor (which writes
+back to a plain-text config file), that I found easier to use than the
+offering for ncmpcpp. Since I customised the bindings for ncmpc myself,
+I find them more comfortable than the (still-default) ones for ncmpcpp.
+
+** mpc.el (Emacs)
+Yes, Emacs comes by default with an MPD client. Is it good? Not really.
+Is it funny that it exists? Most definitely.
+
+As a side note, this is one of the few Emacs programs that actually
+makes use of the tool bar, putting player control buttons there, so
+remember to turn on =tool-bar-mode= if you ever give this one a look.
+
+** Ario (GUI)
+Ario comes with all the upsides and downsides you would expect from a
+typical GUI program. You can click and drag UI elements to resize them,
+and drag and drop tracks into and around in the playlist. I can see this
+being more intuitive than the options provided by the other clients for
+precisely arranging tracks in a playlist. I normally listen in shuffle,
+or to whole albums in sequence, so this has never been of great benefit
+to me.
+
+On the other hand, it lacks pretty much any keybindings, and doesn't
+provide access to many of the features the TUI clients do. A slight
+oddity is that the window seems to ‘want' to be really big, causing
+weird behaviour if you try to force it to take up anything less than 80%
+of the screen. I normally have to keep it off on a workspace all by
+itself.
+
+I have also briefly used the xfmpc (GUI) client, but it provides such a
+minimal feature set that it really isn't worth using in any situation.
+
+** mpDris2 (MPRIS)
+I am not sure if this is needed any more, or whether the core MPD binary
+now supports MPRIS directly. MPRIS is the standard ‘media player
+control' interface on Linux/UNIX/whatever, which allows media players to
+be controlled centrally via a GUI interface in a desktop environment, or
+using the =playerctl= program. It also adds system notifications for
+when MPD starts or stops.
+
+I have media keybindings that use =playerctld=, which automatically
+tracks which media player I was using most recently, making it simple
+for me to use one set of keybindings to control most of the media
+players on my system.
+
+* Concluding Thoughts
+Overall, I would say MPD is the single best way to listen to music you
+have stored locally on a UNIX system. It is an unnecessary pain to set
+up, but provides so much functionality that it is irresistible to the
+average Linux hobbyist.

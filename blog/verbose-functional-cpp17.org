@@ -1,0 +1,29 @@
+#+title: What Modern C++ Nerds want you to Believe
+#+date: [2022-09-09 10:49]
+
+Virgin procedural programming:
+
+#+begin_src cpp
+  std::array<uint32_t, 5> high_scores;
+  // ...
+  std::string high_scores_string = "High Scores: ";
+  for (const auto score : high_scores) {
+    high_scores_string = high_scores_string + ", " + std::to_string(score);
+  }
+#+end_src
+
+Chad functional programming:
+
+#+begin_src cpp
+  std::array<uint32_t, 5> high_scores;
+  // ...
+  auto comma_fold = [](const std::string &text, uint32_t score) {
+    return text + ", " + std::to_string(score);
+  };
+  std::string high_scores_string =
+      std::accumulate(std::next(high_scores.begin()), high_scores.end(),
+                      "High Scores: " + std::to_string(high_scores.front()), comma_fold);
+#+end_src
+
+I actually just wrote these two exact pieces of code, then looked back,
+and questioned my life choices.

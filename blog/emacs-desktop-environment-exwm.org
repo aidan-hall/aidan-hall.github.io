@@ -1,0 +1,104 @@
+#+title: Emacs Desktop Environment: EXWM and Guix
+#+date: [2024-05-03 13:27]
+
+Continuing down the path of the Lisp Guru, I decided to try installing
+[[https://guix.gnu.org/][GNU Guix]] on my laptop.
+
+* Guix
+Guix is a Linux package manager and distribution written in Guile (an
+implementation of Scheme). When installed as an OS, it even replaces
+some of the common system services with alternatives written in Scheme.
+For example, instead of systemd, it uses shepherd.
+
+The "big deal" of Guix is that it allows you to create reproducible
+configurations for any software system, be that a self-contained project
+(Guix Shell), your desktop environment (Guix Home), or the operating
+system itself (Guix System).
+
+As an aside, I greatly appreciate Guix's system for defining per-user
+services: rather than messing about with a web of symbolic links to
+=.service= files and running =systemctl --user= a million times, you
+simply start a new =shepherd= process as each user that wants their own
+services.
+
+* EXWM
+Unsurprisingly, there is a large intersection between the userbase of
+Guix and Emacs, to the point that EXWM is one of the options in the Guix
+graphical installer. I'd tried using EXWM on Arch a few months prior,
+but had a few compatibility problems that made me go back to KDE. The
+fact that EXWM was presented as a "first class" option gave me the
+confidence to try it with Guix.
+
+This confidence was vindicated by the set of packages in the Guix
+repositories clearly aimed at helping to make a usable desktop
+environment within Emacs. These even included packages like
+=app-launcher=, which aren't available in GNU Elpa or Melpa; since I
+could install these packages with Guix, I didn't need to resort to
+downloading them directly from a Git repository with =straight.el= or
+=package-vc=.
+
+These Emacs packages provided most of the functionality I needed to
+build an excellent Emacs desktop environment:
+
+** =exwm=
+The window manager. Opens Emacs when the X session starts. Guix's
+=emacs-exwm= package is configured to load the file =~/.exwm= when
+starting EXWM. This means I can keep the rest of my Emacs configuration
+separate, and only enable desktop environment functionality when using
+EXWM.
+
+It also provides workspaces and a system tray, which work much the same
+as in window managers like i3 and dwm.
+
+** =desktop-environment=
+Provides key bindings for standard desktop operations like volume and
+backlight control. By default, it uses commands from the following Guix
+packages:
+
+- =alsa-utils=
+- =brightnessctl=
+- =slock=
+- =playerctl=
+- =scrot=
+
+** =app-launcher=
+While it's easy enough to set up a key binding to start programs with a
+shell command, this provides an interface to launch applications from
+desktop files. With a minibuffer completion package like =vertico=, it
+has a similar feel to the app launchers in desktop environments like
+KDE.
+
+** =minibar=
+Some EXWM users like to use packages like =mini-modeline= with EXWM to
+display the mode line of their active buffer in the minibuffer area.
+This gives them enough space to put system information like the battery
+level (=display-battery-mode=) in the mode line.
+
+The =minibar= package takes a simpler approach: mode lines act as
+normal, and when there is nothing else to show, it displays status
+information in the minibuffer/echo area. I prefer this approach, because
+the mode line should be reserved for buffer-specific information. It's
+also much easier for the user to customize, by adding a function to a
+list, rather than creating a minor mode or something similar to add text
+to the (already crowded) mode line.
+
+To configure it, the user just supplies a list of functions ("modules"
+in =minibar='s terminology) that return strings, and it concatenates the
+results of evaluating each to generate the contents of the bar.
+
+I do have a few issues with =minibar=: For one thing, it runs all module
+functions at the same interval, synchronously with the main Emacs
+process, so you can't easily add lower-frequency modules to, for
+example, check for package updates every half-hour. For another, when
+you have an X window focused, the echo area doesn't get automatically
+cleared, so when you do something like change the screen brightness, the
+minibar won't re-appear until you switch windows or trigger another
+Emacs command that doesn't print to the echo area.
+
+I imagine it would be simple enough to extend minibar to run module
+functions asynchronously, with individual update intervals, so I might
+try it some time if I have a free afternoon.
+
+Apparently it's possible to
+[[https://systemcrafters.net/emacs-desktop-environment/adding-a-panel/][integrate stand-alone status bars with EXWM]],
+so that might be a worthwhile alternative to investigate.

@@ -1,0 +1,53 @@
+#+title: Tracking Job Applications with Org Mode
+#+date: [2024-11-04 11:29]
+
+I'm in the middle of applying for jobs at the moment, and I've developed
+a simple system for keeping track of my applications using Org mode,
+which I thought I'd share. When making a lot of job applications, it's
+important to make note of things like when you applied, which version of
+your CV you sent to which employer, and upcoming interviews. Org mode
+provides the tools to do this all easily.
+
+* Outline Layout
+The basic idea is to create a new headline/section for each job
+application, optionally grouped by company or recruiter. Any information
+about the position can go within that section, including important
+details like the expected salary, location, and the type of work. This
+also lets me use the wide variety of metadata features associated with
+Org headlines. These can include tags for job sectors and technologies,
+application deadlines, and scheduled times for interviews.
+
+Org mode lets you change the set of TODO keywords within a file using a
+header entry. This is my set of keywords for job applications:
+
+#+begin_example
+,#+TODO: UNSENT(u!) SENT(s!) INTERVIEW(i!) OFFERED(o!) | ACCEPTED(a!) DECLINED(d!) REJECTED(r!) CLOSED(c!)
+#+end_example
+
+Each keyword has a single-letter shortcut that I can use to switch a
+heading directly to it, and the =!= flag, which causes Org to record
+when a heading switches to a given state. The bar separates "incomplete"
+keywords from "complete" ones.
+
+* Attachments
+Attachments are a feature of Org I hadn't found a good use for until
+now. When you run =org-attach= on a headline, you can add a file as an
+attachment of that heading. The attachments for each heading are stored
+in a separate, automatically-generated directory. This means that when I
+send an application off, I can attach the relevant version of my CV to
+the corresponding heading. When I need that version of the CV again, I
+can just look in the attachment folder. This will also be useful for
+storing job descriptions or any other files I receive relating to a
+given application.
+
+* Agenda and Sparse Tree
+Since I'm using standard Org metadata features to manage my
+applications, I can use built-in facilities like Agenda and Sparse Tree
+to get an efficient overview of my applications, that integrates with
+everything else I use Org for.
+
+* Closing Thoughts
+Org mode certainly isn't the only way to do these things: a spreadsheet
+would be adequate for a lot of things, and I'm sure many specialised
+tools exist for this purpose, but this is a good example of the
+flexibility and power of Emacs and Org mode.

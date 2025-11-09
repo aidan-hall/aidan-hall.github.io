@@ -1,0 +1,84 @@
+#+title: std::chrono Feels Like Magic
+#+date: [2022-09-16 20:47]
+
+I've been working on a video game in C++, and for those you need to work
+with time: the frame rate, animation speed, movement and more. Up until
+today, I was using SDL's API for time:
+
+#+begin_src cpp
+Uint32 SDL_GetTicks(void);
+void SDL_Delay(Uint32 ms);
+#+end_src
+
+This uses milliseconds, represented with integers, for time.
+
+I hate a lot of things about SDL (dynamic linking, clearly being
+designed to compensate for C's pathetic standard library, it /being/ a
+large C library my C++ code needs to interact with), so I want to stop
+using it. Given I would basically only need to replace these two
+function calls, I had a look into the C++ standard library equivalents
+in =<chrono>= and =<thread>=:
+
+#+begin_src cpp
+// Not technically correct
+std::high_resolution_clock::now();
+std::this_thread::sleep_for(std::chrono::duration& t);
+#+end_src
+
+While this is certainly more verbose, that applies to a lot of C++ so it
+seemed fine. Later on, I wanted to try switching to using floating-point
+numbers for time, and passing the time delta (passed between calls to
+them) into the systems of my ECS. To do that, I would need to wrap my
+head around =chrono='s concepts of =duration= and =time_point=.
+
+These are generic concepts that can be implemented based on integers or
+floating-point values, representing a number of nanoseconds,
+milliseconds, seconds etc. A =time_point= is a
+[[https://youtu.be/-77eKQ2IP5A?t=120][fixed point in time]], such as
+02:00:34 on the 17^{th} of April 1989. A =duration= is, obviously, a
+difference in time. The underlying representations of both of these (the
+data stored when the program runs) are (hopefully) just the =int=s or
+=float=s we're used to, but with added semantic meaning:
+
+#+begin_example
+time_point - time_point = duration
+time_point + duration = time_point
+duration + duration = duration
+time_point + time_point = NOT ALLOWED
+#+end_example
+
+Since I wanted to have a consistent representation of time points and
+durations in my game, and since the names of things in =<chrono>= are
+painfully verbose, I defined my own types based on them, as is
+demonstrated with =TimePoint= in
+[[https://en.cppreference.com/w/cpp/chrono/time_point/time_point_cast][the CppReference page about =time_point_cast=]].
+
+#+begin_src cpp
+using Duration = std::chrono::duration<double>;
+using TimePoint = std::chrono::time_point<
+                  std::chrono::high_resolution_clock, Duration>;
+#+end_src
+
+Having a clock parameter in =time_point= also means I can be sure of
+always using the same clock anywhere in my code by using
+=TimePoint::clock=.
+
+Having an explicit "time difference" parameter available makes the
+implementation of movement satisfyingly elegant (in addition to a vector
+maths library with operator overloading such GLM):
+
+#+begin_src cpp
+position += velocity * delta.count();
+#+end_src
+
+As a last point, I will mention the mind-bending world of
+=std::chrono_literals=. It uses =operator""=, which comes from automatic
+string literal concatenation, which comes in handy when you want to
+include a macro-defined string constant in a value. By overloading it,
+this syntax, which barely feels like C++, becomes possible:
+
+#+begin_src cpp
+using namespace std::chrono_literals;
+const auto attention_span = 5s;
+const auto reaction_time = 200ms;
+#+end_src

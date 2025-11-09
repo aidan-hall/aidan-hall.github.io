@@ -1,0 +1,253 @@
+#+title: Thoughts on Meta-Programming
+#+date: [2022-10-16 15:10]
+
+Update [2025-11-09 Sun 22:18]: This article was transferred from my
+old website, and refers to the [[https://aidanhall.gitlab.io/ssgss.html][static site generation setup]] I used at
+the time.
+
+I should give fair warning that this article is probably overly long and
+was written with little advance planning. It's sort of a formless blob
+of information, to the point that the sections could be re-arranged with
+little harm being done (in fact I did this while editing).
+
+-----
+
+A friend recently asked me, "How do you run a command on multiple
+buffers in Vim at once?". It turned out, they wanted to perform text
+substitution (modifying a standardised header in multiple HTML files). I
+suggested using =sed -i= instead. This got me thinking about a topic I'd
+been considering a while ago: meta-programming.
+
+#+begin_quote
+Meta-programming is a programming technique in which computer programs
+have the ability to treat other programs as their data.
+
+--- Wikipedia, Metaprogramming.
+#+end_quote
+
+This article considers ways in which the creation of code (or any
+regularly structured data) can be automated. It will focus on fairly
+primitive code generation, in the form of macros, snippets, completion,
+and so on. The central concept is that code generation, be it by (hu)man
+or machine, is part of a translation process between human thought and
+computer actions. It is desirable to move the cut-off point, below which
+the computer handles everything, as high as possible: doing so allows
+the human to more directly express their ideas when interacting with the
+computer.
+
+I analyse the effectiveness of various meta-programming tools as ways of
+moving the cut-off up (at least) one level.
+
+* Best Practices and Language Design (Haskell)
+I took a university module on functional programming last year, and the
+lecturer brought up the suggestion that the need for best practices and
+coding style guides is an indication of a poor language design. I think
+this is partly because they are sets of rules which lead to a lot of
+similar code being written.
+
+Can we consider any situation where repetitive code or data is created
+to be evidence of poor design? Let's look at "hello world". All three of
+these programs represent the abstract task, "print hello world", with
+more or less supplemental information, depending on the design goals of
+the language in question. Though the Java and Haskell programs are
+longer, information such as explicit type declarations can allow the
+computer's translation tools to generate more efficient programs.
+
+** Java
+#+begin_src java
+class HelloWorld {
+  static void main(String[] args) {
+    System.out.println("Hello world.");
+  }
+};
+#+end_src
+
+** Haskell
+#+begin_src haskell
+main :: IO ()
+main = putStrLn "Hello world"
+#+end_src
+
+** Python
+#+begin_src python
+print("Hello world")
+#+end_src
+
+* Compile-Time Evaluation (C Pre-Processor & Zig =comptime=)
+I was writing a Tetris clone the other week, and decided I should store
+all the textures for the pieces in one file, using the location of each
+within to extract them as needed.
+
+#+begin_src C
+enum Tetromino {
+ TET_I, TET_O, TET_T, TET_J, TET_L, TET_S, TET_Z, TET_NUM
+};
+
+SDL_Rect piece_regions[TET_NUM] = {
+  { TET_I *TILE_SIZE, 0, TILE_SIZE, TILE_SIZE },
+  { TET_O *TILE_SIZE, 0, TILE_SIZE, TILE_SIZE },
+  { TET_T *TILE_SIZE, 0, TILE_SIZE, TILE_SIZE },
+  { TET_J *TILE_SIZE, 0, TILE_SIZE, TILE_SIZE },
+  { TET_L *TILE_SIZE, 0, TILE_SIZE, TILE_SIZE },
+  { TET_S *TILE_SIZE, 0, TILE_SIZE, TILE_SIZE },
+  { TET_Z *TILE_SIZE, 0, TILE_SIZE, TILE_SIZE },
+};
+#+end_src
+
+Highly redundant code like this is generally indicative of a design
+flaw, but I was trying to work quickly, so I put together a C
+pre-processor (CPP[fn:1]) macro to make the redundancy less visually
+off-putting.
+
+#+begin_src C
+#define PIECE_REGION(I) { I *TILE_SIZE, 0, TILE_SIZE, TILE_SIZE }
+
+SDL_Rect piece_regions[TET_NUM] = {
+    PIECE_REGION(TET_I), PIECE_REGION(TET_O), PIECE_REGION(TET_T),
+    PIECE_REGION(TET_J), PIECE_REGION(TET_L), PIECE_REGION(TET_S),
+    PIECE_REGION(TET_Z),
+};
+#+end_src
+
+A language with compile-time execution such as Zig lets you do something
+like this (I can't promise the syntax is exactly right):
+
+#+begin_src zig
+var piece_regions: [TET_NUM] SDL_Rect = undefined;
+comptime {
+  var piece = TET_I;
+  while (piece <= TET_Z) {
+    piece_regions[piece] =
+      { piece * TILE_SIZE, 0, TILE_SIZE, TILE_SIZE};
+    piece += 1;
+  }
+}
+#+end_src
+
+Zig's compile-time execution offers a lot more flexibility than CPP,
+allowing you to, for example,
+[[https://ziglang.org/learn/overview/#compile-time-reflection-and-compile-time-code-execution][use the result of a function, evaluated at compile time, as the length of an array]].
+C++ offers similar functionality with =constexpr=, though I am not very
+familiar with it.
+
+One notable flaw of CPP is that it operates on text, rather than the
+abstract syntax tree (as opposed to LISP macros and compile-time
+execution in Zig and C++). This allows you to write code with macros
+that /looks/ like it breaks the syntax of the language, but will
+actually compile. Here, I've included the comma for separating the array
+elements in the macro, which looks odd for anyone familiar with C.
+
+#+begin_src C
+#define PIECE_REGION(I) { I *TILE_SIZE, 0, TILE_SIZE, TILE_SIZE },
+
+SDL_Rect piece_regions[TET_NUM] = {
+    PIECE_REGION(TET_I) PIECE_REGION(TET_O) PIECE_REGION(TET_T)
+    PIECE_REGION(TET_J) PIECE_REGION(TET_L) PIECE_REGION(TET_S)
+    PIECE_REGION(TET_Z)
+};
+#+end_src
+
+Bad macros like these can end up moving the translation cut-off /down/ a
+level, since the user has to consider the individual characters making
+up the syntax of the language, as opposed to the symbols. Even the C
+compiler operates on abstract symbols after parsing!
+
+* Redundant Data Generation/Consolidation (M4)
+As discussed in my [[https://aidanhall.gitlab.io/ssgss.html][page about it]], I use M4
+to keep information displayed in multiple places on my site consistent
+automatically. For example, for the header/navbar and footer, I had
+briefly considered trying something clever like using an =iframe= to
+pull in the separate HTML files when the page was viewed, but this
+proved too complicated.
+
+Notably, for links between pages on the site, I prefix the name of the
+page with `=SITE_URL'=, which currently expands to SITE_URL. This means
+that I can change the URL of the site, or other data such as the header
+and footer, and can just recompile everything with =make= to update the
+links. This macro is also a better abstract expression of "a page on my
+site" than the actual URL would be.
+
+M4 is neatly accompanied by Markdown, which saves me from writing HTML
+tags around everything; the two can be run together at compile time.
+
+This idea of generating HTML and other data at compile time leads to an
+interesting conclusion: *Writing code[fn:2] with a lot of redundancy
+pushes more of the job of compilation onto the programmer.* The anecdote
+I opened with is an example of this.
+
+LATEX commands can also be used in a similar way to reduce redundant use
+of formatting commands.
+[[https://www.informit.com/articles/article.aspx?p=675273][Separating Style and Content]]
+is a fundamental motivation behind using (semantic) markup languages in
+the era of WYSIWYG document editors. Doing so allows the user to focus
+on the /meaning/ of the content while writing it, and makes it easier
+(and easiest!) to have a consistent style throughout a whole document.
+
+* Macro Editors (Vim, Emmet)
+Some text editors, most notably Vim and Emacs, have support for macro
+systems, which allow the user to record a sequence of inputs and then
+play them back later. For the Tetromino regions, instead of a CPP macro,
+I could have used a Vim macro[fn:3]. Start with the following text, and
+the cursor on the first line:
+
+#+begin_example
+I
+O
+T
+J
+L
+S
+Z
+#+end_example
+
+Then, simply type
+=qqI{ TET_<Esc>A *TILE_SIZE, 0, TILE_SIZE, TILE_SIZE },<Esc>jq6@q= and
+you get the desired result. Alternatives (which I might be more likely
+to use) include =:norm= and =:s= commands.
+
+Macro expansion is part of the code translation/compilation process.
+This lets us view Vim macros as a meta-programming tool, which act as an
+extra pre-processor at the front of the pipeline. They very actively
+blur the line between editing and translation, effectively making them
+equivalent, by using the same symbols (editing commands) for interactive
+and macro operations.
+
+It bears mentioning that the Vi input system was designed to minimise
+keystrokes,
+[[https://www.theregister.com/2003/09/11/bill_joys_greatest_gift/][to allow editing on a highly unresponsive terminal]].
+It effectively forced Vi to be designed as a semi-batch editor: half way
+between an editor and a translator.
+
+A similar terse macro language is [[https://www.emmet.io/][Emmet]]: A
+short-hand system primarily intended for HTML and CSS, implemented as an
+editor plugin. Though it clearly acts as a translator, it is intended to
+(and only really can) be used interactively. Emmet makes it easier for
+humans to specify a DOM layout (the underlying, abstract idea) without
+having to deal with all the noise of XML syntax.
+
+With both Emmet and Vim, their power comes from making it easier to
+manipulate the /structure/ of the data, rather than performing raw
+character-wise editing and movement.
+
+An IDE or snippet utility could generate a Java class for you, and
+auto-completion can help with longer identifier names, but even /using
+textual identifiers/ is repetitive! I've discussed
+[[file:../wiki/typewritten-code.org][problems and potential solutions relating to typewritten code]]
+at length before.
+
+In conclusion, though it shouldn't be necessary, using meta-programming
+tools to supplement programming and markup languages is often beneficial
+when the goal is direct expression of the programmers's intentions as
+input to the computer. A higher-level language such as Haskell will
+typically incorporate meta-programming features, which can make the use
+of more advanced tools less beneficial. Java programmers use Eclipse;
+Lisp programmers use Emacs.
+
+[fn:1] Not to be confused with C Plus Plus
+
+[fn:2] Or markup if you want to be annoying about it.
+
+[fn:3] I felt that a CPP macro made the most sense since it's part of
+       the language, so if I wanted to add another piece, I could simply
+       add another =PIECE_REGIONS(I)= entry to the array. It carries the
+       additional benefit of being editor-independent.

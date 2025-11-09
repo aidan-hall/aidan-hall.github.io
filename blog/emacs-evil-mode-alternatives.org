@@ -1,0 +1,97 @@
+#+title: Emacs: The Plan to Move Away from Evil Mode
+#+date: [2023-05-23 13:37]
+
+I've been having great pains with editors, or more specifically editor
+keybindings. I recently read an old post on
+[[https://protesilaos.com/codelog][Protesilaos Stravrou's Code Log]]
+from the time when he had just recently switched to Emacs (around 2019,
+but I'm not sure exactly which one). He encourages Vim users to try to
+use Emacs' default keybindings instead of =evil-mode=. I thought I'd
+give this a go, but ran into the inevitable problem: Since I've now been
+using Emacs with =evil-mode= for a length of time approaching how long
+I'd been using Vim when I switched, Vim's keybindings are engrained into
+my muscle memory, and it would be a substantial effort to replace them.
+This got me thinking about the options I might have for ditching
+=evil-mode=.
+
+I have long felt the appeal of "purity" in my system configuration,
+which generally means using the simplest solution for a problem,
+generally preferring built-in editor functionality over extra stuff. It
+brings me joy to /remove/ an editor plugin or extension. The Evil
+ecosystem, by its nature, duplicates much of Emacs' built-in
+functionality in a form more familiar to Vim users; its removal would
+mean a great reduction in the redundancy in my setup.
+
+* Viper
+It would make me very happy if Viper (the built-in Vi emulation in
+Emacs) was a viable option, but it messes with Emacs' default
+keybindings and behaviour for some things (notably minibuffer completion
+with Vertico), is largely unmaintained, and is a bit too loyal to Vi's
+behaviour (e.g. it doesn't immediately remove text deleted with c from
+the display), lacking a lot of what I've come to expect from Vim.
+
+* Xah-Fly-Keys and ErgoEmacs
+These are both creations of the infamous
+[[http://www.xahlee.info][Xah Lee]]. At a glance they seem to have
+similar keybindings, aiming to prioritise the most frequently used
+editing operations. Xah-Fly-Keys is modal, so it seems to be catered
+more towards existing Vim keys users, but I think the similarity would
+just make me question the effort taken to switch. The downside is that
+it would just be another large framework slapped on top of Emacs,
+replacing Evil.
+
+* Unironically using default Emacs Keys
+The default Emacs keybindings are somewhat notorious for causing hand
+pain and RSI. I would need to be extremely careful with how I used them,
+although this would be the ideal solution from a minimalism perspective.
+A lot of modes aren't supported by Evil, so primarily using Emacs'
+default keys should theoretically lead to a more consistent experience.
+Since the default keybindings are available through C-z in =evil-mode=,
+I could probably try transitioning to these gradually instead of going
+"cold turkey", with the safety net of =evil-mode= still there if I need
+to get something done and find the keybindings are getting in the way.
+
+* God Mode
+God Mode seems to just hold down a modifier key for you (specifically
+Ctrl). I could see this being beneficial, but it seems like a somewhat
+ad-hoc hacky solution that "goes outside the system" of Emacs'
+keybindings.
+
+* Rebind of Emacs: You can (not) C-x
+The idea here would be to create a large set of custom bindings on top
+of Emacs according to my own preference. This would be quite the time
+commitment, but would have a high chance of producing a valuable result.
+I have considered how I could approach creating an efficient set of
+keybindings, and I reckon repeat maps would be valuable for this.
+
+I've created a package called
+[[https://gitlab.com/aidanhall/repeat-map-define][=repeat-map-define=]],
+which makes it easier to use the =repeat-mode= added in Emacs 28 to
+define "repeat maps". Repeat maps function in almost exactly the same
+way as [[https://github.com/abo-abo/hydra][Hydra]] as far as I can tell,
+although my package is only 72 lines of code as of writing
+(=repeat-mode= does 99% of the work), compared to the 1500+ of Hydra.
+The idea is that, after pressing a key chord, the chord's prefix is
+"pinned", so you only need to press the last key of that and any other
+bindings in the map. This allows for dynamic, pseudo-modal keymaps to be
+seamlessly activated and deactivated automatically, which seems much
+nicer than the God Mode approach. The obvious downside is that repeat
+maps must be manually defined, but with my package or Hydra, this is
+hardly any more effort than defining key bindings normally.
+
+My idea would be to define repeat maps for just about /everything/ that
+isn't a minor mode and doesn't create a separate buffer with its own
+special bindings. The primary of repeat maps is that they don't diminish
+the pain in the (common!) case of pressing one chord in a map then doing
+something else. In addition to this, it can be easy to overlook the fact
+that a repeat map was activated, or it may be unwanted, forcing the user
+to press C-g if the normal binding of a key in the repeat map is
+required.
+
+* Why am I Wasting so much Time on This?
+In the end, the goal should be writing code in the most efficient,
+healthy way possible. If Vim keys work for me, then I should probably
+stick with them. I also have a /lot/ of =evil-mode=-specific key
+bindings, which would feel somewhat depressing to give up. In the depths
+of my despair, I even considered switching back to NeoVim, but that
+would definitely not be worth it.

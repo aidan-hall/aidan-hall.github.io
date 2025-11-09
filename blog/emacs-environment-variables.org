@@ -1,0 +1,71 @@
+#+title: Setting Environment Variables In Emacs: PAGER and GTK_THEME
+#+date: [2024-06-19 09:15]
+
+If you're like me and use Emacs for everything (including your [[file:emacs-desktop-environment-exwm.org][window manager]]),
+you're likely to end up launching other programs from within Emacs.
+Since these programs are launched as child processes of Emacs, they will
+inherit its environment variable settings. The examples in this post are
+just the ones I have in my current configuration; the general point is
+that you can use environment variables to better integrate external
+programs with the
+[[https://protesilaos.com/codelog/2019-08-11-why-emacs-switch/][Emacs Computing Environment]].
+
+* =PAGER=
+Some programs, notably =git= and package managers, output many
+pages/screenfuls of text at a time, that a human may want to read. Some
+of them pass this output through
+[[https://en.wikipedia.org/wiki/Terminal_pager][a pager program]],
+usually =less=, that allows the user to scroll through and search the
+output. Emacs provides these features, and more, in every buffer,
+including its shells; this means running a separate pager process is
+unnecessary. Terminal pagers also don't behave correctly without full
+terminal emulation, for example, in =shell= and =eshell= buffers.
+
+It is possible to configure individual programs to not use a pager, but
+that would be a lot of effort. The easiest solution is to disable paging
+globally within Emacs, which you can do by setting the =PAGER=
+environment variable to the empty string:
+
+#+begin_src emacs-lisp
+(setenv "PAGER" "")
+#+end_src
+
+One case where I do want paging within Emacs is when using =vterm=. It
+provides full terminal emulation, so pagers like =less= actually
+function correctly. It also has a limited number of lines of
+scroll-back, so pagers offer the benefit of making it take longer to hit
+that limit. You can enable paging just within =vterm= like so:
+
+#+begin_src emacs-lisp
+(setopt vterm-environment '("PAGER=less"))
+#+end_src
+
+* =GTK_THEME=
+One great advantage of using Emacs for most of your computing tasks is
+that you get a single, consistent colour scheme across all
+buffers/applications. You could theoretically automatically generate and
+apply a complete GTK theme based on a given Emacs theme, but some things
+(notably websites) aren't going to match it exactly anyway; I only care
+about whether the theme is light or dark.
+
+Given this limited scope, it was trivial to write a function that
+applies the default light or dark GTK theme based on the current default
+background colour. I considered using a program that would update the
+theme for already-running applications, but it seemed like an
+unnecessary hassle, considering how I almost never change my theme.
+
+#+begin_src emacs-lisp
+(defun match-gtk-theme (&optional _)
+  "Set the GTK_THEME environment variable to match the current theme."
+  (setenv
+   "GTK_THEME"
+   (if (color-dark-p
+         (color-name-to-rgb (face-attribute 'default :background)))
+       "Adwaita:dark"
+     "Adwaita")))
+(add-hook 'enable-theme-functions 'match-gtk-theme)
+(match-gtk-theme)
+#+end_src
+
+I put this in my config file for EXWM, since it only works for child
+processes of Emacs, and only affects graphical applications.

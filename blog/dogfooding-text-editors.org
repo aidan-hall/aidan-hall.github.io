@@ -1,0 +1,51 @@
+#+title: Dogfooding Text Editors
+#+date: [2022-10-24 20:40]
+
+#+begin_quote
+[[https://en.wikipedia.org/wiki/Eating_your_own_dog_food][Dogfooding]],
+is the practice of using one's own products or services.
+#+end_quote
+
+This can be applied quite obviously to text editors and IDEs[fn:1]. In
+fact, I think they are one of the most common-sense applications of it,
+in addition to being a case of bootstrapping:
+
+*The editor must be good enough to implement itself.*
+
+This can be extended to help make a further point later:
+
+*The editor must be good for writing code in the language it is
+implemented in.*
+
+* Vim
+Bram Moolenaar obviously uses Vim to work on Vim, as I'm sure do most
+people who contribute to its ecosystem:
+
+#+begin_quote
+I have to admit I don't use many plugins, other than what is included
+with the distribution (such as matchit and termdebug). When I need
+something I tend to either make a quick hack or add it to the Vim base.
+That's the luxury of being the creator :-).
+#+end_quote
+
+Bram, in an interview.
+
+* JetBrains
+By contrast, all of the JetBrains IDEs are written in Java (or at least
+run on the JVM), and yet some of them /aren't Java IDEs!/ This makes
+dogfooding impossible, since you can't use a Python or C++ editor to
+write a Java program. I don't mean to pick on JetBrains specifically,
+but it brings me to an important rule of thumb:
+
+*The best editor for a serious language was probably written in that
+language.*
+
+Now does this imply that very high-level +scripting+[fn:2] languages
+like Python and Haskell aren't "serious" since you couldn't write an
+editor to beat Emacs in them?
+
+Yes.
+
+[fn:1] I will use the term "text editor" to refer to both.
+
+[fn:2] Oh excuse me, Haskell is compiled!

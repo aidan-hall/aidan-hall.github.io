@@ -1,0 +1,64 @@
+#+title: C++ Variadic Templates
+#+date: [2022-12-31 17:22]
+
+Over the last couple of months I've been building an Entity Component
+System in C++ for making games. The basic principle is to have every
+"thing" in the game represented by a unique (numerical) "Entity" ID, and
+to associate a set of "Components" with each entity, which are simple
+=struct=s. The interface for adding components to an entity had looked
+like this:
+
+#+begin_src cpp
+Entity e = ecs.newEntity();
+ecs.addComponent<Position>(e);
+ecs.getComponent<Position>(e) = Position{10, 10};
+ecs.addComponent<Velocity>(e);
+ecs.getComponent<Velocity>(e) = Velocity{5, 5};
+ecs.addComponent<Rotation>(e);
+ecs.getComponent<Rotation>(e) = Rotation{45.0f};
+#+end_src
+
+I had only written one game using this interface, and I had no time
+pressure, so the evident syntactic noise was bearable. However, I made
+the second game in a 48-hour game jam, so this repetition became
+unacceptable. The solution I came to was a variadic template, with the
+resulting interface:
+
+#+begin_src cpp
+Entity e = ecs.newEntity();
+ecs.addComponents(e, Position{10, 10}, Velocity{5, 5}, Rotation{45.0f});
+#+end_src
+
+Variadic templates work by generating code at compile time. The key
+language features that make =addComponents= work are the =...= syntax
+and =std::tuple=. =addComponents= is a /recursive function/. Each
+recursive call handles one (=value=), and has access to its type through
+=Component=, which can be used in the calls to =addComponent= and
+=getComponent=.
+
+#+begin_src cpp
+// Terminating case for variadic addComponents
+inline auto addComponents(Entity e) {
+  std::ignore = e;
+  return std::tuple<>{};
+}
+
+// Variadic template to add components.
+template <typename Component, typename... OtherComponents>
+inline auto addComponents(Entity e, Component value,
+                          OtherComponents... others) {
+  addComponent<Component>(e);
+  auto &component = getComponent<Component>(e);
+  component = value;
+  return std::tuple_cat(std::tuple<Component &>{component},
+                        addComponents(e, others...));
+}
+#+end_src
+
+What is strange is that this isn't really run-time recursion, since
+separate code is generated which operates on the remaining components
+(=others...=). As you can see, a separate definition of =addComponents=
+that takes no parameters is defined to serve as the base case for what I
+can best describe as *compile-time recursion!* I found this solution of
+having a base case definition reminiscent of recursive definitions in
+Haskell.

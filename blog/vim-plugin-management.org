@@ -1,0 +1,79 @@
+#+title: Managing Vim Plugins with Git and Packages
+#+date: [2021-06-03 19:56]
+
+There are [[https://xkcd.com/927][myriad]] Vim plugin managers, which
+serve to automate what was once the otherwise awkward process of
+downloading and installing scripts to extend Vim's behaviour. These
+still have their advantages, even over the method I am about to
+describe, but in my view serve as an unnecessary extra layer of
+abstraction (and complication), now that the latest versions of Vim and
+NeoVim (8 and 0.5 respectively as of writing) support =packages=.
+
+I'll assume that you can read the documentation for Vim and Git, so I
+will simply explain the method I use, with a brief introduction of the
+technologies involved.
+
+* Vim Packages
+These are the vanilla Vim solution to package management. Most existing
+Vim plugins will work as packages. New versions of Vim ship with some
+packages in the distribution, such as Bram's own termdebug.
+
+Packages are stored in =pack= directories. I use =~/.config/nvim/pack=,
+so all my files are in one place.
+[[https://dev.to/iggredible/how-to-use-vim-packages-3gil][This post]]
+([[https://web.archive.org/web/20210411094040/https://dev.to/iggredible/how-to-use-vim-packages-3gil][archive]])
+does a good job of explaining the nitty-gritty details.
+
+* Git Submodules
+Submodules allow one Git repository to automatically have another one
+held at a specific location within it. If we manage our Vim
+configuration with Git, we can import each plugin as a submodule. For
+example:
+
+#+begin_src sh
+$ cd ~/.config/nvim/pack/plugins/start
+$ git submodule add "https://github.com/tpope/vim-surround"
+#+end_src
+
+Then, to download the latest versions of all our plugins, for example
+after cloning the Vim configuration repository:
+
+#+begin_src sh
+$ cd ~/.config/nvim
+$ git submodule update --init --recursive
+#+end_src
+
+* Usage Details
+Packages may be loaded conditionally by placing them in =opt=
+directories, then running =packadd= when appropriate:
+
+#+begin_src vim
+if has("nvim-0.5")
+    packadd nvim-lspconfig
+endif
+#+end_src
+
+To make a package's documentation accessible to =help=, the =helptags=
+command must be run after it is added. For convenience, I have the
+following in my startup script:
+
+#+begin_src vim
+helptags ALL
+#+end_src
+
+* Comparison to [[https://github.com/junegunn/vim-plug][vim-plug]]
+Using a plugin manager does provide a more seamless experience. The
+currently installed plugins are expressed directly within the Vim
+configuration files, rather than in =.gitmodules=, resulting in a more
+consistent configuration that is easier to view and modify. Plugins may
+also be updated simply, elegantly and /in parallel,/ with a simple
+=:PlugUpdate=. By contrast, having to call into Git is a bit clunky, and
+it can be easy to lose track of what plugins are installed.
+
+However, for the common case of using the plugins once the system is set
+up, the two are identical. I prefer using built-in Vim features where
+possible, so the Git+Packages setup works well for me. Additionally, the
+=pack= directory may be browsed to see which plugins are installed, with
+plugins being 'physically' grouped by subdirectories. My packages can be
+viewed
+[[https://gitlab.com/aidanhall/dots/-/tree/master/vim/.config/nvim/pack][here]].

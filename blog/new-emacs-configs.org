@@ -1,0 +1,29 @@
+#+title: New Emacs Configurations
+#+date: [2024-12-20 11:18]
+
+I've created two new Emacs configurations: A
+[[https://gitlab.com/aidanhall/emacs.d][simplified and enhanced refactoring]]
+of my current configuration for Emacs 29 (c. 700 LoC), and a
+[[https://gitlab.com/aidanhall/spartan-emacs][spartan]] configuration
+that works on Emacs 27 without downloading any external packages (c. 100
+LoC).
+
+My current "main" Emacs configuration (in my
+[[https://gitlab.com/aidanhall/dots][dots]]) repository has grown
+organically since I started using Emacs in 2021. In that time I've
+learned a lot more about Emacs, and changed how I use it, so I was able
+to replicate pretty much all the behaviour I wanted from it with less
+than half the line count, and a third the =emacs-init-time=. Starting
+fresh allowed me to consolidate some features (e.g. switching from using
+a combination of corfu and company for completions to only ever using
+company).
+
+The purpose of the Spartan configuration is portability: at the time of
+writing, the latest version of Emacs available in repositories for some
+"stable" Linux distributions that I have to use is 27.1 (notably, Ubuntu
+22 LTS). While I can usually manage to install Emacs 29 on a machine I'm
+going to be using a lot, this is often time-consuming, and it sometimes
+integrates poorly with the host system. This configuration will work on
+anything newer than an ancient server still running Ubuntu 16. If I ever
+had to work with such an old machine, I would either access it through
+TRAMP from a modern Emacs on my PC, or use nano to edit files over SSH.

@@ -1,0 +1,84 @@
+#+title: Seeing the Light of God-Mode
+#+date: [2023-08-25 18:43]
+
+In
+[[https://www.dcs.warwick.ac.uk/~u2106099/blog/23-05-23_13.37-Emacs-The-Plan-to-Move-Away-from-Evil-Mode.html][a previous post]],
+I expressed a desire to stop using =evil-mode=, and listed some
+alternatives I could consider. One of these was
+[[https://chrisdone.com/posts/god-mode/][God-Mode]]; I dismissed it as
+an "ad-hoc hacky solution", but having tried it, it actually seems like
+a really good idea.
+
+* Going Outside The System
+My complaint about God-Mode was the fact that it doesn't work within
+Emacs' keybinding system. In short, it makes Emacs act as though Control
+is held all the time, with specially bound keys to temporarily use other
+prefixes like M- or C-M-. On reflection, this is actually /really good,/
+because it just makes the default keybindings easier to use. In fact, it
+sort of pushes the ergonomics of Emacs' default keybindings to the
+extremes.
+
+It's easy to enter chords with the same modifier on consecutive keys
+(e.g. C-x C-f for =find-file= becomes xf), which I've seen referred to
+as "editing tempo", apparently by
+[[https://masteringemacs.org][Mastering Emacs]], although I couldn't
+immediately find where. Conversely, chords that were already obviously
+bad, like =outline-hide-body= (which is bound to C-c @ C-c) seem even
+worse by comparison, since God-Mode's assumptions don't match well with
+them (the best I could do was c SPC @ C-c).
+
+* Blending in and Funny Coincidences
+God-Mode thankfully does not trample over transient keymaps (as in
+=set-transient-map= and =repeat-mode=), so these two systems neatly
+blend together for a surprisingly smooth experience (by Emacs'
+standards).
+
+Due to the default binding of g to activate the Alt/Meta prefix, there
+are actually a few bindings that end up +the same+ +similar+ reminiscent
+of Vim:
+
+- gq: Fill paragraph.
+- gu: Change the case of some text.
+
+* One and Done
+Since God-Mode just enhances the default bindings' ergonomics, rather
+than stacking new ones on top, you don't need to remember multiple sets
+of bindings. Once I worked out the mental mapping from default key
+"notation" to God-Mode's input system, I was able to start using it at
+high speed almost immediately, since I'd already familiarised myself
+with the default bindings.
+
+An additional benefit of this is that I won't have to worry about
+throwing away loads of special God-Mode keybindings[fn:1] if I decide to
+stop using it in the future. Here's my (quite possibly final) God-Mode
+config:
+
+#+begin_src emacs-lisp
+;;;; God Mode
+(use-package god-mode
+  :ensure t
+  :init
+  (setq god-mode-enable-function-key-translation nil)
+  :config
+  (keymap-set god-local-mode-map "." #'repeat)
+  (keymap-set god-local-mode-map "i" #'god-local-mode)
+  (cl-pushnew '("," . "C-M-") god-mode-alist)
+  (keymap-global-set "C-z" 'god-local-mode)
+  (mapcar (lambda (mode)
+            (cl-pushnew mode god-exempt-major-modes))
+          '(erc-mode))
+  (defun my-god-mode-update-cursor-type ()
+    (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'bar)))
+
+  (add-hook 'post-command-hook #'my-god-mode-update-cursor-type))
+#+end_src
+
+It was actually kind of hard finding a better key than G (the default)
+for C-M-. The ; and j keys were strong contenders given their home row
+position, but there are a lot of keybindings that use C-j and C-;, which
+would be trampled by this. Fortunately, C-, is decidedly less common, so
+the awkward placement is almost excusable. At least it's better than
+having to /press shift/ when /the whole point/ of these keybindings is
+/to make keybindings easier to type/.
+
+[fn:1] looking at you Evil leader keys.

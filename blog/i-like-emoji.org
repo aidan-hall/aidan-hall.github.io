@@ -1,0 +1,29 @@
+#+title: Emoji
+#+date: [2022-05-27 19:25]
+
+I like Emoji. 🤯
+
+I think it's a fairly cool technology with an interesting history. I
+love the weird and historical ones like 🕴. I find it funny that there
+are distinct gender-neutral and gendered versions of professions,
+suggesting that by default people have no gender:
+
+- 👷: Construction Worker.
+- 👷‍♀️: Female Construction Worker.
+- 👷‍♂️: Male Construction Worker.
+
+The thing that I really love is that these variations are constructed by
+putting certain emoji characters next to each other, separated by
+special joiners.
+
+Once you understand how to combine things, you can produce all the emoji
+your heart desires:
+
+- 👩🏿‍🦲
+- 👨🏾‍🚀
+- 🧑‍🎓
+
+It seems the basic MAN (👨), WOMAN (👩) and ADULT (🧑) emoji are all
+amenable to composition, although CHILD (🧒) isn't. As a result, my
+opinion of the technology is significantly lessened, since we can't
+create a ‘child astronaut with curly ginger hair' emoji.

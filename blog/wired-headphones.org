@@ -1,0 +1,81 @@
+#+title: Wired Headphones
+#+date: [2022-06-04 11:43]
+
+I am a big fan of wired headphones, for an array of variably obvious
+reasons. I will focus on the context of a pair used whilst out and
+about, since this is the only situation where wireless headphones have
+any merits worth discussing.
+
+* No Batteries
+It is an unavoidable fact that wireless headphones require batteries to
+operate, and these will degrade over time. According to the source of
+all truth in the universe (some random people on Reddit), the battery in
+a typical pair of wireless headphones will last around 3 years. At this
+point, you either have an expensive paperweight, or need to replace the
+battery.
+
+Even assuming the battery is replaceable, there is a decent chance of it
+being a proprietary design which the manufacturer will eventually stop
+producing. Not only this, but batteries are based on rare metals, of
+which we have a finite supply on Earth, so we as a society need to avoid
+over-reliance on them.
+
+* Price
+Generally speaking, wired headphones are a simpler form of technology,
+so they are going to be cheaper than wireless headphones with otherwise
+equivalent feature-sets.
+
+* Ubiquitous Support
+I have never had to use an iPhone later than the 7, and virtually /every
+other significant piece of consumer electronics that can output sound/
+will have the 3.5mm headphone port. This includes all my computers and
+game consoles.
+
+My current mobile phone is the Huawei P20 Lite, which I suspect is the
+last one Huawei will have ever made with this port, since the normal
+P20, the supposed higher-end model in the same generation, does not have
+one.
+
+Even if your mobile phone lacks a headphone port, an adaptor dongle can
+easily be used.
+
+As an aside, don't you love how Apple obviously removed the headphone
+port from iPhones to strong-arm people into buying AirPods? Wireless
+ear-buds are possibly the worst offenders, since the tiny batteries in
+the ear-pieces will degrade within an even shorter time than those in
+on-ear headphones.
+
+* ‘Cons' of Wired Headphones
+The cable does become an inconvenience at times; this cannot be denied.
+However, unless you're going for a run, chances are that most of the
+time you're going to be sitting still with your headphones on, in which
+case it barely matters.
+
+The cable is the consumable component of wired headphones. These are
+vulnerable to being broken, either from excessive wear on the
+connectors, or from the cable itself being snapped or cut. I reckon the
+cable will generally be more at risk of failure without warning than a
+battery would, so headphones with an unremovable cable are actually
+worse for long-term reliability than wireless headphones, in that
+regard. However, if the designer has been sufficiently competent (and
+consumer-friendly) to make the cable removable, this can easily be
+replaced at little expense, with a standard part that isn't reliant on a
+specific manufacturer. As for wired earbuds, these are so small and
+cheap that it is almost reasonable for the entire unit to be disposable.
+
+I just recently bought the third cable for my pair of wired Skullcandy
+Grind headphones. These things have lasted for upwards of 7 years, with
+a replacement pair of ear pads providing them with a new lease on
+life. [fn:1] The first cable wasn't broken, and I only bought a new one
+because the microphone in the headphones broke so I needed a cable that
+didn't have a microphone wire; that original cable is still in use
+connecting my speaker to my PC.
+
+Since Active Noise Cancelling (ANC) requires a power supply (hence the
+name), most headphones with that feature will also be wireless. The
+advantages of ANC are balanced by the disadvantages of needing a
+battery, as I explained already.
+
+[fn:1] This isn't an endorsement of Skullcandy, since their current
+       offering for wired headphones seems to be restricted to ones with
+       unremovable cables (i.e. nothing of worth).

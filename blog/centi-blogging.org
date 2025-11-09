@@ -1,0 +1,19 @@
+#+title: Centi-Blogging
+#+date: [2022-05-16 12:44]
+
+I might try posting some lower-effort stuff on here, just for a bit of
+fun.
+
+There is a concept known as
+[[https://en.wikipedia.org/wiki/Microblogging][Microblogging]], but I
+find the association with Twitter off-putting. Instead, I shall engage
+in the practice of /centi-blogging/, which I will define as writing
+short blog posts that exceed the length limit for a Twitter post (280
+characters).
+
+The SI prefix /centi/ is two up from /micro/ (with /milli/ in-between).
+I already chose the name before checking that and I think milli-blogging
+sounds even more stupid than /centi-blogging/.
+
+I probably won't ever use the term again, since its sole purpose is to
+explain how I will be using this blog from now on.

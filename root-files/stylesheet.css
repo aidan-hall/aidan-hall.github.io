@@ -287,8 +287,8 @@ li {
 
 /* Footer */
 footer {
-    border-top: 2px groove;
-    border-radius: 1px;
+    color: grey;
+    border-top: var(--bubble-border);
     grid-area: footer;
     padding: 1em;
 }

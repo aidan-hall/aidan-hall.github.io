@@ -109,9 +109,7 @@
 <p class=\"subtitle\">%s</p>
 <p class=\"blogdate\">%d</p>"
  ;; TODO: Make this a function so we can include e.g. publishing date conditionally.
- org-html-postamble "Last modified: %C.
-Created with %c.
-<a href=\"#content\">🔝</a>"
+ org-html-postamble "Copyright © 2021-2025 Aidan Hall. Last modified: %C. <a href=\"#content\">🔝</a>"
  org-html-footnotes-section "<section id=\"footnotes\" class=\"float-bubble\">
 <h2 class=\"footnotes\">%s: </h2>
 <div id=\"text-footnotes\">

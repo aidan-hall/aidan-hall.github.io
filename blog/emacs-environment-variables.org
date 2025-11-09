@@ -1,4 +1,4 @@
-#+title: Setting Environment Variables In Emacs: PAGER and GTK_THEME
+#+title: Setting Environment Variables In Emacs: ~PAGER~ and ~GTK_THEME~
 #+date: [2024-06-19 09:15]
 
 If you're like me and use Emacs for everything (including your [[file:emacs-desktop-environment-exwm.org][window manager]]),

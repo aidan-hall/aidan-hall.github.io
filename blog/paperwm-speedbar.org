@@ -1,4 +1,5 @@
-#+title: PaperWM: The only window manager that makes Emacs' Speedbar tolerable
+#+title: The PaperWM GNOME Extension
+#+description: The only window manager that makes Emacs' Speedbar tolerable
 #+date: [2025-03-19 17:05]
 
 I've been using GNOME as my main desktop for a while now; I needed

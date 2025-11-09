@@ -1,4 +1,5 @@
-#+title: Adding What I Want (Arch Linux cleanup)
+#+title: Adding What I Want
+#+subtitle: Arch Linux cleanup
 #+date: [2023-05-03 11:47]
 
 I've got Arch Linux on my laptop, and for a while now I've been feeling

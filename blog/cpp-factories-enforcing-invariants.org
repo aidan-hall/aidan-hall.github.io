@@ -1,4 +1,5 @@
-#+title: Guaranteeing Invariants on Classes with Private Constructors and =friend=
+#+title: Enforcing C++ Class Invariants
+#+description: Guaranteeing Invariants on Classes with Private Constructors and =friend=
 #+date: [2022-09-22 17:46]
 
 Thu 22 Sep 17:46:03 BST 2022

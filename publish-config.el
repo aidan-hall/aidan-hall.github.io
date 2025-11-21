@@ -180,7 +180,7 @@
          (concat "<summary>" (org-html-encode-plain-text description) "</summary>")
        (if-let ((subtitle
                  (org-publish-find-property entry :subtitle project 'html)))
-           (concat "<summary>" (org-html-encode-plain-text (string-join subtitle " ")) "</summary")))
+           (concat "<summary>" (org-html-encode-plain-text (string-join subtitle " ")) "</summary>")))
      "</entry>")))
 
 (defun feed-project (subdir &rest properties)

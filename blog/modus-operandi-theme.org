@@ -21,5 +21,5 @@ Comments are grey, with errors and warnings highlighted in the typical red and y
 
 On a more technical note, considering the Modus Themes project itself: when I first used them in 2021, they were some of the few themes that supported Neovim's tree-sitter syntax highlighting capabilities. The Emacs versions of the themes specifically also offer improvements that should be available as a baseline, such as ~modus-themes-mixed-fonts~, which allows certain elements like Org-mode tables to always render in a monospaced font, even if the main text of the buffer is variable-width.
 
-The funny thing is, despite fact that that were originally Emacs themes, I was using Modus in Vim for about half a year before I discovered the original Emacs package.
+The funny thing is, despite the fact that they were originally Emacs themes, I was using Modus in Vim for about half a year before I discovered the original Emacs package.
 From then on, Modus Operandi has been the only theme I use in Emacs, except for the occasional switch to Modus Vivendi (its dark counterpart) if my eyes get especially tired.  In short, these themes are amazing; thanks Prot! I recommend any Emacs user to try them out. If pure black/white seems too extreme, you could try modus-vivendi-tinted, which is a more typical dark theme.

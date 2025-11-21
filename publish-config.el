@@ -171,16 +171,16 @@
   (let ((article-url (published-file-url entry project)))
     (concat
      "<entry>"
-     "<title>" (org-publish-find-title entry project) "</title>"
+     "<title>" (org-html-encode-plain-text (org-publish-find-title entry project)) "</title>"
      "<id>" article-url "</id>"
      "<updated>" (atom-timestamp (org-publish-find-date entry project)) "</updated>"
      "<link href=\"" article-url "\"/>"
      (if-let ((description
                (org-publish-find-property entry :description project 'html)))
-         (concat "<summary>" description "</summary>")
+         (concat "<summary>" (org-html-encode-plain-text description) "</summary>")
        (if-let ((subtitle
                  (org-publish-find-property entry :subtitle project 'html)))
-           (concat "<summary>" (string-join subtitle " ") "</summary")))
+           (concat "<summary>" (org-html-encode-plain-text (string-join subtitle " ")) "</summary")))
      "</entry>")))
 
 (defun feed-project (subdir &rest properties)

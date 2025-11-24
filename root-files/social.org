@@ -1,0 +1,21 @@
+#+TITLE: Aidan's Org Social
+#+NICK: Argletrough
+#+DESCRIPTION: A software engineer with an unhealthy obsession with Emacs.
+#+AVATAR: https://aidanhall.xyz/files/pics/moon-silhouette-aidan-256.png
+#+LINK: https://aidanhall.xyz
+#+FOLLOW: https://sachachua.com/social.org
+
+* Posts
+
+
+** 
+:PROPERTIES:
+:ID: 2025-11-24T18:04:05+0000
+:TAGS: 
+:CLIENT: org-social.el
+:MOOD: 
+:END:
+
+This seems cute, but my current web hosting requires me to check all
+changes into Git, which is probably at odds with the minimally edited
+stream of consciousness that a social media feed is supposed to be.

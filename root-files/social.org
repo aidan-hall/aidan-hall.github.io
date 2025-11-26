@@ -1,10 +1,11 @@
-#+TITLE: Aidan's Org Social
+#+TITLE: Aidan Hall
 #+NICK: Argletrough
 #+DESCRIPTION: A software engineer with an unhealthy obsession with Emacs.
-#+AVATAR: https://aidanhall.xyz/files/pics/moon-silhouette-aidan-256.png
+#+AVATAR: https://aidanhall.xyz/files/pics/moon-silhouette-aidan-256.jpg
 #+LINK: https://aidanhall.xyz
-#+FOLLOW: https://sachachua.com/social.org
 
+#+FOLLOW: sachac https://sachachua.com/social.org
+#+FOLLOW: jbaty https://jackbaty.com/social.org
 * Posts
 
 

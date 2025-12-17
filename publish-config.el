@@ -175,12 +175,14 @@
      "<id>" article-url "</id>"
      "<updated>" (atom-timestamp (org-publish-find-date entry project)) "</updated>"
      "<link href=\"" article-url "\"/>"
-     (if-let ((description
-               (org-publish-find-property entry :description project 'html)))
-         (concat "<summary>" (org-html-encode-plain-text description) "</summary>")
-       (if-let ((subtitle
-                 (org-publish-find-property entry :subtitle project 'html)))
-           (concat "<summary>" (org-html-encode-plain-text (string-join subtitle " ")) "</summary>")))
+     "<summary>"
+     (org-html-encode-plain-text
+      (or (org-publish-find-property entry :description project 'html)
+          (if-let ((subtitle
+                    (org-publish-find-property entry :subtitle project 'html)))
+              (string-join subtitle " "))
+          "(No description.)"))
+     "</summary>"
      "</entry>")))
 
 (defun feed-project (subdir &rest properties)

@@ -1,0 +1,66 @@
+#+title: Systems Programming Notes
+#+subtitle: A living write-up on my thoughts about good design and development practice for low-level software, with a focus on solo game development.
+#+author: Aidan Hall
+#+date: [2025-12-21 Sun 21:06]
+* Introduction
+This document represents my opinions at the time of writing.
+The contents are prescriptive and critical; this should not be seen as an attack.
+The point of this exercise is to get down in writing the current state of my thoughts on software development.
+Many of these ideas have spent at least 5 years stewing in my mind without significant testing in the real world.
+My aim in creating this write-up is to force myself to stop meditating and tinkering and /actually test/ these ideas by completing a significant project following my own advice.
+* Constrained Optimisation
+The approach taken in any project must approximate a vertex in an optimisation space that includes the following constraints:
+- Developer time and skill,
+- Developer experience (debugging, iteration, testing),
+- Hardware capabilities (development & deployment environments),
+- Portability (language & library features, target hardware and operating systems).
+
+A personal project written by one developer for their own enjoyment and/or edification to run on /their own computer/ will sit at a different vertex than a large open-source project with thousands of contributors.
+** Core Programming Principles
+:PROPERTIES:
+:CUSTOM_ID: principles
+:END:
+- *Debugging is more important than typing*: Thin, layered abstractions that aim to reduce it often come at the cost of clarity, performance and build times.
+- *Testing is more important than debugging*: If you have tests that show a piece of code is correct, it does not need to be easy to debug.
+- *Iteration speed is more important than style*: Use plain for loops to sketch out a design in code before refactoring in terms of algorithms.
+- *Coding is the least important part of programming, design is the most important part*: Sketching a design while writing the code inevitably fails for non-trivial problems.
+* Design
+[[https://www.dataorienteddesign.com/dodbook][Data-oriented]], of course?
+* Dependencies
+- When dependencies are required, prefer stable, established libraries, even if they may not be the flashiest or most developer-friendly.
+# TODO: Why?
+# - Avoid framework-style libraries (e.g. SDL)
+* Abstraction
+:PROPERTIES:
+:CUSTOM_ID: abstraction
+:END:
+- The ideal abstraction provides a language or model with which to express business logic directly and efficiently.
+- Technical details that are relevant to business logic are not hidden for the sake of vaguely-defined mathematical purity.
+- Good examples:
+  - [[https://www.fm2gp.com/][C++ STL algorithms]], notably the [[https://en.cppreference.com/w/cpp/algorithm/upper_bound.html][multiple binary search algorithms]].
+  - Game engines. Notably scene graphs.
+- Bad examples:
+  - Raylib's [[https://www.raylib.com/cheatsheet/cheatsheet.html#ptextures][texture drawing API]], if applied to drawing 2D game scenes: Even for small games, the application's business is usually not making arbitrary draw calls.
+  - High-level OpenGL Uniform setter wrappers, including [[file:../blog/opengl-overloaded-uniform-setter.org][my own]]: this only saves typing (see [[#principles][Core Programming Principles]]).
+* Build Systems & Meta-Programming
+- Permit at most one meta-language that is not the main language of the application (e.g. CMake) to keep build processes simple.
+- All compile-time execution, meta-programming and code generation features in systems languages are [[https://philip.greenspun.com/research/][awkward subsets of procedural Lisp macros]].
+- If you want to do anything interesting along these lines, use or create a procedural macro system?
+* Resource Management
+Most resources are either *memory* or *handles*.
+** Memory
+- Explicit use of general-purpose allocators (e.g. malloc) and/or reference counting is inefficient in most relevant metrics.
+- When using languages without explicit lifetime checking/safety, it is /even more important/ for the programmer to think about lifetimes.
+- Centralised memory allocation makes lifetimes easier to reason about for programmers and automatic memory management systems in /all/ languages.
+  - E.g. Per-frame arena.
+- Dependency injection with custom allocators may offer a decent approximation lifetime management in C++.
+- Allocation and ownership should be non-obtrusive (i.e. avoid RAII/smart pointers).
+** Handles
+- These include file handles, synchronisation primitives, and memory/objects allocated by libraries.
+- RAII/intrusive ownership are useful for handles.
+* Language Specifics
+** C++
+- Always use the newest standard with sufficient language and library support in GCC and Clang (currently 23).
+  - Use Clang to build for Windows.
+- PMR seems attractive as a custom allocator library, but has the typical C++ standard library complexity baggage.
+  - The [[https://cs.cppreference.com/w/cpp/memory/set_default_resource.html][default resource]] and PMR versions of STL containers are alluring, but would probably be most useful for incremental documentation in an existing codebase that heavily used STL containers.

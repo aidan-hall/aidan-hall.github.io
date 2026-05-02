@@ -1,0 +1,25 @@
+#+title: Website Aesthetics
+#+date: [2026-05-02 Sat 22:16]
+#+subtitle: Why this website looks the way it does.
+
+Unlike many tech blogs, which pursue [[file:monospaced-blog.org][aesthetic at the cost of readability]], I have prioritised [[https://motherfuckingwebsite.com/][brutal, minimal typography]], to a degree that some may find off-putting.
+
+* Design Choices
+
+This site uses high-contrast, [[https://www.w3.org/TR/WCAG20/][WCAG-compliant]] colours for body text.
+While I have added a relatively subtle dark theme, the light theme uses the default of black-on-white text, for maximum contrast.
+
+The text is [[file:../blog/justified-text.org][justified]], and uses the [[https://cm-unicode.sourceforge.io/][Computer Modern]] fonts, in an aesthetic choice to mimic the default appearance of LaTeX documents.
+I strongly considered using Times, since it is a built-in font on most desktop browsers, but on Android, which does not have it, browsers would fall back to the hideously ugly system-default serif font.
+
+Styling is generally kept minimal, except where it conveys useful information.
+For example, the navigation bar is given a drop shadow, since it "floats" above the document, staying in view as you scroll down a longer page.
+
+Emoji are used as icons in the navigation bar, rather than images, because they can be directly embedded within the HTML file. They do not require separate HTTP requests to load, and are easier to render in text/terminal-based browsers like w3m and lynx.
+
+* Inspiration
+
+In addition to their ideas about [[file:new-philosophy.org::#rationale][long-term website maintenance and improvement]], I drew on [[https://gwern.net/about][Gwern.net]] as a source of inspiration (and [[https://gwern.net/style.css][CSS]]) for the aesthetics of this website.
+
+I have dipped into [[https://practicaltypography.com/][Practical Typography]] by Matthew Butterick in the past few years, but have yet to read to read it in depth.
+The advice is good, and I like that they have clearly applied it to the site itself.

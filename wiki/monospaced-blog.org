@@ -1,0 +1,16 @@
+#+title: Body Text Should Not Be Monospaced
+#+date: [2026-05-02 Sat 21:54]
+#+author: Aidan Hall
+
+I see many examples of personal tech blogs that use a monospaced font for all the text on the website, including long blocks of prose.
+I would guess that this is most commonly done to convey a sense that the blog is "minimal"[fn:1] or "technical".
+The problem with this is that it prioritises an aesthetic choice over the readability of the site.
+It's fine to want your site to be aesthetically pleasing, but this shouldn't actively impede the process of reading it.
+
+See [[https://practicaltypography.com/monospaced-fonts.html][Practical Typography's page about monospaced fonts]] for a better explanation of the problems with using monospaced fonts outside of code listings.
+
+This is one of my [[file:website-aesthetic.org][strong opinions]] about website aesthetics and design.
+
+* Footnotes
+
+[fn:1] If you really wanted your site to be minimal, you would make it look like [[https://motherfuckingwebsite.com/][this]].

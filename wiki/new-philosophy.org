@@ -3,6 +3,9 @@
 #+description: In addition to the append-only blog, I will build a "personal wiki" of articles that remain up to date.
 
 * Rationale
+:PROPERTIES:
+:CUSTOM_ID: rationale
+:END:
 I have been meaning to convert my site into a form closer to those of [[https://gwern.net/about][Gwern Branwen]] and [[https://karl-voit.at/about/][Karl Voit]]: less a hole to pour ideas into, more an organically-growing collection of connected articles, which are kept up to date.
 It could be seen as strange for me to have [[file:../blog/removed-denote.org][removed Denote]] from the site when my intention is to develop it into a form where the back-linking and tagging functionality it provides would be more beneficial than they were previously, but it is probably more important to have a stable foundation, rather than the fanciest technologies, when the goal is to build a site to last.
 

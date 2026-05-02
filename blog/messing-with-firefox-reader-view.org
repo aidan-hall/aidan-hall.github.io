@@ -20,4 +20,4 @@ I don't think it's worth investing too much energy into making Reader View work,
 
 * Footnotes
 
-[fn:1] In a rare case of Mozilla /improving/ Firefox with an update, they recently added an option to read with (my beloved) [[https://aidanhall.gitlab.io/blog/21-07-06_10.35.html][justified text]].
+[fn:1] In a rare case of Mozilla /improving/ Firefox with an update, they recently added an option to read with (my beloved) [[file:justified-text.org][justified text]].

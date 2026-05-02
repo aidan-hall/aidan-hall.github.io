@@ -7,9 +7,9 @@
 }
 
 /* § Universal */
-
 body {
     font-family: "Computer Modern Serif", FreeSerif, Times, "Times New Roman", serif;
+    font-size: 14pt;
     line-height: 1.2;
     max-width: 60em;
     margin: auto;
@@ -368,9 +368,6 @@ img.rfloat {
 
 /* 'Wide' Screen Mode */
 @media (min-width: 40em) {
-    body {
-        font-size: 110%;
-    }
     pre {
         margin-left: 2em;
         margin-right: 1em;

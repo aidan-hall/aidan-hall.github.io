@@ -2,7 +2,13 @@
 #+date: [2025-05-31 Sat 11:22]
 #+description: Miscellaneous interesting CS quotes.
 
-Here is a collection of interesting quotes related to Computer Science that I have found over the years.
+Here is a collection of interesting quotes related to Computer Science and technology that I have found over the years.
+
+#+begin_quote
+Robot, experience this tragic irony for me!
+
+--- Dr. Daniel Zenus, [[https://youtu.be/LCPhbN1l024][Futurama]].
+#+end_quote
 
 #+begin_quote
 I thought of Emacs as a drop-in replacement for Vim, plus a few extras. Big mistake! While it is true that it is a text editor and can be used exclusively in that capacity, Emacs is at the absolute peak of its powers when it is treated as an application platform.
